@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Amount } from '@/components/amount';
 import { QuickAdd } from '@/components/home/quick-add';
 import { RecentRow } from '@/components/home/recent-row';
 import { SpendRing } from '@/components/home/spend-ring';
+import { Screen } from '@/components/screen';
 import { useEntrance } from '@/hooks/use-entrance';
 import { currentDay, useEntries } from '@/store/entries';
 import { useSettings } from '@/store/settings';
@@ -33,7 +33,7 @@ export default function HomeScreen() {
   const recent = entries.slice(0, 3);
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Pressable style={styles.month} accessibilityRole="button" accessibilityLabel={`Change month, ${month} ${today.slice(0, 4)}`}>
@@ -97,7 +97,7 @@ export default function HomeScreen() {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

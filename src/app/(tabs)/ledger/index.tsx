@@ -1,13 +1,13 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { FlatList, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Amount } from '@/components/amount';
 import { EntryRow } from '@/components/ledger/entry-row';
 import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { FiltersSheet } from '@/components/ledger/filters-sheet';
 import { LedgerHeader } from '@/components/ledger/ledger-header';
+import { Screen } from '@/components/screen';
 import type { Entry } from '@/data/seed';
 import { deleteEntryWithUndo } from '@/store/actions';
 import { currentDay, useEntries } from '@/store/entries';
@@ -62,7 +62,7 @@ export default function LedgerScreen() {
   const filtered = ledger.show !== 'all' || ledger.savedOnly || ledger.query.trim() !== '';
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <LedgerHeader view="list" action={{ icon: 'upload', label: 'Export this month as a spreadsheet' }} />
 
       <View style={styles.top}>
@@ -164,7 +164,7 @@ export default function LedgerScreen() {
         }}
       />
       <FiltersSheet visible={filtersOpen} onClose={() => setFiltersOpen(false)} />
-    </SafeAreaView>
+    </Screen>
   );
 }
 

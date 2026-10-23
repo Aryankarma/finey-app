@@ -1,9 +1,9 @@
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/primary-button';
+import { Screen } from '@/components/screen';
 import { useEntryDraft } from '@/store/entry-draft';
 import { useEntries } from '@/store/entries';
 import { descriptionHistory, type HistoryItem } from '@/store/summary';
@@ -54,7 +54,7 @@ export default function DescribeScreen() {
         : null;
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={styles.screen}>
+    <Screen bottom style={styles.screen}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} accessibilityLabel="Back to the entry" style={({ pressed }) => [styles.iconButton, pressed && { transform: [{ scale: 0.94 }] }]}>
           <Icon name="back" size={18} color={colors.text} strokeWidth={1.9} />
@@ -159,7 +159,7 @@ export default function DescribeScreen() {
         {!term && <Text style={styles.hint} role="status">Type what it was for, or pick one from your history.</Text>}
         <PrimaryButton label="Use this description" disabled={!term} onPress={use} />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

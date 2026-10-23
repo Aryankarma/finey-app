@@ -2,9 +2,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Amount } from '@/components/amount';
+import { Screen } from '@/components/screen';
 import { SpendingHeader } from '@/components/spending/spending-header';
 import { currentDay, useEntries } from '@/store/entries';
 import { categorySpend, dailySpend, monthSummary, weekBuckets, type WeekBucket } from '@/store/summary';
@@ -65,7 +65,7 @@ export default function SpendingScreen() {
   const shown = showAll ? byCategory : byCategory.slice(0, VISIBLE_CATEGORIES);
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <SpendingHeader view="breakdown" month={monthName(today)} />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
@@ -157,7 +157,7 @@ export default function SpendingScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

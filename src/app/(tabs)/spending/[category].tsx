@@ -1,11 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Amount } from '@/components/amount';
 import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { MonthChip } from '@/components/month-chip';
+import { Screen } from '@/components/screen';
 import type { CategoryKey, Entry } from '@/data/seed';
 import { easeOutCubic, progress, useEntrance } from '@/hooks/use-entrance';
 import { currentDay, useEntries } from '@/store/entries';
@@ -28,10 +28,10 @@ export default function CategoryScreen() {
 
   if (!category || !(category in categories)) {
     return (
-      <SafeAreaView edges={['top']} style={styles.screen}>
+      <Screen style={styles.screen}>
         <Header title="Spending" onBack={back} />
         <Text style={[styles.muted, { padding: space.screenX }]}>That category doesn&apos;t exist.</Text>
-      </SafeAreaView>
+      </Screen>
     );
   }
   return <CategoryView category={category as CategoryKey} onBack={back} />;
@@ -78,7 +78,7 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
   };
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <Header title={c.label} onBack={onBack} badge={{ icon: c.icon, color: c.color }} month={monthName(today)} />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
@@ -192,7 +192,7 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
           router.push({ pathname: '/entry/[id]/edit', params: { id } });
         }}
       />
-    </SafeAreaView>
+    </Screen>
   );
 }
 

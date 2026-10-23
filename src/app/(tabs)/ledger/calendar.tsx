@@ -2,12 +2,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Amount } from '@/components/amount';
 import { EntryRow } from '@/components/ledger/entry-row';
 import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { LedgerHeader } from '@/components/ledger/ledger-header';
+import { Screen } from '@/components/screen';
 import { currentDay, useEntries } from '@/store/entries';
 import { inMonth, monthSummary } from '@/store/summary';
 import { addDays, dayOfMonth, daysInMonth, formatMoney, monthName, toIso, weekday } from '@/ui/format';
@@ -53,7 +53,7 @@ export default function LedgerCalendarScreen() {
   const net = sel.income - sel.spent;
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <LedgerHeader view="calendar" action={{ icon: 'calendar', label: `Change month, ${monthName(today)} ${y}` }} />
 
       <ScrollView contentContainerStyle={styles.content}>
@@ -145,7 +145,7 @@ export default function LedgerCalendarScreen() {
           router.push({ pathname: '/entry/[id]/edit', params: { id } });
         }}
       />
-    </SafeAreaView>
+    </Screen>
   );
 }
 

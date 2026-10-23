@@ -1,13 +1,13 @@
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DatePickerSheet } from '@/components/date-picker-sheet';
 import { FormHeader, formStyles } from '@/components/entry-form';
 import { AmountField, Chip, ChipRow, FieldLabel, KindChips, NoteDateCard, PersonField } from '@/components/people/debt-form';
 import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
+import { Screen } from '@/components/screen';
 import type { Debt } from '@/data/seed';
 import { useDebts } from '@/store/debts';
 import { currentDay } from '@/store/entries';
@@ -51,7 +51,7 @@ export default function NewDebtScreen() {
   };
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={styles.screen}>
+    <Screen bottom style={styles.screen}>
       <FormHeader title="New record" onClose={close} />
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.body} keyboardShouldPersistTaps="handled">
         <View style={styles.directions} role="radiogroup" aria-label="Who owes whom">
@@ -137,7 +137,7 @@ export default function NewDebtScreen() {
           close();
         }}
       />
-    </SafeAreaView>
+    </Screen>
   );
 }
 

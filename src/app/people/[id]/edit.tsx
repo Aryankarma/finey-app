@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DatePickerSheet } from '@/components/date-picker-sheet';
 import { formStyles } from '@/components/entry-form';
@@ -10,6 +9,7 @@ import { historyLine, kindNoun } from '@/components/people/debt-text';
 import { PersonRing } from '@/components/people/person-ring';
 import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
+import { Screen } from '@/components/screen';
 import { Segmented } from '@/components/segmented';
 import { Sheet } from '@/components/sheet';
 import type { Debt } from '@/data/seed';
@@ -32,10 +32,10 @@ export default function EditDebtScreen() {
   const debt = live ?? last.current;
   if (!debt) {
     return (
-      <SafeAreaView style={styles.screen}>
+      <Screen bottom style={styles.screen}>
         <Header onBack={close} />
         <Text style={[formStyles.hint, { marginTop: 40 }]}>This record no longer exists.</Text>
-      </SafeAreaView>
+      </Screen>
     );
   }
   return <EditForm debt={debt} deleted={!live} onClose={close} />;
@@ -78,7 +78,7 @@ function EditForm({ debt, deleted, onClose }: { debt: Debt; deleted: boolean; on
   const history = historyLine({ ...debt, direction });
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={styles.screen}>
+    <Screen bottom style={styles.screen}>
       <Header onBack={onClose} onDelete={() => setConfirming(true)} />
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.body} keyboardShouldPersistTaps="handled">
@@ -215,7 +215,7 @@ function EditForm({ debt, deleted, onClose }: { debt: Debt; deleted: boolean; on
           <PrimaryButton label="Back to People" height={54} onPress={onClose} style={{ alignSelf: 'stretch' }} />
         </View>
       </Sheet>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

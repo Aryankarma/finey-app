@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CategoryChips } from '@/components/category-chips';
 import { DatePickerSheet } from '@/components/date-picker-sheet';
@@ -18,6 +17,7 @@ import {
 import { Keypad } from '@/components/keypad';
 import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
+import { Screen } from '@/components/screen';
 import type { CategoryKey, Entry } from '@/data/seed';
 import { currentDay, useEntries, useEntry } from '@/store/entries';
 import { categories, expenseCategories, incomeCategories } from '@/ui/categories';
@@ -34,10 +34,10 @@ export default function EditEntryScreen() {
 
   if (!entry) {
     return (
-      <SafeAreaView style={styles.screen}>
+      <Screen bottom style={styles.screen}>
         <FormHeader title="Edit entry" onClose={close} />
         <Text style={[formStyles.hint, { marginTop: 40 }]}>This entry no longer exists.</Text>
-      </SafeAreaView>
+      </Screen>
     );
   }
   return <EditForm entry={entry} onClose={close} />;
@@ -76,7 +76,7 @@ function EditForm({ entry, onClose }: { entry: Entry; onClose: () => void }) {
   };
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={styles.screen}>
+    <Screen bottom style={styles.screen}>
       <FormHeader title="Edit entry" closeLabel="Close without saving" onClose={onClose} />
 
       <TypeTabs
@@ -142,7 +142,7 @@ function EditForm({ entry, onClose }: { entry: Entry; onClose: () => void }) {
           onClose();
         }}
       />
-    </SafeAreaView>
+    </Screen>
   );
 }
 

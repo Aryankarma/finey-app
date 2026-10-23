@@ -1,10 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { Amount } from '@/components/amount';
+import { Screen } from '@/components/screen';
 import { BalanceChart } from '@/components/spending/balance-chart';
 import { SpendingHeader } from '@/components/spending/spending-header';
 import { currentDay, useEntries } from '@/store/entries';
@@ -34,7 +34,7 @@ export default function TrendsScreen() {
   const rate = Math.max(0, Math.min(100, summary.savingsRate));
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <SpendingHeader view="trends" month={monthName(today)} />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
@@ -101,7 +101,7 @@ export default function TrendsScreen() {
           )}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

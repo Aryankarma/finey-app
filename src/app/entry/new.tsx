@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CategoryChips } from '@/components/category-chips';
 import { DatePickerSheet } from '@/components/date-picker-sheet';
@@ -18,6 +17,7 @@ import {
 import { Keypad } from '@/components/keypad';
 import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
+import { Screen } from '@/components/screen';
 import type { Entry } from '@/data/seed';
 import { useEntryDraft } from '@/store/entry-draft';
 import { currentDay, useEntries } from '@/store/entries';
@@ -67,7 +67,7 @@ export default function NewEntryScreen() {
     : '';
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} style={styles.screen}>
+    <Screen bottom style={styles.screen}>
       <FormHeader title="New entry" onClose={close} right={<Text style={formStyles.link}>Paste text instead</Text>} />
 
       <TypeTabs value={draft.type} onChange={(t) => t !== draft.type && draft.set({ type: t, category: null })} />
@@ -141,7 +141,7 @@ export default function NewEntryScreen() {
           close();
         }}
       />
-    </SafeAreaView>
+    </Screen>
   );
 }
 

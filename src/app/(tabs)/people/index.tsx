@@ -2,12 +2,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Amount } from '@/components/amount';
 import { actionLabel, describe, historyLine, statusLine, theyOwe } from '@/components/people/debt-text';
 import { PaymentSheet } from '@/components/people/payment-sheet';
 import { PersonRing } from '@/components/people/person-ring';
+import { Screen } from '@/components/screen';
 import type { Debt } from '@/data/seed';
 import { isSettled, paidSoFar, remaining, useDebts } from '@/store/debts';
 import { formatMoney } from '@/ui/format';
@@ -41,7 +41,7 @@ export default function PeopleScreen() {
   const [expanded, setExpanded] = useState<string | null>(() => openGroups[0]?.key ?? null);
 
   return (
-    <SafeAreaView edges={['top']} style={styles.screen}>
+    <Screen style={styles.screen}>
       <View style={styles.header}>
         <Text style={styles.title} role="heading">People</Text>
         <Pressable onPress={() => router.push('/people/new')} accessibilityLabel="Add money you lent or borrowed" style={({ pressed }) => pressed && { transform: [{ scale: 0.94 }] }}>
@@ -110,7 +110,7 @@ export default function PeopleScreen() {
       </ScrollView>
 
       <PaymentSheet debtId={paying} onClose={() => setPaying(null)} />
-    </SafeAreaView>
+    </Screen>
   );
 }
 
