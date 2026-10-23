@@ -52,6 +52,9 @@ const icons = {
   bookmark: [{ d: 'M6 3h12v18l-6-4-6 4z' }],
   trash: [{ d: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13' }],
   edit: [{ d: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4' }],
+  person: [{ circle: [12, 8, 4] }, { d: 'M4 21c1-4 4-6 8-6s7 2 8 6' }],
+  arrowIn: [{ d: 'M17 7 7 17M7 9v8h8' }],
+  arrowOut: [{ d: 'M7 17 17 7M9 7h8v8' }],
 } satisfies Record<string, Shape[]>;
 
 export type IconName = keyof typeof icons;

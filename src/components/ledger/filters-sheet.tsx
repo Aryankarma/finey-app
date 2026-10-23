@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PrimaryButton } from '@/components/primary-button';
+import { Segmented } from '@/components/segmented';
 import { Sheet } from '@/components/sheet';
 import { SwitchMark } from '@/components/switch';
 import { currentDay, useEntries } from '@/store/entries';
@@ -50,7 +51,7 @@ export function FiltersSheet({ visible, onClose }: { visible: boolean; onClose: 
         </View>
 
         <Text style={styles.sectionLabel}>Show</Text>
-        <Segmented value={draft.show} onChange={(show) => patch({ show })} />
+        <Segmented label="Show" options={SHOWS} value={draft.show} onChange={(show) => patch({ show })} />
 
         <Pressable role="switch" aria-checked={draft.savedOnly} onPress={() => patch({ savedOnly: !draft.savedOnly })} style={styles.switchRow}>
           <View style={styles.switchIcon}>
@@ -95,31 +96,6 @@ export function FiltersSheet({ visible, onClose }: { visible: boolean; onClose: 
   );
 }
 
-function Segmented({ value, onChange }: { value: LedgerShow; onChange: (v: LedgerShow) => void }) {
-  const [width, setWidth] = useState(0);
-  const index = SHOWS.findIndex((s) => s.key === value);
-  const x = useRef(new Animated.Value(index)).current;
-  const thumb = (width - 8) / SHOWS.length;
-
-  useEffect(() => {
-    Animated.timing(x, { toValue: index, duration: 300, easing: Easing.bezier(0.2, 0.8, 0.2, 1), useNativeDriver: Platform.OS !== 'web' }).start();
-  }, [index, x]);
-
-  return (
-    <View role="radiogroup" style={styles.seg} onLayout={(e) => setWidth(e.nativeEvent.layout.width)}>
-      {width > 0 && (
-        <Animated.View
-          style={[styles.thumb, { width: thumb, transform: [{ translateX: Animated.multiply(x, thumb) }] }]}
-        />
-      )}
-      {SHOWS.map((s) => (
-        <Pressable key={s.key} role="radio" aria-checked={value === s.key} onPress={() => onChange(s.key)} style={styles.segItem}>
-          <Text style={[styles.segLabel, value === s.key && styles.segLabelOn]}>{s.label}</Text>
-        </Pressable>
-      ))}
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   body: { paddingHorizontal: 4 },
@@ -128,20 +104,6 @@ const styles = StyleSheet.create({
   reset: { height: 44, paddingHorizontal: 4, justifyContent: 'center' },
   resetLabel: { fontFamily: fonts.semibold, fontSize: 14, color: colors.lilac },
   sectionLabel: { marginBottom: 10, fontFamily: fonts.semibold, fontSize: 13, color: colors.textMuted },
-  seg: { height: 48, padding: 4, borderRadius: 24, backgroundColor: colors.surface3, flexDirection: 'row' },
-  thumb: {
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    bottom: 4,
-    borderRadius: 20,
-    backgroundColor: '#2C2C34',
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.06)',
-  },
-  segItem: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  segLabel: { fontFamily: fonts.medium, fontSize: 14, color: colors.textMuted },
-  segLabelOn: { fontFamily: fonts.semibold, color: colors.text },
   switchRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 14, marginTop: 8 },
   switchIcon: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.surface3, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { fontFamily: fonts.medium, fontSize: 15, color: colors.text },

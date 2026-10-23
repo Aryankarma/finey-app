@@ -43,6 +43,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="entry" options={{ presentation: 'fullScreenModal' }} />
+        <Stack.Screen name="people" options={{ presentation: 'fullScreenModal' }} />
       </Stack>
     </ThemeProvider>
   );
