@@ -6,16 +6,20 @@ import { PrimaryButton } from '@/components/primary-button';
 import { Sheet } from '@/components/sheet';
 import { colors, fonts } from '@/ui/theme';
 
-// "Recorded" confirmation after saving an entry.
-export function RecordedSheet({
+// Success sheet with a drawn check, e.g. "Recorded" after New entry or "Changes saved" after Edit entry.
+export function ResultSheet({
   visible,
+  title,
+  secondaryLabel,
   message,
-  onAgain,
+  onSecondary,
   onDone,
 }: {
   visible: boolean;
+  title: string;
+  secondaryLabel: string;
   message: string;
-  onAgain: () => void;
+  onSecondary: () => void;
   onDone: () => void;
 }) {
   const pop = useRef(new Animated.Value(0)).current;
@@ -43,11 +47,11 @@ export function RecordedSheet({
             <Path d="M25 39l9 9 17-19" fill="none" stroke={colors.mint} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
           </Svg>
         </Animated.View>
-        <Text style={styles.title}>Recorded</Text>
+        <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
         <View style={styles.actions}>
-          <Pressable onPress={onAgain} style={({ pressed }) => [styles.again, pressed && { transform: [{ scale: 0.98 }] }]}>
-            <Text style={styles.againLabel}>Add another</Text>
+          <Pressable onPress={onSecondary} style={({ pressed }) => [styles.again, pressed && { transform: [{ scale: 0.98 }] }]}>
+            <Text style={styles.againLabel}>{secondaryLabel}</Text>
           </Pressable>
           <PrimaryButton label="Done" onPress={onDone} height={54} style={{ flex: 1 }} />
         </View>

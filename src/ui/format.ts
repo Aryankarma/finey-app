@@ -71,6 +71,16 @@ export function relativeDay(iso: string, today: string): string {
   return `${dayOfMonth(iso)} ${monthName(iso, 'short')}`;
 }
 
+// "Wed 21 Oct"
+export function shortDay(iso: string): string {
+  return `${weekday(iso).slice(0, 3)} ${dayOfMonth(iso)} ${monthName(iso, 'short')}`;
+}
+
+// "Wednesday 21 Oct 2026"
+export function fullDate(iso: string): string {
+  return `${weekday(iso)} ${dayOfMonth(iso)} ${monthName(iso, 'short')} ${iso.slice(0, 4)}`;
+}
+
 // "Today, Wednesday 21 Oct", "Monday 12 Oct", "Friday 3 Jan 2025".
 export function longDay(iso: string, today: string): string {
   const year = iso.slice(0, 4) === today.slice(0, 4) ? '' : ` ${iso.slice(0, 4)}`;

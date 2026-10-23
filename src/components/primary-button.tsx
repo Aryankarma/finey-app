@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
 
+import { Icon, type IconName } from '@/ui/icons';
 import { colors, gradients, layout, type } from '@/ui/theme';
 
 // The full-width purple button. Disabled keeps it visible but faded, as on the boards.
@@ -9,12 +10,14 @@ export function PrimaryButton({
   onPress,
   disabled = false,
   height = layout.buttonHeight,
+  icon,
   style,
 }: {
   label: string;
   onPress?: () => void;
   disabled?: boolean;
   height?: number;
+  icon?: IconName;
   style?: StyleProp<ViewStyle>;
 }) {
   return (
@@ -24,6 +27,7 @@ export function PrimaryButton({
       aria-disabled={disabled}
       style={({ pressed }) => [style, { opacity: disabled ? 0.38 : 1 }, pressed && !disabled && styles.pressed]}>
       <LinearGradient colors={gradients.primary} style={[styles.fill, { height, borderRadius: height / 2 }]}>
+        {icon && <Icon name={icon} size={18} color={colors.textOnAccent} />}
         <Text style={[styles.label, height < layout.buttonHeight && { fontSize: 15 }]}>{label}</Text>
       </LinearGradient>
     </Pressable>
@@ -32,6 +36,8 @@ export function PrimaryButton({
 
 const styles = StyleSheet.create({
   fill: {
+    flexDirection: 'row',
+    gap: 8,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,

@@ -47,6 +47,11 @@ const icons = {
   clear: [{ circle: [12, 12, 9] }, { d: 'm9 9 6 6M15 9l-6 6' }],
   plus: [{ d: 'M12 5v14M5 12h14' }],
   check: [{ d: 'm5 12.5 4.5 4.5L19 7.5' }],
+  search: [{ circle: [11, 11, 7] }, { d: 'm20 20-3.5-3.5' }],
+  upload: [{ d: 'M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6' }],
+  bookmark: [{ d: 'M6 3h12v18l-6-4-6 4z' }],
+  trash: [{ d: 'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13' }],
+  edit: [{ d: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4' }],
 } satisfies Record<string, Shape[]>;
 
 export type IconName = keyof typeof icons;
@@ -56,14 +61,16 @@ export function Icon({
   size = 20,
   color,
   strokeWidth = 1.75,
+  fill = 'none',
 }: {
   name: IconName;
   size?: number;
   color: string;
   strokeWidth?: number;
+  fill?: string;
 }) {
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
       {(icons[name] as Shape[]).map((shape, i) => {
         if ('rect' in shape) {
           const [x, y, width, height, r] = shape.rect;

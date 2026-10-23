@@ -15,6 +15,7 @@ export interface Entry {
   amount: number;
   saved?: boolean;
   source?: 'keypad' | 'voice' | 'paste';
+  createdAt?: string; // ISO time the entry was added in the app
 }
 
 export interface Debt {
