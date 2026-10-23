@@ -1,18 +1,27 @@
 import type { ReactNode } from 'react';
-import { View, type StyleProp, type ViewStyle } from 'react-native';
+import { Platform, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors } from '@/ui/theme';
 
-// The boards leave 36px above every header for the status bar. Use the device's own
-// inset when it's bigger, and never less than this, so the web build isn't flush to the top.
-const MIN_TOP = 36;
+// Space above every header. On a phone this is exactly the status bar (the safe-area inset),
+// as native apps do. The web build has no status bar, so it stands in a standard 24dp Android one.
+const WEB_STATUS_BAR = 24;
 
 // Root view for every screen: background, top space and, for screens without the tab bar, the bottom inset.
 export function Screen({ children, bottom = false, style }: { children: ReactNode; bottom?: boolean; style?: StyleProp<ViewStyle> }) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[{ flex: 1, backgroundColor: colors.bg, paddingTop: Math.max(insets.top, MIN_TOP), paddingBottom: bottom ? insets.bottom : 0 }, style]}>
+    <View
+      style={[
+        {
+          flex: 1,
+          backgroundColor: colors.bg,
+          paddingTop: Platform.OS === 'web' ? WEB_STATUS_BAR : insets.top,
+          paddingBottom: bottom ? insets.bottom : 0,
+        },
+        style,
+      ]}>
       {children}
     </View>
   );
