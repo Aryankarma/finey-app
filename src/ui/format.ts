@@ -44,10 +44,39 @@ export function monthName(iso: string, style: 'long' | 'short' = 'long'): string
   return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][m];
 }
 
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+export function toIso(y: number, m: number, d: number): string {
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+}
+
+export function addDays(iso: string, days: number): string {
+  const t = new Date(parseDay(iso) + days * 86400000);
+  return toIso(t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate());
+}
+
+export function weekday(iso: string): string {
+  return WEEKDAYS[new Date(parseDay(iso)).getUTCDay()];
+}
+
+function daysBetween(iso: string, today: string): number {
+  return Math.round((parseDay(today) - parseDay(iso)) / 86400000);
+}
+
 // Today, Yesterday, or 14 Oct.
 export function relativeDay(iso: string, today: string): string {
-  const diff = Math.round((parseDay(today) - parseDay(iso)) / 86400000);
+  const diff = daysBetween(iso, today);
   if (diff === 0) return 'Today';
   if (diff === 1) return 'Yesterday';
   return `${dayOfMonth(iso)} ${monthName(iso, 'short')}`;
+}
+
+// "Today, Wednesday 21 Oct", "Monday 12 Oct", "Friday 3 Jan 2025".
+export function longDay(iso: string, today: string): string {
+  const year = iso.slice(0, 4) === today.slice(0, 4) ? '' : ` ${iso.slice(0, 4)}`;
+  const base = `${weekday(iso)} ${dayOfMonth(iso)} ${monthName(iso, 'short')}${year}`;
+  const diff = daysBetween(iso, today);
+  if (diff === 0) return `Today, ${base}`;
+  if (diff === 1) return `Yesterday, ${base}`;
+  return base;
 }

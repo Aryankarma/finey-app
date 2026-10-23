@@ -1,6 +1,6 @@
 import { Platform, Text, type TextProps } from 'react-native';
 
-import { usePrivacy } from '@/state/privacy';
+import { useSettings } from '@/store/settings';
 import { tabular } from '@/ui/theme';
 
 // A money figure that blurs when amounts are hidden. iOS has no text blur, so it masks the digits instead.
@@ -11,7 +11,7 @@ const blur = Platform.select<object>({
 });
 
 export function Amount({ children, style, ...rest }: TextProps & { children: string }) {
-  const { hidden } = usePrivacy();
+  const hidden = useSettings((s) => s.hideAmounts);
   const masked = hidden && Platform.OS === 'ios';
   return (
     <Text {...rest} style={[tabular, style, hidden && blur]} accessibilityLabel={hidden ? 'Hidden amount' : undefined}>

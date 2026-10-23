@@ -10,7 +10,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
-import { PrivacyProvider } from '@/state/privacy';
 import { colors, fonts } from '@/ui/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -40,10 +39,11 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={navTheme}>
-      <PrivacyProvider>
-        <StatusBar style="light" />
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }} />
-      </PrivacyProvider>
+      <StatusBar style="light" />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="entry" options={{ presentation: 'fullScreenModal' }} />
+      </Stack>
     </ThemeProvider>
   );
 }

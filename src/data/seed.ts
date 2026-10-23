@@ -4,7 +4,7 @@
 
 export type CategoryKey =
   | 'food' | 'transport' | 'utilities' | 'shopping' | 'entertainment' | 'health' | 'education' | 'other'
-  | 'salary' | 'freelance';
+  | 'salary' | 'freelance' | 'bonus' | 'investment';
 
 export interface Entry {
   id: string;
@@ -103,6 +103,44 @@ export const entries: Entry[] = [
   e(1, 'Swiggy dinner', 'food', 450),
   e(1, 'Metro card top-up', 'transport', 500),
   e(1, 'Mobile recharge', 'utilities', 500),
+];
+
+// The 33 expenses no board draws. Together with `entries` they add up to dailySpend,
+// categoryTotals and monthSummary exactly, so the app works those totals out from the list.
+export const fillerEntries: Entry[] = [
+  e(17, 'Auto ride', 'transport', 127),
+  e(17, 'Phone case', 'shopping', 393),
+  e(17, 'Dental check-up', 'health', 1000),
+  e(16, 'Auto rides', 'transport', 390),
+  e(16, 'Game top-up', 'entertainment', 1200),
+  e(15, 'Vitamins', 'health', 320),
+  e(15, 'Uber rides', 'transport', 1047),
+  e(15, 'Movie night', 'entertainment', 1113),
+  e(14, 'Gift wrap and card', 'other', 330),
+  e(14, 'Bedsheets', 'shopping', 1060),
+  e(14, 'Petrol', 'transport', 1500),
+  e(13, 'Uber to office', 'transport', 560),
+  e(13, 'Pharmacy', 'health', 650),
+  e(12, 'Auto ride', 'transport', 378),
+  e(12, 'Spotify', 'entertainment', 119),
+  e(11, 'Laundry', 'other', 420),
+  e(11, 'Uber to office', 'transport', 589),
+  e(11, 'Books', 'education', 1201),
+  e(10, 'Internet bill', 'utilities', 960),
+  e(10, 'Doctor visit', 'health', 880),
+  e(9, 'Auto rides', 'transport', 261),
+  e(9, 'Comedy show', 'entertainment', 1499),
+  e(8, 'Metro card top-up', 'transport', 640),
+  e(7, 'Petrol', 'transport', 1471),
+  e(7, 'Kurta', 'shopping', 1899),
+  e(6, 'Haircut', 'other', 350),
+  e(6, 'Uber to office', 'transport', 241),
+  e(6, 'Netflix', 'entertainment', 649),
+  e(5, 'Auto ride', 'transport', 311),
+  e(5, 'Online course', 'education', 1999),
+  e(4, 'Pharmacy', 'health', 900),
+  e(4, 'Uber rides', 'transport', 640),
+  e(4, 'Bowling night', 'entertainment', 1200),
 ];
 
 // Owed to you: 8,750. You owe: 4,000. The boards don't show dates for Meera and Priya, so theirs are placeholders.

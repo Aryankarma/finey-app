@@ -34,6 +34,19 @@ const icons = {
   other: [{ d: 'M5.5 12h1M11.5 12h1M17.5 12h1' }],
   salary: [{ d: 'M3 7h15a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' }, { d: 'M3 7V6a2 2 0 0 1 2-2h11v3M16 14h2' }],
   freelance: [{ rect: [3, 7, 18, 13, 2] }, { d: 'M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18' }],
+  bonus: [{ d: 'M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3-5-1s3 1 5 1zM12 7c1.5-3 5-3 5-1s-3 1-5 1z' }],
+  investment: [{ d: 'm3 17 6-6 4 4 8-8M15 7h6v6' }],
+
+  close: [{ d: 'M6 6l12 12M18 6 6 18' }],
+  back: [{ d: 'M19 12H5M11 6l-6 6 6 6' }],
+  chevronLeft: [{ d: 'm15 18-6-6 6-6' }],
+  chevronRight: [{ d: 'm9 18 6-6-6-6' }],
+  lines: [{ d: 'M4 6h16M4 12h16M4 18h10' }],
+  calendar: [{ rect: [3.5, 5, 17, 15, 3] }, { d: 'M8 3v4M16 3v4M3.5 10h17' }],
+  backspace: [{ d: 'M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z' }, { d: 'm12 9.5 5 5M17 9.5l-5 5' }],
+  clear: [{ circle: [12, 12, 9] }, { d: 'm9 9 6 6M15 9l-6 6' }],
+  plus: [{ d: 'M12 5v14M5 12h14' }],
+  check: [{ d: 'm5 12.5 4.5 4.5L19 7.5' }],
 } satisfies Record<string, Shape[]>;
 
 export type IconName = keyof typeof icons;

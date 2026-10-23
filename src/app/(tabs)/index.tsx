@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -7,22 +8,29 @@ import { QuickAdd } from '@/components/home/quick-add';
 import { RecentRow } from '@/components/home/recent-row';
 import { SpendRing } from '@/components/home/spend-ring';
 import { useEntrance } from '@/hooks/use-entrance';
-import { dailySpend, entries, monthSummary, today } from '@/data/seed';
-import { usePrivacy } from '@/state/privacy';
-import { dayOfMonth, daysInMonth, formatMoney, monthName } from '@/ui/format';
+import { currentDay, useEntries } from '@/store/entries';
+import { useSettings } from '@/store/settings';
+import { dailySpend, incomeDays, monthSummary } from '@/store/summary';
+import { daysInMonth, formatMoney, monthName } from '@/ui/format';
 import { Icon } from '@/ui/icons';
 import { colors, fonts, layout, motion, space, tabular } from '@/ui/theme';
 
 const RING_MAX = 320;
-const incomeDays = entries.filter((e) => e.type === 'income').map((e) => dayOfMonth(e.date));
-const recent = [...entries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { hidden, toggle } = usePrivacy();
+  const hidden = useSettings((s) => s.hideAmounts);
+  const toggle = useSettings((s) => s.toggleHideAmounts);
+  const entries = useEntries((s) => s.entries);
   const { width } = useWindowDimensions();
   const elapsed = useEntrance(1600);
+  const today = currentDay();
   const month = monthName(today);
+
+  const summary = useMemo(() => monthSummary(entries, today), [entries, today]);
+  const spend = useMemo(() => dailySpend(entries, today), [entries, today]);
+  const income = useMemo(() => incomeDays(entries, today), [entries, today]);
+  const recent = entries.slice(0, 3);
 
   return (
     <SafeAreaView edges={['top']} style={styles.screen}>
@@ -54,11 +62,11 @@ export default function HomeScreen() {
           <SpendRing
             size={Math.min(RING_MAX, width - space.screenX * 2)}
             elapsed={elapsed}
-            dailySpend={dailySpend}
+            dailySpend={spend}
             daysInMonth={daysInMonth(today)}
-            incomeDays={incomeDays}
-            balance={monthSummary.net}
-            savingsRate={monthSummary.savingsRate}
+            incomeDays={income}
+            balance={summary.net}
+            savingsRate={summary.savingsRate}
             monthLabel={month}
           />
         </View>
@@ -67,15 +75,15 @@ export default function HomeScreen() {
         <View style={styles.totals}>
           <View style={styles.total}>
             <Text style={styles.totalLabel}>Money in</Text>
-            <Amount style={[styles.totalValue, { color: colors.mint }]}>{formatMoney(monthSummary.income, { signed: true })}</Amount>
+            <Amount style={[styles.totalValue, { color: colors.mint }]}>{formatMoney(summary.income, { signed: true })}</Amount>
           </View>
           <View style={[styles.total, styles.totalDivider]}>
             <Text style={styles.totalLabel}>Money out</Text>
-            <Amount style={styles.totalValue}>{formatMoney(-monthSummary.spent)}</Amount>
+            <Amount style={styles.totalValue}>{formatMoney(-summary.spent)}</Amount>
           </View>
         </View>
 
-        <QuickAdd />
+        <QuickAdd onOpenForm={() => router.push('/entry/new')} />
 
         <View style={styles.recent}>
           <View style={styles.recentHeader}>
