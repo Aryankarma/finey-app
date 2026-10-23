@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Easing, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import { appendDigits } from '@/components/entry-form';
@@ -9,6 +9,7 @@ import { kindNoun, methodFromNote, theyOwe } from '@/components/people/debt-text
 import { PrimaryButton } from '@/components/primary-button';
 import { Sheet } from '@/components/sheet';
 import type { Debt } from '@/data/seed';
+import { progress, useEntrance } from '@/hooks/use-entrance';
 import { paidSoFar, useDebt, useDebts } from '@/store/debts';
 import { currentDay } from '@/store/entries';
 import { formatMoney, groupIndian } from '@/ui/format';
@@ -154,42 +155,71 @@ export function PaymentSheet({ debtId, onClose }: { debtId: string | null; onClo
   );
 }
 
+// Timings from V4-Settle: the ring fills, then the tick draws (or the percentage fades in),
+// while the title, text and button rise in one after another.
+const ringEase = Easing.bezier(0.3, 0.7, 0.2, 1);
+const drawEase = Easing.bezier(0.4, 0, 0.2, 1);
+const riseEase = Easing.bezier(0.2, 0.8, 0.2, 1);
+const TICK = Math.hypot(11, 11) + Math.hypot(22, 24); // "M40 57l11 11 22-24"
+
+function rise(elapsed: number, delay: number) {
+  const p = riseEase(progress(elapsed, delay, 400));
+  return { opacity: p, transform: [{ translateY: 10 * (1 - p) }] };
+}
+
 function DoneView({ debt, before, amount, onDone }: { debt: Debt; before: number; amount: number; onDone: () => void }) {
+  const elapsed = useEntrance(1400);
   const after = before + amount;
   const full = after >= debt.amount;
   const share = Math.min(1, after / debt.amount);
   const them = theyOwe(debt);
+  const fill = share * ringEase(progress(elapsed, 150, 900));
+  const tick = drawEase(progress(elapsed, 1000, 340));
   return (
     <View style={styles.done} role="status">
       <View style={styles.bigRing}>
         <Svg width={112} height={112} viewBox="0 0 112 112">
           <Circle cx={56} cy={56} r={BIG_R} fill="none" stroke={colors.surface3} strokeWidth={8} />
-          <Circle
-            cx={56}
-            cy={56}
-            r={BIG_R}
-            fill="none"
-            stroke={colors.mint}
-            strokeWidth={8}
-            strokeLinecap="round"
-            strokeDasharray={`${(share * BIG_C).toFixed(1)} ${BIG_C.toFixed(1)}`}
-            transform="rotate(-90 56 56)"
-          />
-          {full && <Path d="M40 57l11 11 22-24" fill="none" stroke={colors.mint} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />}
+          {fill > 0 && (
+            <Circle
+              cx={56}
+              cy={56}
+              r={BIG_R}
+              fill="none"
+              stroke={colors.mint}
+              strokeWidth={8}
+              strokeLinecap="round"
+              strokeDasharray={`${(fill * BIG_C).toFixed(1)} ${BIG_C.toFixed(1)}`}
+              transform="rotate(-90 56 56)"
+            />
+          )}
+          {full && (
+            <Path
+              d="M40 57l11 11 22-24"
+              fill="none"
+              stroke={colors.mint}
+              strokeWidth={5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray={`${TICK} ${TICK}`}
+              strokeDashoffset={TICK * (1 - tick)}
+              opacity={tick > 0 ? 1 : 0}
+            />
+          )}
         </Svg>
-        {!full && <Text style={styles.pct}>{Math.round(share * 100)}%</Text>}
+        {!full && <Text style={[styles.pct, { opacity: progress(elapsed, 900, 300) }]}>{Math.round(share * 100)}%</Text>}
       </View>
-      <Text style={styles.doneTitle}>
+      <Text style={[styles.doneTitle, rise(elapsed, 400)]}>
         {full ? (them ? `${debt.person} has paid you back` : `You've paid ${debt.person} back`) : 'Payment recorded'}
       </Text>
-      <Text style={styles.doneText}>
+      <Text style={[styles.doneText, rise(elapsed, 500)]}>
         {full
           ? `The ${kindNoun(debt)} is settled and moves to Settled.`
           : them
             ? `${formatMoney(debt.amount - after)} is still to come from ${debt.person}.`
             : `You still owe ${debt.person} ${formatMoney(debt.amount - after)}.`}
       </Text>
-      <PrimaryButton label="Done" onPress={onDone} style={{ alignSelf: 'stretch' }} />
+      <PrimaryButton label="Done" onPress={onDone} style={[{ alignSelf: 'stretch' }, rise(elapsed, 600)]} />
     </View>
   );
 }

@@ -26,7 +26,6 @@ export default function PeopleScreen() {
   const router = useRouter();
   const debts = useDebts((s) => s.debts);
   const [tab, setTab] = useState<Tab>('open');
-  const [expanded, setExpanded] = useState<string | null>(() => debts.find((d) => !isSettled(d))?.id ?? null);
   const [paying, setPaying] = useState<string | null>(null);
 
   const open = useMemo(() => debts.filter((d) => !isSettled(d)), [debts]);
@@ -34,7 +33,12 @@ export default function PeopleScreen() {
   const owe = open.filter((d) => !theyOwe(d)).reduce((s, d) => s + remaining(d), 0);
   const biggest = Math.max(owed, owe, 1);
   const net = owed - owe;
-  const list = tab === 'open' ? open : tab === 'settled' ? debts.filter(isSettled) : debts;
+  const openGroups = useMemo(() => groupByPerson(open), [open]);
+  const groups = useMemo(
+    () => (tab === 'open' ? openGroups : groupByPerson(tab === 'settled' ? debts.filter(isSettled) : debts)),
+    [tab, openGroups, debts],
+  );
+  const [expanded, setExpanded] = useState<string | null>(() => openGroups[0]?.key ?? null);
 
   return (
     <SafeAreaView edges={['top']} style={styles.screen}>
@@ -76,21 +80,21 @@ export default function PeopleScreen() {
         </Text>
       </View>
 
-      <StatusTabs value={tab} onChange={setTab} openCount={open.length} />
+      <StatusTabs value={tab} onChange={setTab} openCount={openGroups.length} />
 
       <ScrollView contentContainerStyle={styles.list}>
-        {list.map((d, i) => (
+        {groups.map((g, i) => (
           <PersonRow
-            key={d.id}
-            debt={d}
+            key={g.key}
+            group={g}
             first={i === 0}
-            expanded={expanded === d.id}
-            onToggle={() => setExpanded(expanded === d.id ? null : d.id)}
-            onPay={() => setPaying(d.id)}
-            onEdit={() => router.push({ pathname: '/people/[id]/edit', params: { id: d.id } })}
+            expanded={expanded === g.key}
+            onToggle={() => setExpanded(expanded === g.key ? null : g.key)}
+            onPay={setPaying}
+            onEdit={(id) => router.push({ pathname: '/people/[id]/edit', params: { id } })}
           />
         ))}
-        {list.length === 0 && (
+        {groups.length === 0 && (
           <View style={styles.empty}>
             <View style={styles.emptyIcon}>
               <Icon name={tab === 'settled' ? 'check' : 'people'} size={24} color={colors.mint} strokeWidth={2} />
@@ -130,44 +134,73 @@ function StatusTabs({ value, onChange, openCount }: { value: Tab; onChange: (t: 
   );
 }
 
+type PersonGroup = { key: string; name: string; debts: Debt[] };
+
+// One row per person (names match ignoring case), in the order they first appear.
+function groupByPerson(list: Debt[]): PersonGroup[] {
+  const groups = new Map<string, PersonGroup>();
+  for (const d of list) {
+    const key = d.person.trim().toLowerCase();
+    const g = groups.get(key);
+    if (g) g.debts.push(d);
+    else groups.set(key, { key, name: d.person.trim(), debts: [d] });
+  }
+  return [...groups.values()];
+}
+
+const signedLeft = (d: Debt) => (theyOwe(d) ? remaining(d) : -remaining(d));
+
 function PersonRow({
-  debt,
+  group,
   first,
   expanded,
   onToggle,
   onPay,
   onEdit,
 }: {
-  debt: Debt;
+  group: PersonGroup;
   first: boolean;
   expanded: boolean;
   onToggle: () => void;
-  onPay: () => void;
-  onEdit: () => void;
+  onPay: (id: string) => void;
+  onEdit: (id: string) => void;
 }) {
-  const them = theyOwe(debt);
-  const settled = isSettled(debt);
-  const history = historyLine(debt);
-  const left = remaining(debt);
+  const single = group.debts.length === 1 ? group.debts[0] : null;
+  const total = group.debts.reduce((s, d) => s + d.amount, 0);
+  const paid = group.debts.reduce((s, d) => s + paidSoFar(d), 0);
+  const net = group.debts.reduce((s, d) => s + signedLeft(d), 0);
+  const settled = group.debts.every(isSettled);
+  const owesYou = single ? theyOwe(single) : net >= 0;
+
+  const amountText = settled ? formatMoney(total) : formatMoney(net, { signed: true });
+  const subText = single
+    ? statusLine(single)
+    : settled
+      ? 'settled up'
+      : net > 0
+        ? 'owes you overall'
+        : net < 0
+          ? 'you owe overall'
+          : 'evens out';
 
   return (
     <View style={!first && styles.rowDivider}>
       <Pressable onPress={onToggle} aria-expanded={expanded} style={({ pressed }) => [styles.row, pressed && { backgroundColor: '#0F0F12' }]}>
         <PersonRing
-          name={debt.person}
-          paid={paidSoFar(debt) / debt.amount}
-          color={them ? colors.mint : colors.iris}
-          initialColor={them ? colors.text : colors.lilacSoft}
+          name={group.name}
+          paid={paid / total}
+          color={owesYou ? colors.mint : colors.iris}
+          initialColor={owesYou ? colors.text : colors.lilacSoft}
         />
         <View style={{ flex: 1, gap: 2, minWidth: 0 }}>
-          <Text style={styles.name}>{debt.person}</Text>
-          <Text style={styles.desc} numberOfLines={1}>{describe(debt)}</Text>
+          <Text style={styles.name}>{group.name}</Text>
+          <Text style={styles.desc} numberOfLines={1}>
+            {single ? describe(single) : `${group.debts.length} records`}
+          </Text>
         </View>
         <View style={{ alignItems: 'flex-end', gap: 2 }}>
-          <Amount style={[styles.amount, settled ? { color: colors.textFaint } : them && { color: colors.mint }]}>
-            {settled ? formatMoney(debt.amount) : formatMoney(them ? left : -left, { signed: true })}
-          </Amount>
-          <Text style={styles.sub}>{statusLine(debt)}</Text>
+          <Amount style={[styles.amount, settled || net === 0 ? { color: colors.textFaint } : net > 0 && { color: colors.mint }]}>{amountText}</Amount>
+          <Text style={styles.sub}>{subText}</Text>
         </View>
         <View style={{ transform: [{ rotate: expanded ? '180deg' : '0deg' }] }}>
           <Icon name="chevronDown" size={16} color={colors.textDisabled} strokeWidth={2} />
@@ -175,25 +208,49 @@ function PersonRow({
       </Pressable>
       {expanded && (
         <View style={styles.panel}>
-          <View style={styles.historyRow}>
-            <Text style={styles.history}>{history.text}</Text>
-            {history.amount !== undefined && <Amount style={styles.historyAmount}>{formatMoney(history.amount)}</Amount>}
-          </View>
-          <View style={styles.pills}>
-            {!settled && (
-              <Pressable onPress={onPay} style={({ pressed }) => pressed && { transform: [{ scale: 0.96 }] }}>
-                <LinearGradient colors={gradients.primary} style={styles.pill}>
-                  <Text style={styles.pillLabel}>{actionLabel(debt)}</Text>
-                </LinearGradient>
-              </Pressable>
-            )}
-            <Pressable onPress={onEdit} style={({ pressed }) => [styles.pill, styles.pillPlain, pressed && { transform: [{ scale: 0.96 }] }]}>
-              <Text style={[styles.pillLabel, { fontFamily: fonts.medium }]}>Edit</Text>
-            </Pressable>
-          </View>
+          {single ? (
+            <DebtActions debt={single} onPay={onPay} onEdit={onEdit} />
+          ) : (
+            group.debts.map((d, i) => (
+              <View key={d.id} style={[styles.record, i > 0 && styles.recordDivider]}>
+                <View style={styles.historyRow}>
+                  <Text style={styles.recordTitle} numberOfLines={1}>{describe(d)}</Text>
+                  <Amount style={[styles.recordAmount, isSettled(d) ? { color: colors.textFaint } : theyOwe(d) && { color: colors.mint }]}>
+                    {isSettled(d) ? 'settled' : formatMoney(signedLeft(d), { signed: true })}
+                  </Amount>
+                </View>
+                <DebtActions debt={d} onPay={onPay} onEdit={onEdit} />
+              </View>
+            ))
+          )}
         </View>
       )}
     </View>
+  );
+}
+
+// A record's payment history line with its Record payment and Edit buttons.
+function DebtActions({ debt, onPay, onEdit }: { debt: Debt; onPay: (id: string) => void; onEdit: (id: string) => void }) {
+  const history = historyLine(debt);
+  return (
+    <>
+      <View style={styles.historyRow}>
+        <Text style={styles.history}>{history.text}</Text>
+        {history.amount !== undefined && <Amount style={styles.historyAmount}>{formatMoney(history.amount)}</Amount>}
+      </View>
+      <View style={styles.pills}>
+        {!isSettled(debt) && (
+          <Pressable onPress={() => onPay(debt.id)} style={({ pressed }) => pressed && { transform: [{ scale: 0.96 }] }}>
+            <LinearGradient colors={gradients.primary} style={styles.pill}>
+              <Text style={styles.pillLabel}>{actionLabel(debt)}</Text>
+            </LinearGradient>
+          </Pressable>
+        )}
+        <Pressable onPress={() => onEdit(debt.id)} style={({ pressed }) => [styles.pill, styles.pillPlain, pressed && { transform: [{ scale: 0.96 }] }]}>
+          <Text style={[styles.pillLabel, { fontFamily: fonts.medium }]}>Edit</Text>
+        </Pressable>
+      </View>
+    </>
   );
 }
 
@@ -239,6 +296,10 @@ const styles = StyleSheet.create({
   sub: { fontFamily: fonts.regular, fontSize: 12, color: colors.textFaint, ...tabular },
   panel: { paddingLeft: 66, paddingBottom: 16, gap: 12 },
   historyRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
+  record: { gap: 10 },
+  recordDivider: { paddingTop: 14, borderTopWidth: 1, borderTopColor: colors.surface2 },
+  recordTitle: { flexShrink: 1, fontFamily: fonts.medium, fontSize: 14, color: colors.text },
+  recordAmount: { fontFamily: fonts.semibold, fontSize: 14, color: colors.text },
   history: { flexShrink: 1, fontFamily: fonts.regular, fontSize: 13, color: colors.textMuted },
   historyAmount: { fontFamily: fonts.regular, fontSize: 13, color: colors.text },
   pills: { flexDirection: 'row', gap: 8 },
