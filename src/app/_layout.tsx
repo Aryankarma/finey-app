@@ -44,6 +44,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="entry" options={{ presentation: 'fullScreenModal' }} />
         <Stack.Screen name="people" options={{ presentation: 'fullScreenModal' }} />
+        <Stack.Screen name="wealth" options={{ presentation: 'fullScreenModal' }} />
       </Stack>
     </ThemeProvider>
   );

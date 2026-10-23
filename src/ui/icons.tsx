@@ -55,6 +55,9 @@ const icons = {
   person: [{ circle: [12, 8, 4] }, { d: 'M4 21c1-4 4-6 8-6s7 2 8 6' }],
   arrowIn: [{ d: 'M17 7 7 17M7 9v8h8' }],
   arrowOut: [{ d: 'M7 17 17 7M9 7h8v8' }],
+  refresh: [{ d: 'M20 11a8 8 0 0 0-14.9-4M4 4v4h4M4 13a8 8 0 0 0 14.9 4M20 20v-4h-4' }],
+  building: [{ d: 'M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6' }],
+  spinner: [{ d: 'M21 12a9 9 0 1 1-6.2-8.6' }],
 } satisfies Record<string, Shape[]>;
 
 export type IconName = keyof typeof icons;
