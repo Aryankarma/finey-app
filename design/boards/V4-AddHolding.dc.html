@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · New holding</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.lbl{display:block;margin:0 0 8px;font-size:13px;font-weight:600;color:#A6A6B0}
+.cg{height:40px;padding:0 16px;border:0;border-radius:20px;background:#141417;font-size:14px;font-weight:500;color:#D9D9DE;flex-shrink:0;transition:background-color .18s ease,box-shadow .18s ease,color .18s ease,transform .12s ease}
+.cg:active{transform:scale(.96)}
+.cg.on{background:rgba(123,108,246,.2);box-shadow:inset 0 0 0 1.5px #7B6CF6;color:#F4F4F6}
+.fld{height:56px;border-radius:18px;background:#111114;display:flex;align-items:center;gap:10px;padding:0 6px 0 16px;box-shadow:inset 0 0 0 1px #1A1A1F;transition:box-shadow .18s ease,background-color .18s ease;box-sizing:border-box}
+.fld:focus-within{background:#131317;box-shadow:0 0 0 1.5px rgba(123,108,246,.65)}
+.fld input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:15px;font-weight:500}
+.fld .sfx{font-size:13px;color:#8A8A95;padding-right:10px}
+.look{height:44px;padding:0 16px;border:0;border-radius:22px;background:#1F1F25;color:#C8C1FF;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;transition:transform .12s ease,opacity .2s ease}
+.look:active{transform:scale(.96)}
+.look:disabled{opacity:.4;cursor:default;transform:none}
+.spin{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.st{animation:st .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes st{from{opacity:0;transform:translateY(-4px)}}
+.live{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.grp{border-radius:18px;background:#111114;box-shadow:inset 0 0 0 1px #1A1A1F;overflow:hidden}
+.gr{display:flex;align-items:center;gap:12px;height:56px;padding:0 16px;color:#F4F4F6;text-decoration:none}
+.gr:hover{color:#F4F4F6}
+.gr+.gr{box-shadow:inset 0 1px 0 #1A1A1F}
+.gain{animation:gain .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes gain{from{opacity:0;transform:translateY(8px) scale(.98)}}
+.cta{height:56px;border:0;border-radius:28px;width:100%;background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:16px;font-weight:600;transition:opacity .2s ease,transform .12s ease}
+.cta:active{transform:scale(.98)}
+.cta.off{opacity:.38;cursor:not-allowed}
+.hint{animation:fade .24s ease both}
+@keyframes fade{from{opacity:0}}
+.scrim{animation:fade .3s ease both}
+.up{animation:up .4s cubic-bezier(.3,.7,.2,1) both}
+@keyframes up{from{transform:translateY(100%)}}
+.ck circle,.ck path{stroke-dasharray:1;animation:draw .5s cubic-bezier(.4,0,.2,1) both}
+.ck circle{animation-delay:.2s}
+.ck path{animation-delay:.55s;animation-duration:.32s}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+  <div style="height: 879px; display: flex; flex-direction: column">
+
+    <header style="height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 20px; flex-shrink: 0">
+      <a href="V4-Wealth.dc.html" aria-label="Close" style="width: 44px; height: 44px; border-radius: 22px; background: #141417; color: #F4F4F6; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+      <h1 class="w" style="margin: 0; font-size: 19px; font-weight: 600">New holding</h1>
+    </header>
+
+    <div style="flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; padding: 8px 20px 12px; display: flex; flex-direction: column; gap: 20px">
+
+      <div>
+        <span class="lbl" id="type-lbl">Type</span>
+        <div role="radiogroup" aria-labelledby="type-lbl" style="display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px">
+          <sc-for list="{{types}}" as="t" hint-placeholder-count="5">
+            <button class="{{t.cls}}" role="radio" aria-checked="{{t.on}}" onClick="{{t.pick}}">{{t.name}}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{market}}" hint-placeholder-val="{{ true }}">
+        <div>
+          <label class="lbl" for="ticker">{{tickerLabel}}</label>
+          <div class="fld">
+            <input id="ticker" value="{{ticker}}" onChange="{{onTicker}}" placeholder="{{tickerPh}}" autocomplete="off" spellcheck="false" style="text-transform: uppercase; letter-spacing: .04em">
+            <button class="look" disabled="{{cantLook}}" onClick="{{lookUp}}">
+              <sc-if value="{{loading}}" hint-placeholder-val="{{ false }}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"></path></svg></sc-if>
+              <sc-if value="{{notLoading}}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></sc-if>
+              Look up
+            </button>
+          </div>
+          <div role="status" style="min-height: 22px; margin-top: 10px">
+            <sc-if value="{{isIdle}}" hint-placeholder-val="{{ true }}"><p class="st" style="margin: 0; font-size: 13px; color: #8A8A95">Look it up to fill in today's price.</p></sc-if>
+            <sc-if value="{{loading}}" hint-placeholder-val="{{ false }}"><p class="st" style="margin: 0; font-size: 13px; color: #A6A6B0">Checking the market</p></sc-if>
+            <sc-if value="{{found}}" hint-placeholder-val="{{ false }}">
+              <div class="st" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(94,224,161,.08); box-shadow: inset 0 0 0 1px rgba(94,224,161,.18)">
+                <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{foundName}}</span><span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #A6A6B0"><i class="live" style="width: 6px; height: 6px; border-radius: 3px; background: #5EE0A1"></i>Live price</span></span>
+                <span class="w n" style="font-size: 16px; font-weight: 600; white-space: nowrap">{{priceText}}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{notFound}}" hint-placeholder-val="{{ false }}"><p class="st" style="margin: 0; font-size: 13px; line-height: 1.45; color: #FF9AA2">{{notFoundText}}</p></sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{manualName}}" hint-placeholder-val="{{ false }}">
+        <div>
+          <label class="lbl" for="hname">Name</label>
+          <div class="fld" style="padding-right: 16px"><input id="hname" value="{{hname}}" onChange="{{onHname}}" placeholder="{{namePh}}" autocomplete="off"></div>
+        </div>
+      </sc-if>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <sc-if value="{{market}}" hint-placeholder-val="{{ true }}">
+          <div>
+            <label class="lbl" for="qty">Quantity</label>
+            <div class="fld"><input id="qty" class="n" inputmode="decimal" value="{{qty}}" onChange="{{onQty}}" placeholder="0" autocomplete="off"><span class="sfx">{{unit}}</span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{needValue}}" hint-placeholder-val="{{ false }}">
+          <div>
+            <label class="lbl" for="worth">Worth today</label>
+            <div class="fld"><span style="color: #8A8A95">₹</span><input id="worth" class="n" inputmode="numeric" value="{{valueText}}" onChange="{{onValue}}" placeholder="0" autocomplete="off"></div>
+          </div>
+        </sc-if>
+        <div>
+          <label class="lbl" for="invested">You put in</label>
+          <div class="fld"><span style="color: #8A8A95">₹</span><input id="invested" class="n" inputmode="numeric" value="{{investedText}}" onChange="{{onInvested}}" placeholder="0" autocomplete="off"></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <label class="gr">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"></path></svg>
+          <input value="{{platform}}" onChange="{{onPlatform}}" aria-label="Platform" placeholder="Where you hold it" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 15px; font-weight: 500">
+          <span style="font-size: 12px; color: #8A8A95">Platform</span>
+        </label>
+        <a class="gr" href="V4-Date.dc.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"></rect><path d="M8 3v4M16 3v4M3.5 10h17"></path></svg>
+          <span style="flex: 1; font-size: 15px; font-weight: 500">Monday 5 Oct</span>
+          <span style="font-size: 12px; color: #8A8A95">Bought on</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+        </a>
+      </div>
+
+      <sc-if value="{{hasGain}}" hint-placeholder-val="{{ false }}">
+        <section class="gain" aria-live="polite" style="padding: 16px; border-radius: 20px; background: radial-gradient(120% 140% at 100% 0%, {{gainGlow}}, rgba(0,0,0,0) 60%), #111114; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #A6A6B0">Worth now</span><span class="w n" style="font-size: 24px; font-weight: 600">{{worthText}}</span></span>
+          <span class="n" style="font-size: 14px; font-weight: 600; text-align: right; color: {{gainColor}}">{{gainText}}</span>
+        </section>
+      </sc-if>
+    </div>
+
+    <div style="padding: 8px 20px 24px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <sc-if value="{{blocked}}" hint-placeholder-val="{{ true }}"><p class="hint" role="status" style="margin: 0; text-align: center; font-size: 13px; color: #A6A6B0">{{hint}}</p></sc-if>
+      <button class="{{ctaClass}}" aria-disabled="{{blocked}}" onClick="{{save}}">Add holding</button>
+    </div>
+  </div>
+
+  <sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" style="position: absolute; inset: 0; background: rgba(0,0,0,.62)"></div>
+    <section class="up" role="status" style="position: absolute; left: 0; right: 0; bottom: 0; background: #111114; border-radius: 32px 32px 0 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); padding: 32px 24px 32px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+      <svg class="ck" width="76" height="76" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34" fill="none" stroke="#5EE0A1" stroke-width="3" pathLength="1" transform="rotate(-90 38 38)"></circle><path d="M25 39l9 9 17-19" fill="none" stroke="#5EE0A1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"></path></svg>
+      <h2 class="w" style="margin: 8px 0 0; font-size: 22px; font-weight: 600">Holding added</h2>
+      <p class="n" style="margin: 0 0 12px; font-size: 15px; line-height: 1.45; color: #A6A6B0">{{doneText}}</p>
+      <div style="display: flex; gap: 10px; width: 100%">
+        <button onClick="{{again}}" style="flex: 1; height: 54px; border: 0; border-radius: 27px; background: #1A1A1F; font-size: 15px; font-weight: 500">Add another</button>
+        <a href="V4-Wealth.dc.html" style="flex: 1; height: 54px; border-radius: 27px; background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; text-decoration: none">Done</a>
+      </div>
+    </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.tm) { clearTimeout(this.tm); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var TYPES = [
+      { key: 'stocks', name: 'Stocks' },
+      { key: 'funds', name: 'Mutual funds' },
+      { key: 'fd', name: 'Fixed deposit' },
+      { key: 'gold', name: 'Gold' },
+      { key: 'crypto', name: 'Crypto' },
+      { key: 'bonds', name: 'Bonds' },
+      { key: 'other', name: 'Other' }
+    ];
+    var KNOWN = {
+      stocks: { TCS: { name: 'Tata Consultancy Services', price: 4120 }, INFY: { name: 'Infosys', price: 1530 }, HDFCBANK: { name: 'HDFC Bank', price: 1690 } },
+      crypto: { BTC: { name: 'Bitcoin', price: 16333333 }, ETH: { name: 'Ethereum', price: 312000 } }
+    };
+    var type = s.type || 'stocks';
+    var market = type === 'stocks' || type === 'crypto';
+    var ticker = (typeof s.ticker === 'string') ? s.ticker : 'TCS';
+    var qty = (typeof s.qty === 'string') ? s.qty : '10';
+    var invested = (typeof s.invested === 'string') ? s.invested : '38500';
+    var platform = (typeof s.platform === 'string') ? s.platform : 'Zerodha';
+    var hname = (typeof s.hname === 'string') ? s.hname : '';
+    var value = (typeof s.value === 'string') ? s.value : '';
+    var look = s.look || 'idle';
+    var fmt = function (v) { return Math.round(v).toLocaleString('en-IN'); };
+    var tk = ticker.trim().toUpperCase();
+    var hit = market && look === 'found' ? KNOWN[type][tk] : null;
+    var q = parseFloat(qty) || 0;
+    var inv = invested ? parseInt(invested, 10) : 0;
+    var worth = 0;
+    if (market && hit) { worth = hit.price * q; }
+    else if (!market || look === 'notfound') { worth = value ? parseInt(value, 10) : 0; }
+    var needValue = !market || look === 'notfound';
+    var hint = '';
+    if (market) {
+      if (!tk) { hint = 'Add a ticker to continue.'; }
+      else if (!q) { hint = 'Add how many you hold.'; }
+      else if (look !== 'found' && !(look === 'notfound' && worth)) { hint = look === 'notfound' ? 'Enter what it is worth today.' : 'Look up the price, or enter the value yourself.'; }
+      else if (!inv) { hint = 'Add how much you put in.'; }
+    } else {
+      if (!hname.trim()) { hint = 'Add a name to continue.'; }
+      else if (!worth) { hint = 'Enter what it is worth today.'; }
+      else if (!inv) { hint = 'Add how much you put in.'; }
+    }
+    var blocked = hint !== '';
+    var gain = worth - inv;
+    var pct = inv ? (gain / inv * 100) : 0;
+    var digits = function (v, max) { return String(v).replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, max); };
+    var label = market ? tk : hname.trim();
+    var unit = type === 'crypto' ? 'coins' : 'shares';
+    return {
+      types: TYPES.map(function (t) {
+        var on = t.key === type;
+        return { name: t.name, on: on, cls: on ? 'cg on' : 'cg', pick: function () { if (!on) { self.setState({ type: t.key, look: 'idle', ticker: t.key === 'crypto' ? 'BTC' : (t.key === 'stocks' ? 'TCS' : ''), qty: t.key === 'crypto' ? '0.0015' : (t.key === 'stocks' ? '10' : '') }); } } };
+      }),
+      market: market,
+      manualName: !market,
+      tickerLabel: type === 'crypto' ? 'Coin' : 'Ticker',
+      tickerPh: type === 'crypto' ? 'BTC' : 'TCS, INFY',
+      ticker: ticker,
+      onTicker: function (e) { self.setState({ ticker: e.target.value.toUpperCase().replace(/[^A-Z0-9.&-]/g, '').slice(0, 12), look: 'idle' }); },
+      cantLook: !tk || look === 'loading',
+      lookUp: function () {
+        if (!tk || look === 'loading') { return; }
+        self.setState({ look: 'loading' });
+        if (self.tm) { clearTimeout(self.tm); }
+        self.tm = setTimeout(function () { self.setState({ look: KNOWN[type][tk] ? 'found' : 'notfound' }); }, 900);
+      },
+      isIdle: look === 'idle',
+      loading: look === 'loading',
+      notLoading: look !== 'loading',
+      found: look === 'found' && !!hit,
+      notFound: look === 'notfound',
+      foundName: hit ? hit.name : '',
+      priceText: hit ? '₹' + fmt(hit.price) + (type === 'crypto' ? ' a coin' : ' a share') : '',
+      notFoundText: "We couldn't find " + tk + '. Check it, or enter what it is worth today below.',
+      hname: hname,
+      namePh: type === 'fd' ? 'SBI FD, 1 year' : (type === 'gold' ? 'Gold coins' : (type === 'funds' ? 'Nifty 50 index fund' : 'What is it?')),
+      onHname: function (e) { self.setState({ hname: e.target.value }); },
+      qty: qty,
+      unit: unit,
+      onQty: function (e) {
+        var v = String(e.target.value).replace(/[^0-9.]/g, '');
+        var parts = v.split('.');
+        if (parts.length > 2) { v = parts[0] + '.' + parts.slice(1).join(''); }
+        self.setState({ qty: v.slice(0, 10) });
+      },
+      needValue: needValue,
+      valueText: value ? fmt(parseInt(value, 10)) : '',
+      onValue: function (e) { self.setState({ value: digits(e.target.value, 9) }); },
+      investedText: inv ? fmt(inv) : '',
+      onInvested: function (e) { self.setState({ invested: digits(e.target.value, 9) }); },
+      platform: platform,
+      onPlatform: function (e) { self.setState({ platform: e.target.value }); },
+      hasGain: worth > 0 && inv > 0,
+      worthText: '₹' + fmt(worth),
+      gainText: (gain >= 0 ? "You're up ₹" : "You're down ₹") + fmt(Math.abs(gain)) + ' (' + Math.abs(pct).toFixed(2) + '%)',
+      gainColor: gain >= 0 ? '#5EE0A1' : '#FF9AA2',
+      gainGlow: gain >= 0 ? 'rgba(94,224,161,.16)' : 'rgba(255,122,133,.14)',
+      blocked: blocked,
+      hint: hint,
+      ctaClass: blocked ? 'cta off' : 'cta',
+      save: function () { if (!blocked) { self.setState({ done: true }); } },
+      done: !!s.done,
+      doneText: market ? (label + ', ' + qty + ' ' + unit + ' worth ₹' + fmt(worth) + ', is now part of your portfolio.') : (label + ', worth ₹' + fmt(worth) + ', is now part of your portfolio.'),
+      again: function () { self.setState({ done: false, look: 'idle', ticker: '', qty: '', invested: '', hname: '', value: '' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

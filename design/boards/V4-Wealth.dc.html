@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Wealth</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.tm{position:absolute;border:0;border-radius:14px;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;text-align:left;color:#F4F4F6;transition:opacity .25s ease,box-shadow .25s ease,transform .12s ease}
+.tm:active{transform:scale(.98)}
+.tm.dim{opacity:.28}
+.tm.sel{box-shadow:inset 0 0 0 2px #F4F4F6}
+.tm b{font-size:13px;font-weight:600}
+.tm span{font-size:12px;color:#DDF7EA}
+.chip{height:36px;padding:0 14px;border:0;border-radius:18px;background:#141417;color:#D9D9DE;font-size:13px;font-weight:500;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;transition:background-color .18s ease,color .18s ease,transform .12s ease}
+.chip:active{transform:scale(.96)}
+.chip.on{background:#F4F4F6;color:#08080A;font-weight:600}
+.h{display:flex;align-items:center;gap:14px;height:60px;width:100%;border:0;background:transparent;padding:0;text-align:left;border-radius:12px;transition:background-color .15s ease}
+.h:active{background:#0F0F12}
+a.h{color:#F4F4F6;text-decoration:none}
+a.h:hover{color:#F4F4F6}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:600;color:#D9D9DE}
+.lA{animation:lA .24s cubic-bezier(.2,.8,.2,1) both}
+.lB{animation:lB .24s cubic-bezier(.2,.8,.2,1) both}
+@keyframes lA{from{opacity:0;transform:translateY(6px)}}
+@keyframes lB{from{opacity:0;transform:translateY(6px)}}
+.spin{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Wealth</h1>
+    <a href="V4-AddHolding.dc.html" aria-label="Add a holding" style="width: 44px; height: 44px; border: 0; border-radius: 22px; background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+  </header>
+
+  <section style="padding: 16px 20px 0">
+    <span style="font-size: 14px; color: #A6A6B0">Worth today</span>
+    <div class="w n" style="font-size: 42px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; margin-top: 2px">₹4,82,300</div>
+    <p style="margin: 8px 0 0; font-size: 14px; color: #A6A6B0"><span class="n" style="color: #5EE0A1; font-weight: 600">+₹72,300 (17.63%)</span> on <span class="n">₹4,10,000</span> invested</p>
+    <button onClick="{{refresh}}" aria-label="Update market prices" style="margin-top: 6px; height: 32px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8A8A95">
+      <svg class="{{spinClass}}" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-4M4 4v4h4M4 13a8 8 0 0 0 14.9 4M20 20v-4h-4"></path></svg>
+      <span role="status">{{updated}}</span>
+    </button>
+  </section>
+
+  <section style="padding: 16px 20px 0">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px">
+      <h2 class="w" style="margin: 0; font-size: 15px; font-weight: 600">Where it sits</h2>
+      <span style="font-size: 12px; color: #8A8A95">Greener tiles have grown more</span>
+    </div>
+    <div role="group" aria-label="Holdings sized by value and shaded by return; tap one to filter" style="position: relative; height: 216px">
+      <button class="{{tFd}}" aria-pressed="{{pFd}}" onClick="{{fFd}}" style="left: 0; top: 0; width: 230px; height: 112px; background: rgba(94,224,161,.13)"><b>Fixed deposit</b><span style="display: flex; justify-content: space-between; align-items: baseline"><span class="w n" style="font-size: 16px; font-weight: 600; color: #F4F4F6">₹1,58,400</span><span class="n">+5.6%</span></span></button>
+      <button class="{{tFunds}}" aria-pressed="{{pFunds}}" onClick="{{fFunds}}" style="left: 0; top: 116px; width: 230px; height: 100px; background: rgba(94,224,161,.33)"><b>Mutual funds</b><span style="display: flex; justify-content: space-between; align-items: baseline"><span class="w n" style="font-size: 16px; font-weight: 600; color: #F4F4F6">₹1,41,700</span><span class="n">+28.8%</span></span></button>
+      <button class="{{tGold}}" aria-pressed="{{pGold}}" onClick="{{fGold}}" style="left: 234px; top: 0; width: 138px; height: 112px; background: rgba(94,224,161,.40)"><b>Gold</b><span style="display: flex; flex-direction: column; gap: 2px"><span class="w n" style="font-size: 15px; font-weight: 600; color: #F4F4F6">₹96,500</span><span class="n">+34.0%</span></span></button>
+      <button class="{{tStocks}}" aria-pressed="{{pStocks}}" onClick="{{fStocks}}" style="left: 234px; top: 116px; width: 96px; height: 100px; background: rgba(94,224,161,.12)"><b>Stocks</b><span style="display: flex; flex-direction: column; gap: 2px"><span class="w n" style="font-size: 13px; font-weight: 600; color: #F4F4F6">₹61.2k</span><span class="n">+5.5%</span></span></button>
+      <button class="{{tCrypto}}" aria-pressed="{{pCrypto}}" onClick="{{fCrypto}}" aria-label="Crypto, ₹24,500, up 22.5 percent" style="left: 334px; top: 116px; width: 38px; height: 100px; padding: 10px 0; align-items: center; background: rgba(94,224,161,.28)"><b style="font-size: 11px">BTC</b><span class="n" style="font-size: 10px">+22%</span></button>
+    </div>
+  </section>
+
+  <div role="radiogroup" aria-label="Filter holdings" style="display: flex; gap: 8px; padding: 18px 20px 0; overflow-x: auto; scrollbar-width: none">
+    <button class="{{cAll}}" role="radio" aria-checked="{{rAll}}" onClick="{{fAll}}">All</button>
+    <button class="{{cStocks}}" role="radio" aria-checked="{{pStocks}}" onClick="{{fStocks}}">Stocks</button>
+    <button class="{{cFunds}}" role="radio" aria-checked="{{pFunds}}" onClick="{{fFunds}}">Mutual funds</button>
+    <button class="{{cFd}}" role="radio" aria-checked="{{pFd}}" onClick="{{fFd}}">Fixed deposit</button>
+    <button class="{{cGold}}" role="radio" aria-checked="{{pGold}}" onClick="{{fGold}}">Gold</button>
+    <button class="{{cCrypto}}" role="radio" aria-checked="{{pCrypto}}" onClick="{{fCrypto}}">Crypto</button>
+  </div>
+
+  <section class="{{listClass}}" aria-live="polite" style="padding: 8px 20px 0">
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+      <sc-if value="{{r.link}}" hint-placeholder-val="{{ false }}"><a class="h" href="V4-Holding.dc.html"><span class="gl">{{r.code}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">{{r.name}}</span><span style="font-size: 13px; color: #8A8A95">{{r.meta}}</span></span><span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n" style="font-size: 15px; font-weight: 500">{{r.val}}</span><span class="n" style="font-size: 12px; color: #5EE0A1">{{r.roi}}</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a></sc-if><sc-if value="{{r.nolink}}" hint-placeholder-val="{{ true }}"><button class="h"><span class="gl">{{r.code}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">{{r.name}}</span><span style="font-size: 13px; color: #8A8A95">{{r.meta}}</span></span><span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n" style="font-size: 15px; font-weight: 500">{{r.val}}</span><span class="n" style="font-size: 12px; color: #5EE0A1">{{r.roi}}</span></span></button></sc-if>
+    </sc-for>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti on" href="V4-Wealth.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.tm) { clearTimeout(this.tm); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var f = s.f || 'all';
+    var ROWS = [
+      { key: 'fd', code: 'FD', name: 'HDFC Bank FD', meta: 'HDFC, since Jan 2025', val: '₹1,58,400', roi: '+5.60%' },
+      { key: 'funds', code: 'MF', name: 'Parag Parikh Flexi Cap', meta: 'Groww', val: '₹1,41,700', roi: '+28.82%' },
+      { key: 'gold', code: 'Au', name: 'Sovereign Gold Bond', meta: 'Zerodha', val: '₹96,500', roi: '+34.03%' },
+      { key: 'stocks', code: 'IN', name: 'Infosys', meta: '40 shares on Zerodha, live price', val: '₹61,200', roi: '+5.52%' },
+      { key: 'crypto', code: 'BTC', name: 'Bitcoin', meta: '0.0015 BTC on CoinDCX, live price', val: '₹24,500', roi: '+22.50%' }
+    ];
+    var pick = function (k) {
+      return function () {
+        var next = (k !== 'all' && k === f) ? 'all' : k;
+        if (next !== f) { self.setState({ f: next, flip: !s.flip }); }
+      };
+    };
+    var vals = {
+      rows: ROWS.filter(function (r) { return f === 'all' || r.key === f; }).map(function (r) { return { code: r.code, name: r.name, meta: r.meta, val: r.val, roi: r.roi, link: r.key === 'stocks', nolink: r.key !== 'stocks' }; }),
+      listClass: s.flip === undefined ? '' : (s.flip ? 'lA' : 'lB'),
+      cAll: f === 'all' ? 'chip on' : 'chip',
+      rAll: f === 'all',
+      fAll: pick('all'),
+      spinClass: s.busy ? 'spin' : '',
+      updated: s.busy ? 'Updating market prices' : (s.fresh ? 'Market prices updated just now' : 'Market prices updated a moment ago'),
+      refresh: function () {
+        if (s.busy) { return; }
+        self.setState({ busy: true });
+        self.tm = setTimeout(function () { self.setState({ busy: false, fresh: true }); }, 1200);
+      }
+    };
+    var KEYS = { Fd: 'fd', Funds: 'funds', Gold: 'gold', Stocks: 'stocks', Crypto: 'crypto' };
+    Object.keys(KEYS).forEach(function (name) {
+      var k = KEYS[name];
+      var on = f === k;
+      vals['t' + name] = 'tm' + (f === 'all' || on ? '' : ' dim') + (on ? ' sel' : '');
+      vals['c' + name] = on ? 'chip on' : 'chip';
+      vals['p' + name] = on;
+      vals['f' + name] = pick(k);
+    });
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

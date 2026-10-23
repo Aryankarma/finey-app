@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Infosys holding</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.ib{width:44px;height:44px;border:0;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s ease}
+.ib:active{transform:scale(.94)}
+.tag{height:28px;padding:0 10px;border-radius:14px;background:#141417;display:flex;align-items:center;font-size:12px;font-weight:600;color:#D9D9DE}
+.spin{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bar{height:10px;border-radius:5px;transform-origin:0 50%;animation:bar .9s cubic-bezier(.2,.8,.2,1) both;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes bar{from{transform:scaleX(0)}}
+.dl{display:flex;align-items:center;justify-content:space-between;height:52px;box-shadow:inset 0 -1px 0 #141417}
+.dl dt{font-size:14px;color:#8A8A95}
+.dl dd{margin:0;font-size:15px;font-weight:500}
+.ed{animation:ed .32s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ed{from{opacity:0;transform:translateY(6px)}}
+.fld{height:52px;border-radius:16px;background:#111114;display:flex;align-items:center;gap:10px;padding:0 14px;box-shadow:inset 0 0 0 1px #1A1A1F;transition:box-shadow .18s ease,background-color .18s ease}
+.fld:focus-within{background:#131317;box-shadow:0 0 0 1.5px rgba(123,108,246,.65)}
+.fld input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:15px;font-weight:500}
+.lbl{display:block;margin:0 0 6px;font-size:12px;font-weight:600;color:#A6A6B0}
+.cta{height:52px;border:0;border-radius:26px;background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:15px;font-weight:600;transition:opacity .2s ease,transform .12s ease}
+.cta:active{transform:scale(.98)}
+.cta.off{opacity:.38;cursor:not-allowed}
+.vA{animation:vA .4s cubic-bezier(.2,.8,.2,1) both}
+.vB{animation:vB .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vA{from{opacity:.2;transform:translateY(6px)}}
+@keyframes vB{from{opacity:.2;transform:translateY(6px)}}
+.toast{animation:toast .32s cubic-bezier(.2,.8,.2,1) both}
+@keyframes toast{from{opacity:0;transform:translateY(16px)}}
+.scrim{animation:fade .26s ease both}
+.scrim.out{animation:fadeOut .2s ease both}
+@keyframes fade{from{opacity:0}}
+@keyframes fadeOut{to{opacity:0}}
+.dlg{animation:pop .3s cubic-bezier(.2,.8,.2,1) both}
+.dlg.out{animation:popOut .2s ease both}
+@keyframes pop{from{opacity:0;transform:scale(.92)}}
+@keyframes popOut{to{opacity:0;transform:scale(.96)}}
+.up{animation:up .4s cubic-bezier(.3,.7,.2,1) both}
+@keyframes up{from{transform:translateY(100%)}}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <a class="ib" href="V4-Wealth.dc.html" aria-label="Back to Wealth"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+    <sc-if value="{{viewing}}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{startEdit}}" style="height: 44px; padding: 0 16px; border: 0; border-radius: 22px; background: #141417; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"></path></svg>Edit</button>
+    </sc-if>
+  </header>
+
+  <div style="position: absolute; top: 92px; left: 0; right: 0; bottom: 76px; overflow-y: auto; scrollbar-width: none">
+
+    <section style="padding: 12px 20px 0">
+      <div style="display: flex; gap: 6px">
+        <span class="tag" style="background: rgba(123,108,246,.18); color: #C8C1FF">INFY</span>
+        <span class="tag">Stocks</span>
+        <span class="tag">{{platform}}</span>
+      </div>
+      <h1 class="w" style="margin: 14px 0 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Infosys</h1>
+      <div class="w n {{valClass}}" aria-live="polite" style="font-size: 44px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; margin-top: 4px">{{valueText}}</div>
+      <p class="{{valClass}}" style="margin: 6px 0 0; font-size: 14px; color: #A6A6B0"><span class="n" style="font-weight: 600; color: {{gainColor}}">{{gainText}}</span> since you bought</p>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: #111114">
+        <span style="display: flex; flex-direction: column; gap: 2px"><span class="n" style="font-size: 15px; font-weight: 600">₹1,530 a share</span><span role="status" style="font-size: 12px; color: #8A8A95">{{priceStatus}}</span></span>
+        <button class="ib" aria-label="Update the price" onClick="{{refresh}}" style="background: #1A1A1F"><svg class="{{spinClass}}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.9-4M4 4v4h4M4 13a8 8 0 0 0 14.9 4M20 20v-4h-4"></path></svg></button>
+      </div>
+    </section>
+
+    <section style="padding: 24px 20px 0">
+      <h2 class="w" style="margin: 0 0 14px; font-size: 15px; font-weight: 600">Put in vs worth now</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: #A6A6B0; margin-bottom: 6px"><span>You put in</span><span class="n" style="color: #F4F4F6; font-weight: 600">{{investedText}}</span></div>
+          <div style="height: 10px; border-radius: 5px; background: #141417"><div class="bar" style="width: {{invW}}; background: #4A4A54; animation-delay: .1s"></div></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: #A6A6B0; margin-bottom: 6px"><span>Worth now</span><span class="n" style="color: #F4F4F6; font-weight: 600">{{valueFull}}</span></div>
+          <div style="height: 10px; border-radius: 5px; background: #141417"><div class="bar" style="width: {{valW}}; background: linear-gradient(90deg, #3BB57D, #5EE0A1); animation-delay: .25s"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 24px 20px 24px">
+      <h2 class="w" style="margin: 0 0 4px; font-size: 15px; font-weight: 600">Details</h2>
+      <sc-if value="{{viewing}}" hint-placeholder-val="{{ true }}">
+        <dl class="{{valClass}}" style="margin: 0">
+          <div class="dl"><dt>Quantity</dt><dd class="n">{{qtyText}}</dd></div>
+          <div class="dl"><dt>Average buy price</dt><dd class="n">{{avgText}}</dd></div>
+          <div class="dl"><dt>Bought on</dt><dd>12 Mar 2025</dd></div>
+          <div class="dl"><dt>Platform</dt><dd>{{platform}}</dd></div>
+          <div class="dl"><dt>Share of your portfolio</dt><dd class="n">{{shareText}}</dd></div>
+        </dl>
+        <button onClick="{{askRemove}}" style="margin-top: 18px; height: 48px; padding: 0 18px; border: 0; border-radius: 24px; background: rgba(255,122,133,.12); color: #FF9AA2; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>Remove holding</button>
+      </sc-if>
+      <sc-if value="{{editing}}" hint-placeholder-val="{{ false }}">
+        <div class="ed" style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+            <div>
+              <label class="lbl" for="eqty">Quantity</label>
+              <div class="fld"><input id="eqty" class="n" inputmode="numeric" value="{{dQty}}" onChange="{{onQty}}" autocomplete="off"><span style="font-size: 13px; color: #8A8A95">shares</span></div>
+            </div>
+            <div>
+              <label class="lbl" for="einv">You put in</label>
+              <div class="fld"><span style="color: #8A8A95">₹</span><input id="einv" class="n" inputmode="numeric" value="{{dInvText}}" onChange="{{onInv}}" autocomplete="off"></div>
+            </div>
+          </div>
+          <div>
+            <label class="lbl" for="eplat">Platform</label>
+            <div class="fld"><input id="eplat" value="{{dPlat}}" onChange="{{onPlat}}" autocomplete="off"></div>
+          </div>
+          <p role="status" style="margin: 0; font-size: 13px; color: {{previewColor}}">{{preview}}</p>
+          <div style="display: flex; gap: 10px">
+            <button onClick="{{cancelEdit}}" style="flex: 1; height: 52px; border: 0; border-radius: 26px; background: #1A1A1F; font-size: 15px; font-weight: 500">Cancel</button>
+            <button class="{{saveClass}}" aria-disabled="{{cantSave}}" onClick="{{saveEdit}}" style="flex: 1">Save changes</button>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+  </div>
+
+  <sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+    <div class="toast" role="status" style="position: absolute; left: 16px; right: 16px; bottom: 92px; height: 56px; border-radius: 16px; background: #1F1F25; box-shadow: 0 12px 30px rgba(0,0,0,.5); display: flex; align-items: center; gap: 10px; padding: 0 18px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5EE0A1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg>
+      <span style="font-size: 14px">Changes saved</span>
+    </div>
+  </sc-if>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti on" href="V4-Wealth.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+
+  <sc-if value="{{dialog}}" hint-placeholder-val="{{ false }}">
+    <div class="{{dScrim}}" onClick="{{cancelRemove}}" style="position: absolute; inset: 0; background: rgba(0,0,0,.66)"></div>
+    <div style="position: absolute; left: 28px; right: 28px; top: 50%; transform: translateY(-50%)">
+      <section class="{{dlgClass}}" role="alertdialog" aria-modal="true" aria-labelledby="rm-title" aria-describedby="rm-body" style="padding: 24px; border-radius: 28px; background: #18181C; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 24px 60px rgba(0,0,0,.6)">
+        <span style="width: 48px; height: 48px; border-radius: 24px; background: rgba(255,122,133,.14); color: #FF9AA2; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></span>
+        <h2 id="rm-title" class="w" style="margin: 16px 0 0; font-size: 20px; font-weight: 600">Remove Infosys?</h2>
+        <p id="rm-body" style="margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: #A6A6B0">It will no longer count in your portfolio totals. You can add it again any time.</p>
+        <div style="display: flex; gap: 10px; margin-top: 22px">
+          <button onClick="{{cancelRemove}}" style="flex: 1; height: 52px; border: 0; border-radius: 26px; background: #26262D; font-size: 15px; font-weight: 500">Cancel</button>
+          <button onClick="{{confirmRemove}}" style="flex: 1; height: 52px; border: 0; border-radius: 26px; background: #E5606C; color: #FFFFFF; font-size: 15px; font-weight: 600">Remove</button>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{removed}}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" style="position: absolute; inset: 0; background: rgba(0,0,0,.62)"></div>
+    <section class="up" role="status" style="position: absolute; left: 0; right: 0; bottom: 0; background: #111114; border-radius: 32px 32px 0 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); padding: 32px 24px 32px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+      <span style="width: 72px; height: 72px; border-radius: 36px; background: #1A1A1F; color: #A6A6B0; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg></span>
+      <h2 class="w" style="margin: 8px 0 0; font-size: 22px; font-weight: 600">Infosys removed</h2>
+      <p class="n" style="margin: 0 0 12px; font-size: 15px; line-height: 1.45; color: #A6A6B0">{{removedText}}</p>
+      <a href="V4-Wealth.dc.html" style="width: 100%; height: 54px; border-radius: 27px; background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; text-decoration: none">Back to Wealth</a>
+    </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    var reduce = false;
+    try { reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
+    if (reduce) { this.setState({ p: 1 }); return; }
+    var start = null;
+    var step = function (t) {
+      if (start === null) { start = t; }
+      var x = Math.min(Math.max((t - start - 100) / 900, 0), 1);
+      self.setState({ p: 1 - Math.pow(1 - x, 3) });
+      if (x < 1) { self.raf = requestAnimationFrame(step); }
+    };
+    this.raf = requestAnimationFrame(step);
+  }
+  componentWillUnmount() {
+    if (this.raf) { cancelAnimationFrame(this.raf); }
+    if (this.t1) { clearTimeout(this.t1); }
+    if (this.t2) { clearTimeout(this.t2); }
+    if (this.t3) { clearTimeout(this.t3); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var PRICE = 1530;
+    var OTHERS = 482300 - 61200;
+    var p = (typeof s.p === 'number') ? s.p : 0;
+    var qty = s.qty || 40;
+    var inv = s.inv || 58000;
+    var platform = s.platform || 'Zerodha';
+    var editing = !!s.editing;
+    var fmt = function (v) { return Math.round(v).toLocaleString('en-IN'); };
+    var value = qty * PRICE;
+    var gain = value - inv;
+    var pct = gain / inv * 100;
+    var max = Math.max(value, inv);
+    var dQty = (typeof s.dQty === 'string') ? s.dQty : String(qty);
+    var dInv = (typeof s.dInv === 'string') ? s.dInv : String(inv);
+    var dPlat = (typeof s.dPlat === 'string') ? s.dPlat : platform;
+    var nq = dQty ? parseInt(dQty, 10) : 0;
+    var ni = dInv ? parseInt(dInv, 10) : 0;
+    var cantSave = !nq || !ni || !dPlat.trim();
+    var nv = nq * PRICE;
+    var ng = nv - ni;
+    var preview = cantSave ? 'Add a quantity, an amount and a platform to save.' : 'Worth ₹' + fmt(nv) + ', ' + (ng >= 0 ? 'up ₹' : 'down ₹') + fmt(Math.abs(ng)) + ' (' + Math.abs(ni ? ng / ni * 100 : 0).toFixed(2) + '%)';
+    var digits = function (v, n) { return String(v).replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, n); };
+    var dialog = !!s.dialog;
+    var dClosing = !!s.dClosing;
+    var closeDialog = function (after) {
+      if (self.t2) { clearTimeout(self.t2); }
+      self.setState({ dClosing: true });
+      self.t2 = setTimeout(function () {
+        var next = { dialog: false, dClosing: false };
+        if (after) { next.removed = true; }
+        self.setState(next);
+      }, 200);
+    };
+    return {
+      viewing: !editing,
+      editing: editing,
+      platform: platform,
+      valueText: '₹' + fmt(value * p),
+      valueFull: '₹' + fmt(value),
+      valClass: s.vflip === undefined ? '' : (s.vflip ? 'vA' : 'vB'),
+      gainText: (gain >= 0 ? '+₹' : '−₹') + fmt(Math.abs(gain)) + ' (' + Math.abs(pct).toFixed(2) + '%)',
+      gainColor: gain >= 0 ? '#5EE0A1' : '#FF9AA2',
+      priceStatus: s.busy ? 'Checking the market' : (s.fresh ? 'Live price, updated just now' : 'Live price, updated 2 min ago'),
+      spinClass: s.busy ? 'spin' : '',
+      refresh: function () {
+        if (s.busy) { return; }
+        self.setState({ busy: true });
+        if (self.t1) { clearTimeout(self.t1); }
+        self.t1 = setTimeout(function () { self.setState({ busy: false, fresh: true }); }, 1000);
+      },
+      investedText: '₹' + fmt(inv),
+      invW: (inv / max * 100).toFixed(1) + '%',
+      valW: (value / max * 100).toFixed(1) + '%',
+      qtyText: qty + (qty === 1 ? ' share' : ' shares'),
+      avgText: '₹' + fmt(inv / qty),
+      shareText: (value / (OTHERS + value) * 100).toFixed(1) + '%',
+      startEdit: function () { self.setState({ editing: true, dQty: String(qty), dInv: String(inv), dPlat: platform }); },
+      cancelEdit: function () { self.setState({ editing: false }); },
+      dQty: dQty,
+      dInvText: ni ? fmt(ni) : '',
+      dPlat: dPlat,
+      onQty: function (e) { self.setState({ dQty: digits(e.target.value, 6) }); },
+      onInv: function (e) { self.setState({ dInv: digits(e.target.value, 9) }); },
+      onPlat: function (e) { self.setState({ dPlat: e.target.value }); },
+      preview: preview,
+      previewColor: cantSave ? '#FF9AA2' : '#A6A6B0',
+      cantSave: cantSave,
+      saveClass: cantSave ? 'cta off' : 'cta',
+      saveEdit: function () {
+        if (cantSave) { return; }
+        self.setState({ editing: false, qty: nq, inv: ni, platform: dPlat.trim(), vflip: !s.vflip, toast: true });
+        if (self.t3) { clearTimeout(self.t3); }
+        self.t3 = setTimeout(function () { self.setState({ toast: false }); }, 2600);
+      },
+      toast: !!s.toast,
+      dialog: dialog,
+      dScrim: dClosing ? 'scrim out' : 'scrim',
+      dlgClass: dClosing ? 'dlg out' : 'dlg',
+      askRemove: function () { self.setState({ dialog: true, dClosing: false }); },
+      cancelRemove: function () { if (!dClosing) { closeDialog(false); } },
+      confirmRemove: function () { if (!dClosing) { closeDialog(true); } },
+      removed: !!s.removed,
+      removedText: 'Your portfolio is now worth ₹' + fmt(OTHERS) + '.'
+    };
+  }
+}
+</script>
+</body>
+</html>

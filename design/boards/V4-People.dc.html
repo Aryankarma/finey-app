@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · People</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.tab{width:88px;height:44px;border:0;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;gap:6px;color:#8A8A95;font-size:15px;font-weight:500;transition:color .2s ease}
+.tab.on{color:#F4F4F6}
+.ind{position:absolute;left:20px;bottom:0;width:88px;height:2px;border-radius:2px;background:#7B6CF6;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.p{display:flex;align-items:center;gap:14px;height:72px;width:100%;border:0;background:transparent;padding:0;text-align:left;border-radius:14px;transition:background-color .15s ease}
+.p:active{background:#0F0F12}
+.av{position:relative;width:52px;height:52px;flex-shrink:0}
+.av svg{position:absolute;inset:0}
+.av b{position:absolute;left:6px;top:6px;width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600}
+.chev{transition:transform .26s cubic-bezier(.2,.8,.2,1)}
+.pnl{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .3s cubic-bezier(.2,.8,.2,1),opacity .2s ease}
+.pnl.open{grid-template-rows:1fr;opacity:1}
+.pnl > div{overflow:hidden;min-height:0}
+.row + .row{box-shadow:inset 0 1px 0 #141417}
+.pill{height:40px;padding:0 18px;border:0;border-radius:20px;display:flex;align-items:center;font-size:14px;font-weight:600;text-decoration:none;transition:transform .12s ease}
+.pill:active{transform:scale(.96)}
+.lA{animation:lA .26s cubic-bezier(.2,.8,.2,1) both}
+.lB{animation:lB .26s cubic-bezier(.2,.8,.2,1) both}
+@keyframes lA{from{opacity:0;transform:translateY(8px)}}
+@keyframes lB{from{opacity:0;transform:translateY(8px)}}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">People</h1>
+    <a href="V4-AddDebt.dc.html" aria-label="Add money you lent or borrowed" style="width: 44px; height: 44px; border: 0; border-radius: 22px; background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+  </header>
+
+  <section style="padding: 18px 20px 0">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end">
+      <div style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 13px; color: #8A8A95">You owe</span><span class="w n" style="font-size: 22px; font-weight: 600">₹4,000</span></div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px"><span style="font-size: 13px; color: #8A8A95">Owed to you</span><span class="w n" style="font-size: 22px; font-weight: 600; color: #5EE0A1">₹8,750</span></div>
+    </div>
+    <div role="img" aria-label="You owe ₹4,000 and are owed ₹8,750" style="position: relative; height: 8px; margin-top: 14px; border-radius: 4px; background: #141417">
+      <div style="position: absolute; right: 50%; top: 0; bottom: 0; width: 22.9%; border-radius: 4px 0 0 4px; background: #7B6CF6"></div>
+      <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 50%; border-radius: 0 4px 4px 0; background: #5EE0A1"></div>
+      <div style="position: absolute; left: 50%; top: -4px; width: 2px; height: 16px; margin-left: -1px; border-radius: 1px; background: #F4F4F6"></div>
+    </div>
+    <p style="margin: 12px 0 0; font-size: 14px; color: #A6A6B0">You'll be <span class="n" style="color: #F4F4F6; font-weight: 600">₹4,750</span> ahead once everyone settles up.</p>
+  </section>
+
+  <div role="tablist" aria-label="Status" style="position: relative; display: flex; margin-top: 18px; padding: 0 20px; box-shadow: inset 0 -1px 0 #1A1A1F">
+    <button class="{{t0}}" role="tab" aria-selected="{{a0}}" onClick="{{g0}}">Open<span class="n" style="color: #8A8A95">4</span></button>
+    <button class="{{t1}}" role="tab" aria-selected="{{a1}}" onClick="{{g1}}">Settled</button>
+    <button class="{{t2}}" role="tab" aria-selected="{{a2}}" onClick="{{g2}}">All</button>
+    <span class="ind" aria-hidden="true" style="transform: translateX({{indX}})"></span>
+  </div>
+
+  <section class="{{listClass}}" style="padding: 4px 20px 0">
+    <sc-if value="{{showList}}" hint-placeholder-val="{{ true }}">
+      <sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+        <div class="row">
+          <button class="p" aria-expanded="{{p.open}}" onClick="{{p.toggle}}">
+            <span class="av"><svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" fill="none" stroke="#1A1A1F" stroke-width="3"></circle><circle cx="26" cy="26" r="24" fill="none" stroke="{{p.ringColor}}" stroke-width="3" stroke-linecap="round" stroke-dasharray="{{p.ring}}" transform="rotate(-90 26 26)"></circle></svg><b style="color: {{p.initialColor}}">{{p.initial}}</b></span>
+            <span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">{{p.name}}</span><span style="font-size: 13px; color: #8A8A95">{{p.desc}}</span></span>
+            <span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n" style="font-size: 15px; font-weight: 600; color: {{p.amtColor}}">{{p.amt}}</span><span class="n" style="font-size: 12px; color: #8A8A95">{{p.sub}}</span></span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate({{p.chev}})"><path d="m6 9 6 6 6-6"></path></svg>
+          </button>
+          <div class="{{p.pnl}}">
+            <div>
+              <div style="padding: 0 0 16px 66px; display: flex; flex-direction: column; gap: 12px">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #A6A6B0"><span>{{p.history}}</span><span class="n" style="color: #F4F4F6">{{p.historyAmt}}</span></div>
+                <div style="display: flex; gap: 8px">
+                  <sc-if value="{{p.canSettle}}" hint-placeholder-val="{{ true }}"><a class="pill" href="V4-Settle.dc.html" style="background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF">{{p.action}}</a></sc-if>
+                  <sc-if value="{{p.noSettleLink}}" hint-placeholder-val="{{ false }}"><button class="pill" style="background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF">{{p.action}}</button></sc-if>
+                  <sc-if value="{{p.canEdit}}" hint-placeholder-val="{{ true }}"><a class="pill" href="V4-EditDebt.dc.html" style="background: #141417; font-weight: 500; color: #F4F4F6">Edit</a></sc-if><sc-if value="{{p.noEdit}}" hint-placeholder-val="{{ false }}"><button class="pill" style="background: #141417; font-weight: 500">Edit</button></sc-if>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </sc-if>
+    <sc-if value="{{showEmpty}}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 48px 12px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+        <span style="width: 56px; height: 56px; border-radius: 28px; background: rgba(94,224,161,.12); color: #5EE0A1; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg></span>
+        <h2 class="w" style="margin: 6px 0 0; font-size: 17px; font-weight: 600">Nothing settled yet</h2>
+        <p style="margin: 0; max-width: 280px; font-size: 14px; line-height: 1.5; color: #A6A6B0">When someone pays you back in full, or you clear what you owe, it moves here.</p>
+      </div>
+    </sc-if>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti on" href="V4-People.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var tab = s.tab || 0;
+    var open = (s.open === undefined) ? 0 : s.open;
+    var DATA = [
+      { name: 'Rahul', initial: 'R', desc: 'Loan you gave on 2 Oct', amt: '+₹750', sub: 'left of ₹1,000', amtColor: '#5EE0A1', ring: '37.7 150.8', ringColor: '#5EE0A1', initialColor: '#F4F4F6', history: 'Paid back by UPI on 12 Oct', historyAmt: '₹250', action: 'Record payment', settle: true },
+      { name: 'Arjun', initial: 'A', desc: 'Loan you gave on 28 Sep', amt: '+₹6,000', sub: 'nothing back yet', amtColor: '#5EE0A1', ring: '0 150.8', ringColor: '#5EE0A1', initialColor: '#F4F4F6', history: 'No payments yet', historyAmt: '', action: 'Record payment', settle: false },
+      { name: 'Meera', initial: 'M', desc: 'Her share of the Goa stay', amt: '+₹2,000', sub: 'nothing back yet', amtColor: '#5EE0A1', ring: '0 150.8', ringColor: '#5EE0A1', initialColor: '#F4F4F6', history: 'No payments yet', historyAmt: '', action: 'Record payment', settle: false },
+      { name: 'Priya', initial: 'P', desc: 'You borrowed for concert tickets', amt: '−₹4,000', sub: 'you owe', amtColor: '#F4F4F6', ring: '0 150.8', ringColor: '#7B6CF6', initialColor: '#C8C1FF', history: "You haven't paid anything back yet", historyAmt: '', action: 'Record what you paid', settle: false }
+    ];
+    var people = DATA.map(function (d, i) {
+      var isOpen = i === open;
+      return {
+        name: d.name, initial: d.initial, desc: d.desc, amt: d.amt, sub: d.sub, amtColor: d.amtColor, ring: d.ring, ringColor: d.ringColor, initialColor: d.initialColor,
+        history: d.history, historyAmt: d.historyAmt, action: d.action, canSettle: d.settle, noSettleLink: !d.settle, canEdit: d.name === 'Rahul', noEdit: d.name !== 'Rahul',
+        open: isOpen, pnl: isOpen ? 'pnl open' : 'pnl', chev: isOpen ? '180deg' : '0deg',
+        toggle: function () { self.setState({ open: isOpen ? -1 : i }); }
+      };
+    });
+    var vals = {
+      people: people,
+      showList: tab !== 1,
+      showEmpty: tab === 1,
+      listClass: s.flip === undefined ? '' : (s.flip ? 'lA' : 'lB'),
+      indX: (tab * 88) + 'px'
+    };
+    for (var t = 0; t < 3; t++) {
+      (function (k) {
+        vals['t' + k] = k === tab ? 'tab on' : 'tab';
+        vals['a' + k] = k === tab;
+        vals['g' + k] = function () { if (k !== tab) { self.setState({ tab: k, flip: !s.flip }); } };
+      })(t);
+    }
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

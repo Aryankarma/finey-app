@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Amounts hidden</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.blur{filter:blur(9px);user-select:none}
+.reveal{animation:unblur .55s ease both .12s}
+@keyframes unblur{from{filter:blur(9px);opacity:.5}}
+.key{height:60px;border:0;border-radius:30px;background:transparent;color:#F4F4F6;font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;transition:background-color .14s ease,transform .12s cubic-bezier(.2,.8,.2,1)}
+.key:active{background:#1A1A1F;transform:scale(.94)}
+.pd{display:block;width:12px;height:12px;border-radius:6px;box-shadow:inset 0 0 0 1.5px #3A3A42;transition:background-color .15s ease,box-shadow .15s ease}
+.pd.on{background:#A59BFF;box-shadow:none;animation:dot .22s cubic-bezier(.2,.8,.2,1)}
+@keyframes dot{from{transform:scale(.4)}}
+.shA{animation:shakeA .38s ease}
+.shB{animation:shakeB .38s ease}
+@keyframes shakeA{20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(3px)}}
+@keyframes shakeB{20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(3px)}}
+.err{color:#FF9AA2}
+.ov{transition:opacity .32s ease}
+.sh{transition:transform .4s cubic-bezier(.3,.7,.2,1)}
+.open .ov{opacity:0;pointer-events:none}
+.open .sh{transform:translateY(105%)}
+.rl{animation:rise .32s cubic-bezier(.2,.8,.2,1) both .38s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+.ic{display:flex;animation:spin .26s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spin{from{opacity:0;transform:rotate(-35deg) scale(.7)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div class="{{rootClass}}" style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <span style="display: flex; align-items: baseline; gap: 8px"><span class="w" style="font-size: 26px; font-weight: 600; letter-spacing: -0.01em">October</span><span style="font-size: 15px; font-weight: 500; color: #8A8A95">2026</span></span>
+    <span style="width: 44px; height: 44px; border-radius: 22px; background: {{eyeBg}}; color: {{eyeColor}}; display: flex; align-items: center; justify-content: center; transition: background-color .25s ease">
+      <sc-if value="{{locked}}" hint-placeholder-val="{{ true }}"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.7 0 3.2-.5 4.5-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2"></path></svg></span></sc-if>
+      <sc-if value="{{unlocked}}" hint-placeholder-val="{{ false }}"><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span></sc-if>
+    </span>
+  </header>
+
+  <section style="position: relative; width: 320px; height: 320px; margin: 4px auto 0">
+    <div style="position: absolute; left: 40px; top: 40px; width: 240px; height: 240px; border-radius: 120px; background: radial-gradient(circle, rgba(123,108,246,.20) 0%, rgba(123,108,246,.06) 45%, rgba(123,108,246,0) 70%)"></div>
+    <svg width="320" height="320" viewBox="0 0 320 320" aria-hidden="true" style="position: absolute; inset: 0">
+      <circle cx="160" cy="160" r="99" fill="none" stroke="#1A1A1F" stroke-width="1"></circle>
+      <g stroke-width="5" stroke-linecap="round"><line x1="160.0" y1="56.0" x2="160.0" y2="41.1" stroke="#5B4FC4"></line><line x1="180.9" y1="58.1" x2="185.4" y2="36.4" stroke="#5B4FC4"></line><line x1="201.0" y1="64.4" x2="219.2" y2="22.2" stroke="#A59BFF"></line><line x1="219.4" y1="74.6" x2="238.1" y2="47.8" stroke="#A59BFF"></line><line x1="235.4" y1="88.3" x2="249.1" y2="75.3" stroke="#5B4FC4"></line><line x1="248.3" y1="105.0" x2="260.0" y2="97.6" stroke="#5B4FC4"></line><line x1="257.5" y1="123.9" x2="282.4" y2="114.7" stroke="#A59BFF"></line><line x1="262.8" y1="144.3" x2="273.7" y2="142.6" stroke="#5B4FC4"></line><line x1="263.9" y1="165.3" x2="281.8" y2="166.2" stroke="#5B4FC4"></line><line x1="260.7" y1="186.1" x2="290.1" y2="193.7" stroke="#A59BFF"></line><line x1="253.4" y1="205.8" x2="274.9" y2="216.4" stroke="#A59BFF"></line><line x1="242.2" y1="223.7" x2="252.2" y2="231.4" stroke="#5B4FC4"></line><line x1="227.7" y1="238.9" x2="238.4" y2="251.3" stroke="#5B4FC4"></line><line x1="210.5" y1="250.9" x2="221.0" y2="269.9" stroke="#5B4FC4"></line><line x1="191.1" y1="259.2" x2="202.7" y2="296.0" stroke="#A59BFF"></line><line x1="170.5" y1="263.5" x2="172.4" y2="281.9" stroke="#5B4FC4"></line><line x1="149.5" y1="263.5" x2="147.9" y2="278.6" stroke="#5B4FC4"></line><line x1="128.9" y1="259.2" x2="123.8" y2="275.3" stroke="#5B4FC4"></line><line x1="109.5" y1="250.9" x2="93.7" y2="279.4" stroke="#A59BFF"></line><line x1="92.3" y1="238.9" x2="78.9" y2="254.4" stroke="#5B4FC4"></line><line x1="77.8" y1="223.7" x2="69.6" y2="230.0" stroke="#FFFFFF"></line><line x1="66.6" y1="205.8" x2="62.1" y2="208.0" stroke="#26262D"></line><line x1="59.3" y1="186.1" x2="54.5" y2="187.3" stroke="#26262D"></line><line x1="56.1" y1="165.3" x2="51.1" y2="165.5" stroke="#26262D"></line><line x1="57.2" y1="144.3" x2="52.3" y2="143.5" stroke="#26262D"></line><line x1="62.5" y1="123.9" x2="57.8" y2="122.1" stroke="#26262D"></line><line x1="71.7" y1="105.0" x2="67.5" y2="102.3" stroke="#26262D"></line><line x1="84.6" y1="88.3" x2="81.0" y2="84.9" stroke="#26262D"></line><line x1="100.6" y1="74.6" x2="97.7" y2="70.5" stroke="#26262D"></line><line x1="119.0" y1="64.4" x2="117.0" y2="59.8" stroke="#26262D"></line><line x1="139.1" y1="58.1" x2="138.1" y2="53.2" stroke="#26262D"></line></g>
+    </svg>
+    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px">
+      <span style="font-size: 13px; color: #A6A6B0">Left this month</span>
+      <sc-if value="{{locked}}" hint-placeholder-val="{{ true }}"><span class="w n blur" aria-label="Amount hidden" style="font-size: 34px; font-weight: 600">₹00,000</span></sc-if>
+      <sc-if value="{{unlocked}}" hint-placeholder-val="{{ false }}"><span class="w n reveal" style="font-size: 34px; font-weight: 600">₹56,260</span></sc-if>
+    </div>
+  </section>
+
+  <sc-if value="{{unlocked}}" hint-placeholder-val="{{ false }}">
+    <div class="rl" style="position: absolute; left: 0; right: 0; bottom: 48px; display: flex; flex-direction: column; align-items: center; gap: 14px">
+      <span role="status" style="font-size: 14px; color: #A6A6B0">Amounts are showing</span>
+      <button onClick="{{relock}}" style="height: 48px; padding: 0 22px; border: 0; border-radius: 24px; background: #141417; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Hide amounts again</button>
+    </div>
+  </sc-if>
+
+  <div class="ov" style="position: absolute; inset: 0; background: rgba(0,0,0,.6)"></div>
+
+  <section class="sh" role="dialog" aria-labelledby="pin-title" aria-describedby="pin-desc" aria-hidden="{{unlocked}}" style="position: absolute; left: 0; right: 0; bottom: 0; background: #111114; border-radius: 32px 32px 0 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); padding: 12px 28px 32px; display: flex; flex-direction: column; gap: 24px">
+    <div style="width: 40px; height: 4px; border-radius: 2px; background: #2A2A31; align-self: center"></div>
+    <div style="display: flex; align-items: center; gap: 14px">
+      <span style="width: 48px; height: 48px; border-radius: 24px; background: rgba(123,108,246,.16); color: #A59BFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <h2 id="pin-title" class="w" style="margin: 0; font-size: 19px; font-weight: 600">Amounts are hidden</h2>
+        <p id="pin-desc" class="{{msgClass}}" role="status" style="margin: 0; font-size: 14px; color: #A6A6B0; transition: color .2s ease">{{message}}</p>
+      </div>
+    </div>
+    <div class="{{dotsClass}}" role="img" aria-label="{{dotsLabel}}" style="display: flex; justify-content: center; gap: 16px">
+      <sc-for list="{{dots}}" as="d" hint-placeholder-count="5"><span class="{{d.cls}}"></span></sc-for>
+    </div>
+    <div class="w" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 16px">
+      <button class="key" onClick="{{k1}}">1</button><button class="key" onClick="{{k2}}">2</button><button class="key" onClick="{{k3}}">3</button>
+      <button class="key" onClick="{{k4}}">4</button><button class="key" onClick="{{k5}}">5</button><button class="key" onClick="{{k6}}">6</button>
+      <button class="key" onClick="{{k7}}">7</button><button class="key" onClick="{{k8}}">8</button><button class="key" onClick="{{k9}}">9</button>
+      <button class="key" aria-label="Use fingerprint" onClick="{{bio}}" style="color: #A59BFF"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11v3a8 8 0 0 1-1.5 4.7M8.5 21A12 12 0 0 0 9 14v-2.5a3 3 0 0 1 6 0V13M15 16.5a17 17 0 0 1-.8 4.5M18.7 18a20 20 0 0 0 .3-4v-2.5a7 7 0 0 0-11.6-5.3M5 15.5v-4a7 7 0 0 1 .7-3"></path></svg></button>
+      <button class="key" onClick="{{k0}}">0</button>
+      <button class="key" aria-label="Delete last digit" onClick="{{back}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"></path><path d="m12 9.5 5 5M17 9.5l-5 5"></path></svg></button>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.tm) { clearTimeout(this.tm); }
+  }
+  press(d) {
+    var s = this.state || {};
+    if (s.status === 'ok' || s.busy) { return; }
+    var pin = (s.pin || '') + d;
+    var self = this;
+    if (pin.length < 5) { this.setState({ pin: pin, status: 'idle' }); return; }
+    this.setState({ pin: pin, status: 'idle', busy: true });
+    this.tm = setTimeout(function () {
+      if (pin === '12345') { self.setState({ status: 'ok', busy: false }); }
+      else { self.setState({ pin: '', status: 'error', flip: !self.state.flip, busy: false }); }
+    }, 180);
+  }
+  renderVals() {
+    var s = this.state || {};
+    var self = this;
+    var pin = s.pin || '';
+    var status = s.status || 'idle';
+    var ok = status === 'ok';
+    var dots = [];
+    for (var i = 0; i < 5; i++) { dots.push({ cls: i < pin.length ? 'pd on' : 'pd' }); }
+    var vals = {
+      locked: !ok,
+      unlocked: ok,
+      rootClass: ok ? 'open' : '',
+      eyeBg: ok ? '#141417' : 'rgba(123,108,246,.18)',
+      eyeColor: ok ? '#F4F4F6' : '#A59BFF',
+      message: status === 'error' ? "That PIN didn't match. Try again." : 'Enter your PIN to show them.',
+      msgClass: status === 'error' ? 'err' : '',
+      dots: dots,
+      dotsClass: status === 'error' ? (s.flip ? 'shA' : 'shB') : '',
+      dotsLabel: pin.length + ' of 5 digits entered',
+      back: function () { if (!ok && !s.busy) { self.setState({ pin: pin.slice(0, -1), status: 'idle' }); } },
+      bio: function () { if (!ok) { self.setState({ status: 'ok', pin: '' }); } },
+      relock: function () { self.setState({ status: 'idle', pin: '' }); }
+    };
+    for (var k = 0; k < 10; k++) {
+      (function (digit) { vals['k' + digit] = function () { self.press(String(digit)); }; })(k);
+    }
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

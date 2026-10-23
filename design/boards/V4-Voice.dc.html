@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Voice entry review</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.tk{background:rgba(123,108,246,.24);color:#DCD7FF;border-radius:6px;padding:1px 6px;font-weight:600;font-variant-numeric:tabular-nums;animation:mark .36s ease both}
+@keyframes mark{from{background-color:rgba(123,108,246,0);color:#E9E9EE}}
+.dt{text-decoration:underline;text-decoration-color:#7B6CF6;text-decoration-thickness:2px;text-underline-offset:5px;animation:und .36s ease both}
+@keyframes und{from{text-decoration-color:rgba(123,108,246,0)}}
+.fade{animation:fade .4s ease both}
+@keyframes fade{from{opacity:0}}
+.r{display:flex;align-items:center;gap:12px;height:68px;animation:rowin .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rowin{from{opacity:0;transform:translateY(10px)}}
+.rc{display:flex;align-items:center;gap:12px;flex:1;min-width:0;transition:opacity .2s ease}
+.r.off .rc{opacity:.38}
+.r.off .amx{text-decoration:line-through}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin:0;border-radius:12px;box-shadow:inset 0 0 0 1.5px #3A3A42;display:grid;place-content:center;flex-shrink:0;transition:background-color .18s ease,box-shadow .18s ease}
+input[type=checkbox]:checked{background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:none}
+input[type=checkbox]:checked::after{content:"";width:10px;height:5px;border-left:2.5px solid #FFFFFF;border-bottom:2.5px solid #FFFFFF;transform:rotate(-45deg) translate(1px,-1px);animation:tick .18s cubic-bezier(.2,.8,.2,1)}
+@keyframes tick{from{transform:rotate(-45deg) translate(1px,-1px) scale(.3)}}
+.btn{height:56px;border:0;border-radius:28px;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:transform .12s ease,opacity .2s ease}
+.btn:active{transform:scale(.97)}
+.pri{background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:16px;font-weight:600}
+.sec{background:#141417;color:#F4F4F6}
+.wv{display:flex;align-items:center;justify-content:center;gap:5px;height:72px}
+.wv span{display:block;width:5px;border-radius:3px;background:linear-gradient(180deg,#C8C1FF,#7B6CF6);animation:wave 1.1s ease-in-out infinite alternate;transform-origin:center}
+@keyframes wave{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+.wv span:nth-child(1){animation-delay:-0.00s}.wv span:nth-child(2){animation-delay:-0.13s}.wv span:nth-child(3){animation-delay:-0.26s}.wv span:nth-child(4){animation-delay:-0.39s}.wv span:nth-child(5){animation-delay:-0.52s}.wv span:nth-child(6){animation-delay:-0.65s}.wv span:nth-child(7){animation-delay:-0.78s}.wv span:nth-child(8){animation-delay:-0.91s}.wv span:nth-child(9){animation-delay:-1.04s}.wv span:nth-child(10){animation-delay:-0.07s}.wv span:nth-child(11){animation-delay:-0.20s}.wv span:nth-child(12){animation-delay:-0.33s}.wv span:nth-child(13){animation-delay:-0.46s}.wv span:nth-child(14){animation-delay:-0.59s}.wv span:nth-child(15){animation-delay:-0.72s}.wv span:nth-child(16){animation-delay:-0.85s}.wv span:nth-child(17){animation-delay:-0.98s}.wv span:nth-child(18){animation-delay:-0.01s}.wv span:nth-child(19){animation-delay:-0.14s}.wv span:nth-child(20){animation-delay:-0.27s}.wv span:nth-child(21){animation-delay:-0.40s}.wv span:nth-child(22){animation-delay:-0.53s}.wv span:nth-child(23){animation-delay:-0.66s}.wv span:nth-child(24){animation-delay:-0.79s}
+.ring{animation:ring 1.6s ease-out infinite}
+@keyframes ring{from{transform:scale(1);opacity:.5}to{transform:scale(1.5);opacity:0}}
+.bar{position:relative;height:4px;border-radius:2px;background:#1A1A1F;overflow:hidden}
+.bar i{position:absolute;top:0;bottom:0;width:40%;border-radius:2px;background:linear-gradient(90deg,rgba(123,108,246,0),#A59BFF,rgba(123,108,246,0));animation:slide 1s ease-in-out infinite}
+@keyframes slide{from{left:-40%}to{left:100%}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <div style="display: flex; align-items: center; gap: 14px">
+      <a href="V4-Home.dc.html" aria-label="Close" style="width: 44px; height: 44px; border-radius: 22px; background: #141417; color: #F4F4F6; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+      <h1 class="w" style="margin: 0; font-size: 19px; font-weight: 600">Voice entry</h1>
+    </div>
+    <sc-if value="{{isReview}}" hint-placeholder-val="{{ true }}">
+      <button aria-label="Play the recording, 9 seconds" style="height: 40px; padding: 0 14px 0 10px; border: 0; border-radius: 20px; background: #141417; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500"><svg width="14" height="14" viewBox="0 0 24 24" fill="#A59BFF" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"></path></svg><span class="n">0:09</span></button>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{isReview}}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="padding: 20px 20px 0">
+        <p style="margin: 0; font-size: 21px; line-height: 1.6; letter-spacing: -0.005em; color: #E9E9EE">“Spent <span class="tk" style="animation-delay: 300ms">450</span> on groceries <span class="dt" style="animation-delay: 480ms">yesterday</span>, Uber <span class="tk" style="animation-delay: 660ms">120</span> and a movie for <span class="tk" style="animation-delay: 840ms">800</span> on <span class="dt" style="animation-delay: 1020ms">Saturday</span>, and the salary of <span class="tk" style="animation-delay: 1200ms">50,000</span> came in <span class="dt" style="animation-delay: 1380ms">today</span>.”</p>
+        <p class="fade" style="margin: 14px 0 0; font-size: 13px; color: #8A8A95; animation-delay: 300ms">Amounts and dates Finey picked up are marked.</p>
+      </section>
+
+      <section style="padding: 26px 20px 0">
+        <div class="fade" style="display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 6px; box-shadow: inset 0 -1px 0 #1A1A1F; animation-delay: 480ms">
+          <h2 class="w" style="margin: 0 0 10px; font-size: 16px; font-weight: 600">{{countTitle}}</h2>
+          <span style="font-size: 13px; color: #8A8A95">Untick any that are wrong</span>
+        </div>
+        <label class="{{r0}}" style="animation-delay: 640ms"><input type="checkbox" checked="{{c0}}" onChange="{{t0}}" aria-label="Include groceries"><span class="rc"><span class="gl" style="color: #F2A272"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Groceries</span><span style="font-size: 13px; color: #8A8A95">Food &amp; Dining</span></span><span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amx" style="font-size: 15px; font-weight: 500">−₹450</span><span style="font-size: 12px; color: #8A8A95">Tue 20 Oct</span></span></span></label>
+        <label class="{{r1}}" style="animation-delay: 1100ms"><input type="checkbox" checked="{{c1}}" onChange="{{t1}}" aria-label="Include Uber"><span class="rc"><span class="gl" style="color: #5CD3C6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM5 11h14"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Uber</span><span style="font-size: 13px; color: #8A8A95">Transportation</span></span><span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amx" style="font-size: 15px; font-weight: 500">−₹120</span><span style="font-size: 12px; color: #8A8A95">Sat 17 Oct</span></span></span></label>
+        <label class="{{r2}}" style="animation-delay: 1180ms"><input type="checkbox" checked="{{c2}}" onChange="{{t2}}" aria-label="Include movie"><span class="rc"><span class="gl" style="color: #B9A6FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 5v14M17 5v14M3 12h18"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Movie</span><span style="font-size: 13px; color: #8A8A95">Entertainment</span></span><span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amx" style="font-size: 15px; font-weight: 500">−₹800</span><span style="font-size: 12px; color: #8A8A95">Sat 17 Oct</span></span></span></label>
+        <label class="{{r3}}" style="animation-delay: 1540ms"><input type="checkbox" checked="{{c3}}" onChange="{{t3}}" aria-label="Include salary"><span class="rc"><span class="gl" style="color: #5EE0A1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h15a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M3 7V6a2 2 0 0 1 2-2h11v3M16 14h2"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Salary</span><span style="font-size: 13px; color: #8A8A95">Salary</span></span><span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amx" style="font-size: 15px; font-weight: 500; color: #5EE0A1">+₹50,000</span><span style="font-size: 12px; color: #8A8A95">Today</span></span></span></label>
+        <p class="fade" style="margin: 6px 0 0; font-size: 13px; color: #8A8A95; animation-delay: 1700ms">Tap an entry to change its amount, category or date.</p>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isListening}}" hint-placeholder-val="{{ false }}">
+    <section class="fade" aria-live="polite" style="position: absolute; left: 0; right: 0; top: 200px; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 0 32px; text-align: center">
+      <div class="wv" aria-hidden="true"><span style="height: 18px"></span><span style="height: 30px"></span><span style="height: 44px"></span><span style="height: 26px"></span><span style="height: 52px"></span><span style="height: 36px"></span><span style="height: 22px"></span><span style="height: 48px"></span><span style="height: 60px"></span><span style="height: 34px"></span><span style="height: 20px"></span><span style="height: 42px"></span><span style="height: 56px"></span><span style="height: 30px"></span><span style="height: 46px"></span><span style="height: 24px"></span><span style="height: 38px"></span><span style="height: 58px"></span><span style="height: 28px"></span><span style="height: 40px"></span><span style="height: 50px"></span><span style="height: 26px"></span><span style="height: 34px"></span><span style="height: 20px"></span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h2 class="w" style="margin: 0; font-size: 22px; font-weight: 600">Listening</h2>
+        <span class="n" style="font-size: 15px; color: #A6A6B0">{{elapsed}} of 1:00</span>
+      </div>
+      <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #A6A6B0">Say what you spent or earned, with amounts and days. You can list several at once.</p>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{isProcessing}}" hint-placeholder-val="{{ false }}">
+    <section class="fade" role="status" style="position: absolute; left: 0; right: 0; top: 260px; display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 0 48px; text-align: center">
+      <h2 class="w" style="margin: 0; font-size: 20px; font-weight: 600">Finding amounts and dates</h2>
+      <div class="bar" style="width: 100%"><i></i></div>
+      <p style="margin: 0; font-size: 14px; color: #A6A6B0">Nothing is saved until you check the list.</p>
+    </section>
+  </sc-if>
+
+  <div style="position: absolute; left: 20px; right: 20px; bottom: 28px; display: flex; gap: 10px">
+    <sc-if value="{{isReview}}" hint-placeholder-val="{{ true }}">
+      <button class="btn sec" onClick="{{startListening}}" style="padding: 0 20px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>Record again</button>
+      <sc-if value="{{canSave}}" hint-placeholder-val="{{ true }}"><a class="btn pri" href="V4-Home.dc.html" style="flex: 1">{{saveLabel}}</a></sc-if>
+      <sc-if value="{{cannotSave}}" hint-placeholder-val="{{ false }}"><button class="btn pri" aria-disabled="true" style="flex: 1; opacity: .38; cursor: not-allowed">Nothing to save</button></sc-if>
+    </sc-if>
+    <sc-if value="{{isListening}}" hint-placeholder-val="{{ false }}">
+      <button class="btn sec" onClick="{{cancel}}" style="flex: 1">Cancel</button>
+      <button class="btn pri" onClick="{{stop}}" style="flex: 1; position: relative">
+        <span class="ring" aria-hidden="true" style="position: absolute; inset: 0; border-radius: 28px; box-shadow: 0 0 0 2px rgba(165,155,255,.6)"></span>
+        <span aria-hidden="true" style="width: 12px; height: 12px; border-radius: 3px; background: #FFFFFF"></span>Stop and review
+      </button>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.iv) { clearInterval(this.iv); }
+    if (this.tm) { clearTimeout(this.tm); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var phase = s.phase || 'review';
+    var inc = s.inc || [true, true, true, true];
+    var count = inc.filter(function (x) { return x; }).length;
+    var sec = s.sec || 0;
+    var toggle = function (i) {
+      return function () {
+        var next = inc.slice();
+        next[i] = !next[i];
+        self.setState({ inc: next });
+      };
+    };
+    var vals = {
+      isReview: phase === 'review',
+      isListening: phase === 'listening',
+      isProcessing: phase === 'processing',
+      countTitle: count === 1 ? '1 entry to save' : count + ' entries to save',
+      canSave: count > 0,
+      cannotSave: count === 0,
+      saveLabel: count === 1 ? 'Save 1 entry' : 'Save ' + count + ' entries',
+      elapsed: '0:' + (sec < 10 ? '0' + sec : String(sec)),
+      startListening: function () {
+        if (self.iv) { clearInterval(self.iv); }
+        self.setState({ phase: 'listening', sec: 0 });
+        self.iv = setInterval(function () {
+          var n = ((self.state && self.state.sec) || 0) + 1;
+          if (n >= 60) { clearInterval(self.iv); self.setState({ sec: 60, phase: 'processing' }); return; }
+          self.setState({ sec: n });
+        }, 1000);
+      },
+      cancel: function () {
+        if (self.iv) { clearInterval(self.iv); }
+        self.setState({ phase: 'review' });
+      },
+      stop: function () {
+        if (self.iv) { clearInterval(self.iv); }
+        self.setState({ phase: 'processing' });
+        self.tm = setTimeout(function () { self.setState({ phase: 'review', inc: [true, true, true, true] }); }, 1300);
+      }
+    };
+    for (var i = 0; i < 4; i++) {
+      vals['c' + i] = !!inc[i];
+      vals['r' + i] = inc[i] ? 'r' : 'r off';
+      vals['t' + i] = toggle(i);
+    }
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

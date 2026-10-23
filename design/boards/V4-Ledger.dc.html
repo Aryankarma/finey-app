@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Ledger</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.ib{width:44px;height:44px;border:0;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center;transition:transform .12s ease}
+.ib:active{transform:scale(.94)}
+.ib:hover{color:#F4F4F6}
+.tab{position:relative;height:44px;display:flex;align-items:center;color:#8A8A95;font-size:15px;font-weight:500;text-decoration:none}
+.tab.on{color:#F4F4F6}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#7B6CF6}
+.srch{transition:box-shadow .18s ease,background-color .18s ease}
+.srch:focus-within{background:#19191D;box-shadow:0 0 0 1.5px rgba(123,108,246,.65)}
+.chip{height:36px;padding:0 14px;border:0;border-radius:18px;background:#141417;color:#D9D9DE;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;text-decoration:none;transition:transform .12s ease}
+.chip:hover{color:#F4F4F6}
+.chip:active{transform:scale(.96)}
+.gh{display:flex;align-items:baseline;justify-content:space-between;height:32px;font-size:13px;color:#8A8A95}
+.r{display:flex;align-items:center;gap:14px;height:60px}
+a.r{color:#F4F4F6;text-decoration:none;border-radius:14px;transition:background-color .15s ease}
+a.r:hover{color:#F4F4F6}
+a.r:active{background:#111114}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.col{display:grid;grid-template-rows:1fr;transition:grid-template-rows .32s cubic-bezier(.2,.8,.2,1),opacity .22s ease}
+.col.gone{grid-template-rows:0fr;opacity:0}
+.col > div{overflow:hidden;min-height:0}
+.sw{transition:left .3s cubic-bezier(.2,.8,.2,1),right .3s cubic-bezier(.2,.8,.2,1)}
+.num{animation:numA .3s ease}
+.num2{animation:numB .3s ease}
+@keyframes numA{from{opacity:0;transform:translateY(-4px)}}
+@keyframes numB{from{opacity:0;transform:translateY(-4px)}}
+.toast{animation:toast .32s cubic-bezier(.2,.8,.2,1) both}
+@keyframes toast{from{opacity:0;transform:translateY(16px)}}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Ledger</h1>
+    <div style="display: flex; gap: 8px">
+      <a class="ib" href="V4-Export.dc.html" aria-label="Export this month as a spreadsheet"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg></a>
+      <a class="ib" href="V4-Capture.dc.html" aria-label="Add an entry" style="background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+    </div>
+  </header>
+
+  <nav aria-label="Ledger view" style="display: flex; gap: 28px; padding: 0 20px; box-shadow: inset 0 -1px 0 #1A1A1F">
+    <a class="tab on" href="V4-Ledger.dc.html" aria-current="page">List</a>
+    <a class="tab" href="V4-Calendar.dc.html">Calendar</a>
+  </nav>
+
+  <div style="padding: 12px 20px 0">
+    <label class="srch" style="height: 48px; border-radius: 24px; background: #141417; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: #8A8A95">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input aria-label="Search the ledger" placeholder="Search names or categories" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 15px">
+    </label>
+    <div style="display: flex; gap: 8px; margin-top: 12px; overflow: hidden">
+      <a class="chip" href="V4-Month.dc.html">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+      <a class="chip" href="V4-Filters.dc.html" aria-label="Expenses only. Change filters" style="background: rgba(123,108,246,.2); color: #DCD7FF">Expenses only<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+      <a class="chip" href="V4-Filters.dc.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Saved</a>
+      <a class="chip" href="V4-Filters.dc.html">Newest first</a>
+    </div>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 16px">
+      <span class="{{numClass}}" style="font-size: 14px; color: #A6A6B0">{{countText}}</span>
+      <span class="w n {{numClass}}" style="font-size: 17px; font-weight: 600">{{monthTotal}}</span>
+    </div>
+  </div>
+
+  <section style="padding: 12px 20px 0">
+    <div class="gh"><span style="display: flex; gap: 8px"><span style="color: #F4F4F6; font-weight: 600">Today</span><span>Wed 21 Oct</span></span><span class="n">−₹486</span></div>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #F2A272"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Swiggy dinner</span><span style="font-size: 13px; color: #8A8A95">Food &amp; Dining</span></div>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹486</span>
+    </a>
+
+    <div class="gh" style="margin-top: 16px"><span style="color: #F4F4F6; font-weight: 600">Tue 20 Oct</span><span class="n">−₹2,618</span></div>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #6FB2FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500">Electricity bill<svg width="12" height="12" viewBox="0 0 24 24" fill="#A59BFF" role="img" aria-label="Saved"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span><span style="font-size: 13px; color: #8A8A95">Utilities</span></div>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹2,140</span>
+    </a>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #5CD3C6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM5 11h14"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Uber to office</span><span style="font-size: 13px; color: #8A8A95">Transportation</span></div>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹238</span>
+    </a>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #F2A272"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">BigBasket top-up</span><span style="font-size: 13px; color: #8A8A95">Food &amp; Dining</span></div>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹240</span>
+    </a>
+
+    <div class="gh" style="margin-top: 16px"><span style="color: #F4F4F6; font-weight: 600">Mon 19 Oct</span><span class="n {{numClass}}">{{dayTotal}}</span></div>
+    <div class="{{colClass}}">
+      <div>
+        <div style="position: relative; height: 60px; margin: 0 -20px; overflow: hidden">
+          <button onClick="{{remove}}" style="position: absolute; right: 0; top: 0; bottom: 0; width: 76px; border: 0; background: rgba(255,122,133,.16); color: #FF9AA2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>Delete</button>
+          <div class="r sw" style="position: absolute; top: 0; bottom: 0; left: {{swLeft}}; right: {{swRight}}; padding: 0 16px 0 20px; background: #08080A">
+            <span class="gl" style="color: #F08DBA"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"></path></svg></span>
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Headphones</span><span style="font-size: 13px; color: #8A8A95">Shopping</span></div>
+            <span class="n" style="font-size: 15px; font-weight: 500">−₹3,499</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #FF8A80"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Gym, monthly</span><span style="font-size: 13px; color: #8A8A95">Health</span></div>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹1,200</span>
+    </a>
+  </section>
+
+  <sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+    <div class="toast" role="status" style="position: absolute; left: 16px; right: 16px; bottom: 92px; height: 56px; border-radius: 16px; background: #1F1F25; box-shadow: 0 12px 30px rgba(0,0,0,.5); display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 18px">
+      <span style="font-size: 14px">Headphones deleted</span>
+      <button onClick="{{undo}}" style="height: 40px; padding: 0 14px; border: 0; border-radius: 20px; background: transparent; color: #A59BFF; font-size: 14px; font-weight: 600">Undo</button>
+    </div>
+  </sc-if>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti on" href="V4-Ledger.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.tm) { clearTimeout(this.tm); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var deleted = !!s.deleted;
+    var swiped = s.swiped === undefined ? true : s.swiped;
+    var changed = s.changed;
+    return {
+      countText: deleted ? '57 expenses' : '58 expenses',
+      monthTotal: deleted ? '−₹64,741' : '−₹68,240',
+      dayTotal: deleted ? '−₹1,671' : '−₹5,170',
+      numClass: changed === undefined ? '' : (changed ? 'num' : 'num2'),
+      colClass: deleted ? 'col gone' : 'col',
+      swLeft: swiped ? '-36px' : '0px',
+      swRight: swiped ? '76px' : '0px',
+      toast: !!s.toast,
+      remove: function () {
+        if (self.tm) { clearTimeout(self.tm); }
+        self.setState({ deleted: true, toast: true, changed: !s.changed });
+        self.tm = setTimeout(function () { self.setState({ toast: false }); }, 5000);
+      },
+      undo: function () {
+        if (self.tm) { clearTimeout(self.tm); }
+        self.setState({ deleted: false, toast: false, swiped: false, changed: !s.changed });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

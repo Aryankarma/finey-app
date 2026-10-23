@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Food and dining</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.ib{width:44px;height:44px;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s ease}
+.ib:active{transform:scale(.94)}
+.mchip{height:44px;padding:0 14px 0 16px;border-radius:22px;background:#141417;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#F4F4F6;text-decoration:none}
+.mchip:hover{color:#F4F4F6}
+.mf{transform-origin:0 50%;animation:mf .9s cubic-bezier(.2,.8,.2,1) both .15s}
+@keyframes mf{from{transform:scaleX(0)}}
+.st{display:flex;flex-direction:column;gap:3px;padding-left:14px;box-shadow:inset 1px 0 0 #1A1A1F}
+.st:first-child{padding-left:0;box-shadow:none}
+.bars{display:flex;align-items:flex-end;height:112px}
+.bar{flex:1;height:100%;border:0;background:transparent;padding:0 1.5px;display:flex;align-items:flex-end;justify-content:center}
+.bar:disabled{cursor:default}
+.bar i{display:block;width:100%;border-radius:3px;background:#F2A272;opacity:.42;transform-origin:50% 100%;animation:grow .6s cubic-bezier(.2,.8,.2,1) both;transition:opacity .2s ease}
+.bar:hover i{opacity:.7}
+.bar.on i{opacity:1}
+.bar.zero i{background:#26262D;opacity:1;animation:none}
+.bar.fut i{background:#18181C;opacity:1;animation:none}
+@keyframes grow{from{transform:scaleY(0)}}
+.roA{animation:roA .24s ease both}
+.roB{animation:roB .24s ease both}
+@keyframes roA{from{opacity:0;transform:translateY(3px)}}
+@keyframes roB{from{opacity:0;transform:translateY(3px)}}
+.er{display:flex;align-items:center;gap:14px;height:60px;padding:0 12px;margin:0 -12px;border-radius:16px;color:#F4F4F6;text-decoration:none;transition:background-color .25s ease}
+.er:hover{color:#F4F4F6}
+.er:active{background:#111114}
+.er.hl{background:rgba(242,162,114,.12)}
+.dt{width:36px;display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0}
+.more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .36s cubic-bezier(.2,.8,.2,1),opacity .24s ease}
+.more.open{grid-template-rows:1fr;opacity:1}
+.more > div{overflow:hidden;min-height:0}
+.chev{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 20px">
+    <div style="display: flex; align-items: center; gap: 12px; min-width: 0">
+      <a class="ib" href="V4-Spending.dc.html" aria-label="Back to spending"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+      <span style="width: 32px; height: 32px; border-radius: 16px; background: rgba(242,162,114,.14); color: #F2A272; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span>
+      <h1 class="w" style="margin: 0; font-size: 19px; font-weight: 600; white-space: nowrap">Food &amp; Dining</h1>
+    </div>
+    <a class="mchip" href="V4-Month.dc.html">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+  </header>
+
+  <div style="position: absolute; top: 92px; left: 0; right: 0; bottom: 76px; overflow-y: auto; scrollbar-width: none">
+
+    <section style="padding: 16px 20px 0">
+      <span style="font-size: 14px; color: #A6A6B0">You spent</span>
+      <div class="w n" aria-live="off" style="font-size: 44px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; margin-top: 2px">{{total}}</div>
+      <div role="img" aria-label="27 percent of October's spending" style="height: 6px; margin-top: 14px; border-radius: 3px; background: #1A1A1F; overflow: hidden">
+        <div class="mf" style="width: 27%; height: 6px; border-radius: 3px; background: #F2A272"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; color: #A6A6B0">
+        <span><span class="n" style="color: #F4F4F6; font-weight: 600">27%</span> of October's spending</span>
+        <span class="n">15 entries</span>
+      </div>
+    </section>
+
+    <section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 22px 20px 0; padding: 14px 0; box-shadow: inset 0 1px 0 #141417, inset 0 -1px 0 #141417">
+      <div class="st"><span style="font-size: 12px; color: #8A8A95">Biggest</span><span class="w n" style="font-size: 16px; font-weight: 600">₹3,940</span><span style="font-size: 12px; color: #8A8A95">Monthly groceries</span></div>
+      <div class="st"><span style="font-size: 12px; color: #8A8A95">Average</span><span class="w n" style="font-size: 16px; font-weight: 600">₹1,228</span><span style="font-size: 12px; color: #8A8A95">per entry</span></div>
+      <div class="st"><span style="font-size: 12px; color: #8A8A95">Last 7 days</span><span class="w n" style="font-size: 16px; font-weight: 600">₹7,617</span><span style="font-size: 12px; color: #8A8A95">6 entries</span></div>
+    </section>
+
+    <section style="padding: 22px 20px 0">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px">
+        <h2 class="w" style="margin: 0; font-size: 15px; font-weight: 600">Day by day</h2>
+        <span class="n {{roClass}}" aria-live="polite" style="font-size: 13px; color: #F4F4F6">{{readout}}</span>
+      </div>
+      <div class="bars" role="group" aria-label="Food and dining spending for each day of October">
+        <sc-for list="{{bars}}" as="b" hint-placeholder-count="31">
+          <button class="{{b.cls}}" aria-label="{{b.aria}}" aria-pressed="{{b.on}}" disabled="{{b.dis}}" onClick="{{b.pick}}"><i style="height: {{b.h}}; animation-delay: {{b.delay}}"></i></button>
+        </sc-for>
+      </div>
+      <div class="n" style="position: relative; height: 18px; margin-top: 8px; font-size: 11px; color: #8A8A95">
+        <span style="position: absolute; left: 0">1 Oct</span>
+        <span style="position: absolute; left: 246px; transform: translateX(-50%); color: #F4F4F6; font-weight: 600">Today</span>
+        <span style="position: absolute; right: 0">31</span>
+      </div>
+    </section>
+
+    <section style="padding: 20px 20px 24px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; height: 32px">
+        <h2 class="w" style="margin: 0; font-size: 15px; font-weight: 600">Entries</h2>
+        <span style="font-size: 12px; color: #8A8A95">Newest first</span>
+      </div>
+      <sc-for list="{{top}}" as="e" hint-placeholder-count="6">
+        <a class="{{e.cls}}" href="V4-Entry.dc.html">
+          <span class="dt"><b class="w n" style="font-size: 16px; font-weight: 600">{{e.day}}</b><span style="font-size: 11px; color: #8A8A95">{{e.wd}}</span></span>
+          <span style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500">{{e.name}}<sc-if value="{{e.saved}}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="#A59BFF" role="img" aria-label="Saved"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></sc-if></span>
+          <span class="n" style="font-size: 15px; font-weight: 500">{{e.amt}}</span>
+        </a>
+      </sc-for>
+      <div class="{{moreClass}}" id="more-food">
+        <div>
+          <sc-for list="{{rest}}" as="e" hint-placeholder-count="9">
+            <a class="{{e.cls}}" href="V4-Entry.dc.html">
+              <span class="dt"><b class="w n" style="font-size: 16px; font-weight: 600">{{e.day}}</b><span style="font-size: 11px; color: #8A8A95">{{e.wd}}</span></span>
+              <span style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500">{{e.name}}<sc-if value="{{e.saved}}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="#A59BFF" role="img" aria-label="Saved"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></sc-if></span>
+              <span class="n" style="font-size: 15px; font-weight: 500">{{e.amt}}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+      <button aria-expanded="{{more}}" aria-controls="more-food" onClick="{{toggleMore}}" style="height: 44px; border: 0; background: transparent; padding: 0; color: #A59BFF; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px">{{moreLabel}}<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate({{chevDeg}})"><path d="m6 9 6 6 6-6"></path></svg></button>
+    </section>
+  </div>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti on" href="V4-Spending.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    var reduce = false;
+    try { reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
+    if (reduce) { this.setState({ p: 1 }); return; }
+    var start = null;
+    var step = function (t) {
+      if (start === null) { start = t; }
+      var x = Math.min(Math.max((t - start - 100) / 900, 0), 1);
+      self.setState({ p: 1 - Math.pow(1 - x, 3) });
+      if (x < 1) { self.raf = requestAnimationFrame(step); }
+    };
+    this.raf = requestAnimationFrame(step);
+  }
+  componentWillUnmount() {
+    if (this.raf) { cancelAnimationFrame(this.raf); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var p = (typeof s.p === 'number') ? s.p : 0;
+    var sel = s.sel === undefined ? 15 : s.sel;
+    var more = !!s.more;
+    var fmt = function (v) { return v.toLocaleString('en-IN'); };
+    var DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var wd = function (d) { return DAYS[(d + 3) % 7]; };
+    var E = [
+      { d: 21, n: 'Swiggy dinner', a: 486 },
+      { d: 20, n: 'BigBasket top-up', a: 240 },
+      { d: 19, n: 'Chai and snacks', a: 471 },
+      { d: 18, n: 'Dinner out', a: 1860 },
+      { d: 16, n: 'Swiggy lunch', a: 620 },
+      { d: 15, n: 'Monthly groceries', a: 3940, saved: true },
+      { d: 13, n: 'Zomato order', a: 540 },
+      { d: 12, n: 'Bakery', a: 483 },
+      { d: 11, n: 'Café with friends', a: 1150 },
+      { d: 10, n: 'Groceries, DMart', a: 2880 },
+      { d: 9, n: 'Chai and snacks', a: 340 },
+      { d: 7, n: 'Swiggy dinner', a: 520 },
+      { d: 4, n: 'Birthday dinner', a: 2460, saved: true },
+      { d: 2, n: 'Groceries, BigBasket', a: 1980 },
+      { d: 1, n: 'Swiggy dinner', a: 450 }
+    ];
+    var FOOD = {};
+    E.forEach(function (e) { FOOD[e.d] = (FOOD[e.d] || 0) + e.a; });
+    var restDays = E.slice(6).map(function (e) { return e.d; });
+    var bars = [];
+    for (var d = 1; d <= 31; d++) {
+      (function (day) {
+        var v = FOOD[day] || 0;
+        var future = day > 21;
+        var on = day === sel;
+        bars.push({
+          h: (!future && v) ? Math.max(6, Math.round(v / 3940 * 104)) + 'px' : '3px',
+          cls: 'bar' + (future ? ' fut' : (v ? '' : ' zero')) + (on ? ' on' : ''),
+          delay: (140 + day * 16) + 'ms',
+          aria: wd(day) + ' ' + day + ' October, ' + (future ? 'still to come' : (v ? '₹' + fmt(v) + ' on food' : 'nothing on food')),
+          on: on,
+          dis: future,
+          pick: future ? null : function () {
+            var next = { sel: day, ro: !s.ro };
+            if (restDays.indexOf(day) >= 0) { next.more = true; }
+            self.setState(next);
+          }
+        });
+      })(d);
+    }
+    var row = function (e) {
+      return { day: e.d, wd: wd(e.d), name: e.n, amt: '−₹' + fmt(e.a), saved: !!e.saved, cls: e.d === sel ? 'er hl' : 'er' };
+    };
+    var selVal = FOOD[sel] || 0;
+    return {
+      total: '₹' + fmt(Math.round(18420 * p)),
+      bars: bars,
+      readout: wd(sel) + ' ' + sel + ' Oct, ' + (selVal ? '₹' + fmt(selVal) : 'nothing on food'),
+      roClass: s.ro === undefined ? '' : (s.ro ? 'roA' : 'roB'),
+      top: E.slice(0, 6).map(row),
+      rest: E.slice(6).map(row),
+      more: more,
+      moreClass: more ? 'more open' : 'more',
+      moreLabel: more ? 'Show fewer' : 'Show all 15 entries',
+      chevDeg: more ? '180deg' : '0deg',
+      toggleMore: function () { self.setState({ more: !more }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

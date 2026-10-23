@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Description suggestions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.fld{height:60px;border-radius:30px;background:#141417;display:flex;align-items:center;gap:12px;padding:0 8px 0 20px;box-shadow:0 0 0 1.5px rgba(123,108,246,.65);transition:background-color .18s ease}
+.fld:focus-within{background:#19191D}
+.clr{width:44px;height:44px;border:0;border-radius:22px;background:transparent;color:#8A8A95;display:flex;align-items:center;justify-content:center;transition:transform .12s ease,color .15s ease}
+.clr:active{transform:scale(.92);color:#F4F4F6}
+.sg{width:100%;height:64px;border:0;background:transparent;padding:0 12px;margin:0 -12px;box-sizing:content-box;display:flex;align-items:center;gap:14px;text-align:left;border-radius:16px;transition:background-color .18s ease}
+.sg:active{background:#111114}
+.sg.on{background:rgba(123,108,246,.14)}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lA{animation:lA .22s cubic-bezier(.2,.8,.2,1) both}
+.lB{animation:lB .22s cubic-bezier(.2,.8,.2,1) both}
+@keyframes lA{from{opacity:.35;transform:translateY(4px)}}
+@keyframes lB{from{opacity:.35;transform:translateY(4px)}}
+.note{animation:note .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes note{from{opacity:0;transform:translateY(-4px)}}
+.tick{animation:tick .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tick{from{opacity:0;transform:scale(.4)}}
+.cta{height:56px;border:0;border-radius:28px;width:100%;background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:opacity .2s ease,transform .12s ease}
+.cta:hover{color:#FFFFFF}
+.cta:active{transform:scale(.98)}
+.cta.off{opacity:.38;cursor:not-allowed}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 20px">
+    <a href="V4-Capture.dc.html" aria-label="Back to the entry" style="width: 44px; height: 44px; border-radius: 22px; background: #141417; color: #F4F4F6; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+    <h1 class="w" style="margin: 0; font-size: 19px; font-weight: 600">What was it for?</h1>
+  </header>
+
+  <div style="padding: 10px 20px 0">
+    <label class="fld">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A59BFF" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"></path></svg>
+      <input value="{{q}}" onChange="{{onQ}}" aria-label="Description" placeholder="Swiggy dinner, rent, cab home" autocomplete="off" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 17px; font-weight: 500">
+      <sc-if value="{{hasText}}" hint-placeholder-val="{{ true }}"><button class="clr" aria-label="Clear" onClick="{{clear}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m9 9 6 6M15 9l-6 6"></path></svg></button></sc-if>
+    </label>
+    <div style="min-height: 34px">
+      <sc-if value="{{hasNote}}" hint-placeholder-val="{{ false }}">
+        <p class="note" role="status" style="margin: 0; padding: 12px 4px 0; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #C8C1FF"><span style="width: 8px; height: 8px; border-radius: 4px; background: {{noteDot}}"></span>{{note}}</p>
+      </sc-if>
+    </div>
+  </div>
+
+  <section aria-label="Suggestions" style="padding: 8px 20px 0">
+    <sc-if value="{{hasTitle}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; height: 32px">
+        <h2 class="w" style="margin: 0; font-size: 14px; font-weight: 600; color: #A6A6B0">{{listTitle}}</h2>
+        <span style="font-size: 12px; color: #8A8A95">Last amount</span>
+      </div>
+    </sc-if>
+    <div class="{{listClass}}">
+      <sc-for list="{{items}}" as="it" hint-placeholder-count="3">
+        <button class="{{it.cls}}" aria-pressed="{{it.on}}" onClick="{{it.pick}}">
+          <span class="gl" style="color: {{it.color}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{it.d}}"></path></svg></span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 15px; font-weight: 500; color: {{it.base}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{it.pre}}<b style="color: #F4F4F6; font-weight: 700">{{it.mid}}</b>{{it.post}}</span>
+            <span style="font-size: 13px; color: #8A8A95">{{it.meta}}</span>
+          </span>
+          <sc-if value="{{it.on}}" hint-placeholder-val="{{ false }}"><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5EE0A1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg></sc-if>
+          <span class="n" style="font-size: 14px; color: #A6A6B0">{{it.last}}</span>
+        </button>
+      </sc-for>
+      <sc-if value="{{noMatch}}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 4px 0 8px; font-size: 14px; line-height: 1.45; color: #A6A6B0">Nothing in your history matches that yet.</p>
+      </sc-if>
+      <sc-if value="{{showAdd}}" hint-placeholder-val="{{ false }}">
+        <button class="{{addCls}}" aria-pressed="{{addOn}}" onClick="{{addNew}}">
+          <span class="gl" style="color: #A59BFF; background: rgba(123,108,246,.14)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Add “{{qTrim}}”</span>
+            <span style="font-size: 13px; color: #8A8A95">Use it as a new description</span>
+          </span>
+          <sc-if value="{{addOn}}" hint-placeholder-val="{{ false }}"><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5EE0A1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg></sc-if>
+        </button>
+      </sc-if>
+    </div>
+  </section>
+
+  <div style="position: absolute; left: 20px; right: 20px; bottom: 24px; display: flex; flex-direction: column; gap: 8px">
+    <sc-if value="{{canUse}}" hint-placeholder-val="{{ true }}">
+      <a class="cta" href="V4-Capture.dc.html">Use this description</a>
+    </sc-if>
+    <sc-if value="{{cannotUse}}" hint-placeholder-val="{{ false }}">
+      <p role="status" style="margin: 0; text-align: center; font-size: 13px; color: #A6A6B0">Type what it was for, or pick one from your history.</p>
+      <button class="cta off" aria-disabled="true">Use this description</button>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var q = (typeof s.q === 'string') ? s.q : 'Swi';
+    var picked = (s.picked === undefined) ? null : s.picked;
+    var t = q.trim().toLowerCase();
+    var ICON = {
+      food: { color: '#F2A272', d: 'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3' },
+      trans: { color: '#5CD3C6', d: 'M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM5 11h14' },
+      util: { color: '#6FB2FF', d: 'M13 2 4 14h7l-1 8 9-12h-7z' },
+      shop: { color: '#F08DBA', d: 'M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2' },
+      ent: { color: '#B9A6FF', d: 'M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM7 5v14M17 5v14M3 12h18' },
+      health: { color: '#FF8A80', d: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z' }
+    };
+    var H = [
+      { name: 'Swiggy dinner', cat: 'Food & Dining', k: 'food', uses: 12, last: 486 },
+      { name: 'Uber to office', cat: 'Transportation', k: 'trans', uses: 9, last: 238 },
+      { name: 'BigBasket top-up', cat: 'Food & Dining', k: 'food', uses: 8, last: 240 },
+      { name: 'Gym, monthly', cat: 'Health', k: 'health', uses: 7, last: 1200 },
+      { name: 'Chai and snacks', cat: 'Food & Dining', k: 'food', uses: 6, last: 471 },
+      { name: 'Electricity bill', cat: 'Utilities', k: 'util', uses: 6, last: 2140 },
+      { name: 'Swiggy Instamart', cat: 'Food & Dining', k: 'food', uses: 5, last: 612 },
+      { name: 'Zomato order', cat: 'Food & Dining', k: 'food', uses: 4, last: 540 },
+      { name: 'Groceries, BigBasket', cat: 'Food & Dining', k: 'food', uses: 4, last: 1980 },
+      { name: 'Swiggy lunch', cat: 'Food & Dining', k: 'food', uses: 3, last: 620 },
+      { name: 'Metro card top-up', cat: 'Transportation', k: 'trans', uses: 3, last: 500 },
+      { name: 'Movie tickets', cat: 'Entertainment', k: 'ent', uses: 2, last: 1000 },
+      { name: 'Dinner out', cat: 'Food & Dining', k: 'food', uses: 2, last: 1860 },
+      { name: 'Café with friends', cat: 'Food & Dining', k: 'food', uses: 2, last: 1150 },
+      { name: 'Headphones', cat: 'Shopping', k: 'shop', uses: 1, last: 3499 }
+    ];
+    var matches = [];
+    H.forEach(function (h, i) {
+      var at = t ? h.name.toLowerCase().indexOf(t) : 0;
+      if (at >= 0 && matches.length < 6) { matches.push({ h: h, i: i, at: at }); }
+    });
+    var exact = H.some(function (h) { return h.name.toLowerCase() === t; });
+    var items = matches.map(function (m) {
+      var h = m.h;
+      var on = picked === m.i;
+      return {
+        pre: t ? h.name.slice(0, m.at) : h.name,
+        mid: t ? h.name.slice(m.at, m.at + t.length) : '',
+        post: t ? h.name.slice(m.at + t.length) : '',
+        base: t ? '#A6A6B0' : '#F4F4F6',
+        meta: h.cat + ', used ' + h.uses + ' times',
+        last: '₹' + h.last.toLocaleString('en-IN'),
+        color: ICON[h.k].color,
+        d: ICON[h.k].d,
+        on: on,
+        cls: on ? 'sg on' : 'sg',
+        pick: function () { self.setState({ q: h.name, picked: m.i, flip: !s.flip }); }
+      };
+    });
+    var note = '';
+    var noteDot = '#A59BFF';
+    if (picked !== null && picked >= 0) { note = 'Also sets the category to ' + H[picked].cat; noteDot = ICON[H[picked].k].color; }
+    if (picked === -1) { note = "New description. You'll pick its category next."; }
+    return {
+      q: q,
+      qTrim: q.trim(),
+      hasText: q.length > 0,
+      onQ: function (e) { self.setState({ q: e.target.value, picked: null, flip: !s.flip }); },
+      clear: function () { self.setState({ q: '', picked: null, flip: !s.flip }); },
+      items: items,
+      listClass: s.flip === undefined ? '' : (s.flip ? 'lA' : 'lB'),
+      hasTitle: items.length > 0,
+      listTitle: t ? 'From your history' : 'Most used',
+      noMatch: t !== '' && items.length === 0,
+      showAdd: t !== '' && !exact,
+      addOn: picked === -1,
+      addCls: picked === -1 ? 'sg on' : 'sg',
+      addNew: function () { self.setState({ picked: -1 }); },
+      hasNote: note !== '',
+      note: note,
+      noteDot: noteDot,
+      canUse: t !== '',
+      cannotUse: t === ''
+    };
+  }
+}
+</script>
+</body>
+</html>

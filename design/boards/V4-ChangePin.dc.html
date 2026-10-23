@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Change PIN</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.ib{width:44px;height:44px;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s ease}
+.ib:active{transform:scale(.94)}
+.pg{height:4px;border-radius:2px;background:#1F1F25;overflow:hidden}
+.pg i{display:block;height:4px;border-radius:2px;background:#7B6CF6;transform-origin:0 50%;transform:scaleX(0);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.pg.on i{transform:scaleX(1)}
+.sA{animation:sA .36s cubic-bezier(.2,.8,.2,1) both}
+.sB{animation:sB .36s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sA{from{opacity:0;transform:translateX(28px)}}
+@keyframes sB{from{opacity:0;transform:translateX(28px)}}
+.dots{display:flex;justify-content:center;gap:16px;height:20px;align-items:center}
+.dot{width:14px;height:14px;border-radius:7px;box-shadow:inset 0 0 0 2px #3A3A42;transition:background-color .15s ease,box-shadow .15s ease;animation:dotIn .24s cubic-bezier(.2,.8,.2,1) both}
+@keyframes dotIn{from{transform:scale(.4);opacity:0}}
+.dot.on{background:#A59BFF;box-shadow:inset 0 0 0 2px #A59BFF;animation:fillDot .22s cubic-bezier(.2,.8,.2,1)}
+.dot.bad{background:#FF9AA2;box-shadow:inset 0 0 0 2px #FF9AA2}
+@keyframes fillDot{50%{transform:scale(1.3)}}
+.shA{animation:shA .42s cubic-bezier(.36,.07,.19,.97) both}
+.shB{animation:shB .42s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shA{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
+@keyframes shB{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
+.err{animation:fade .2s ease both}
+@keyframes fade{from{opacity:0}}
+.k{height:60px;border:0;border-radius:30px;background:transparent;color:#F4F4F6;font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;transition:background-color .14s ease,transform .12s cubic-bezier(.2,.8,.2,1),opacity .2s ease}
+.k:active{background:#141417;transform:scale(.92)}
+.k:disabled{opacity:.3;cursor:default;transform:none;background:transparent}
+.cta{height:56px;border:0;border-radius:28px;width:100%;background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:16px;font-weight:600;transition:opacity .2s ease,transform .12s ease}
+.cta:active{transform:scale(.98)}
+.cta.off{opacity:.38;cursor:not-allowed}
+.lk{animation:lk .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes lk{from{opacity:0;transform:translateY(6px) scale(.9)}}
+.ck circle,.ck path{stroke-dasharray:1;animation:draw .5s cubic-bezier(.4,0,.2,1) both}
+.ck circle{animation-delay:.1s}
+.ck path{animation-delay:.45s;animation-duration:.32s}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+  <div style="height: 879px; display: flex; flex-direction: column">
+
+    <header style="height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 20px; flex-shrink: 0">
+      <a class="ib" href="V4-Settings.dc.html" aria-label="Back to Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></a>
+      <h1 class="w" style="margin: 0; font-size: 19px; font-weight: 600">Change PIN</h1>
+    </header>
+
+    <div role="progressbar" aria-label="Step {{stepNum}} of 3" aria-valuemin="1" aria-valuemax="3" aria-valuenow="{{stepNum}}" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 8px 20px 0; flex-shrink: 0">
+      <span class="{{pg1}}"><i></i></span><span class="{{pg2}}"><i></i></span><span class="{{pg3}}"><i></i></span>
+    </div>
+
+    <sc-if value="{{entering}}" hint-placeholder-val="{{ true }}">
+      <div style="flex: 1; display: flex; flex-direction: column">
+        <div class="{{stepClass}}" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 32px">
+          <span class="lk" style="width: 60px; height: 60px; border-radius: 30px; background: rgba(123,108,246,.16); color: #A59BFF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{iconPath}}"></path></svg></span>
+          <h2 class="w" style="margin: 20px 0 0; font-size: 22px; font-weight: 600">{{title}}</h2>
+          <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: #A6A6B0">{{sub}}</p>
+          <div class="{{shakeClass}}" style="margin-top: 32px">
+            <div class="dots" role="img" aria-label="{{dotsLabel}}">
+              <sc-for list="{{dots}}" as="d" hint-placeholder-count="5">
+                <span class="{{d.cls}}"></span>
+              </sc-for>
+            </div>
+          </div>
+          <div aria-live="assertive" style="min-height: 44px; margin-top: 16px">
+            <sc-if value="{{hasErr}}" hint-placeholder-val="{{ false }}"><p class="err n" style="margin: 0; font-size: 14px; line-height: 1.45; color: #FF9AA2">{{err}}</p></sc-if>
+          </div>
+        </div>
+
+        <div class="w" role="group" aria-label="PIN keypad" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 16px; padding: 0 36px; flex-shrink: 0">
+          <button class="k" disabled="{{locked}}" onClick="{{k1}}">1</button><button class="k" disabled="{{locked}}" onClick="{{k2}}">2</button><button class="k" disabled="{{locked}}" onClick="{{k3}}">3</button>
+          <button class="k" disabled="{{locked}}" onClick="{{k4}}">4</button><button class="k" disabled="{{locked}}" onClick="{{k5}}">5</button><button class="k" disabled="{{locked}}" onClick="{{k6}}">6</button>
+          <button class="k" disabled="{{locked}}" onClick="{{k7}}">7</button><button class="k" disabled="{{locked}}" onClick="{{k8}}">8</button><button class="k" disabled="{{locked}}" onClick="{{k9}}">9</button>
+          <span></span><button class="k" disabled="{{locked}}" onClick="{{k0}}">0</button>
+          <button class="k" aria-label="Delete last digit" disabled="{{locked}}" onClick="{{back}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"></path><path d="m12 9.5 5 5M17 9.5l-5 5"></path></svg></button>
+        </div>
+
+        <div style="padding: 14px 20px 24px; flex-shrink: 0; min-height: 56px">
+          <sc-if value="{{isNew}}" hint-placeholder-val="{{ false }}">
+            <button class="{{contClass}}" aria-disabled="{{cantContinue}}" onClick="{{cont}}">{{contLabel}}</button>
+          </sc-if>
+          <sc-if value="{{isConfirm}}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{startOver}}" style="width: 100%; height: 56px; border: 0; border-radius: 28px; background: #141417; font-size: 15px; font-weight: 500">Choose a different PIN</button>
+          </sc-if>
+          <sc-if value="{{isCur}}" hint-placeholder-val="{{ true }}">
+            <p style="margin: 0; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #8A8A95">Your PIN never leaves this phone.</p>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+      <div class="sA" role="status" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 32px 40px">
+        <svg class="ck" width="88" height="88" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34" fill="none" stroke="#5EE0A1" stroke-width="3" pathLength="1" transform="rotate(-90 38 38)"></circle><path d="M25 39l9 9 17-19" fill="none" stroke="#5EE0A1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"></path></svg>
+        <h2 class="w" style="margin: 22px 0 0; font-size: 24px; font-weight: 600">PIN changed</h2>
+        <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: #A6A6B0">Use your new PIN next time you show amounts.</p>
+      </div>
+      <div style="padding: 0 20px 24px">
+        <a href="V4-Settings.dc.html" style="height: 56px; border-radius: 28px; background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; text-decoration: none">Done</a>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.t1) { clearTimeout(this.t1); }
+    if (this.iv) { clearInterval(this.iv); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var CURRENT = '12345';
+    var step = s.step || 'cur';
+    var entry = s.entry || '';
+    var nw = s.nw || '';
+    var lockLeft = s.lockLeft || 0;
+    var locked = lockLeft > 0;
+    var fail = function (msg, extra) {
+      var st = self.state || {};
+      var upd = { err: msg, bad: true, busy: true, shake: !st.shake };
+      if (extra) { Object.keys(extra).forEach(function (k) { upd[k] = extra[k]; }); }
+      self.setState(upd);
+      if (self.t1) { clearTimeout(self.t1); }
+      self.t1 = setTimeout(function () { self.setState({ entry: '', bad: false, busy: false }); }, 480);
+    };
+    var lockFor = function (secs) {
+      if (self.iv) { clearInterval(self.iv); }
+      self.setState({ lockLeft: secs });
+      self.iv = setInterval(function () {
+        var st = self.state || {};
+        var left = (st.lockLeft || 0) - 1;
+        if (left <= 0) { clearInterval(self.iv); self.iv = null; self.setState({ lockLeft: 0, err: '' }); }
+        else { self.setState({ lockLeft: left }); }
+      }, 1000);
+    };
+    var advance = function (patch) {
+      var st = self.state || {};
+      var upd = { entry: '', err: '', bad: false, busy: false, sflip: !st.sflip };
+      Object.keys(patch).forEach(function (k) { upd[k] = patch[k]; });
+      self.setState(upd);
+    };
+    var press = function (d) {
+      return function () {
+        var st = self.state || {};
+        if ((st.lockLeft || 0) > 0 || st.busy) { return; }
+        var stp = st.step || 'cur';
+        var e = st.entry || '';
+        var max = stp === 'cur' ? CURRENT.length : (stp === 'new' ? 6 : (st.nw || '').length);
+        if (e.length >= max) { return; }
+        e = e + d;
+        self.setState({ entry: e, err: '' });
+        if (stp === 'cur' && e.length === CURRENT.length) {
+          self.setState({ busy: true });
+          if (self.t1) { clearTimeout(self.t1); }
+          self.t1 = setTimeout(function () {
+            if (e === CURRENT) { advance({ step: 'new', tries: 0 }); return; }
+            var tries = ((self.state || {}).tries || 0) + 1;
+            if (tries >= 3) {
+              fail('Three wrong tries in a row. Wait 30 seconds, then try again.', { tries: 0 });
+              lockFor(30);
+            } else {
+              var left = 3 - tries;
+              fail("That isn't your current PIN. " + left + (left === 1 ? ' try' : ' tries') + ' left before a short wait.', { tries: tries });
+            }
+          }, 220);
+        }
+        if (stp === 'confirm' && e.length === max) {
+          self.setState({ busy: true });
+          if (self.t1) { clearTimeout(self.t1); }
+          self.t1 = setTimeout(function () {
+            if (e === (st.nw || '')) { advance({ step: 'done' }); }
+            else { fail("Those PINs don't match. Try again."); }
+          }, 220);
+        }
+      };
+    };
+    var weak = function (p) {
+      return /^(\d)\1+$/.test(p) || '01234567890'.indexOf(p) >= 0 || '09876543210'.indexOf(p) >= 0;
+    };
+    var count = step === 'cur' ? CURRENT.length : (step === 'new' ? Math.max(4, Math.min(6, entry.length + 1)) : nw.length);
+    var dots = [];
+    for (var i = 0; i < count; i++) {
+      dots.push({ cls: i < entry.length ? (s.bad ? 'dot on bad' : 'dot on') : 'dot' });
+    }
+    var TEXT = {
+      cur: { title: 'Enter your current PIN', sub: 'The one you use to show amounts on Home.', icon: 'M6.5 10.5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2zM8 10.5V7.5a4 4 0 0 1 8 0v3' },
+      'new': { title: 'Choose a new PIN', sub: 'Use 4 to 6 digits that would be hard to guess.', icon: 'M15 7a3 3 0 1 1-2.6 4.5L4 20H2.5v-3l1.5-1.5h2v-2h2l1.9-1.9A3 3 0 0 1 15 7zM16.5 8.5h.01' },
+      confirm: { title: 'Enter it again', sub: 'Type the same PIN once more to confirm it.', icon: 'M6.5 10.5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2zM8 10.5V7.5a4 4 0 0 1 8 0v3M9.5 15.5l1.7 1.7 3.3-3.4' }
+    };
+    var tx = TEXT[step] || TEXT.cur;
+    var num = step === 'cur' ? 1 : (step === 'new' ? 2 : 3);
+    var errText = s.err || '';
+    if (lockLeft > 0) { errText = 'Three wrong tries in a row. Try again in ' + lockLeft + 's.'; }
+    var vals = {
+      entering: step !== 'done',
+      done: step === 'done',
+      isCur: step === 'cur',
+      isNew: step === 'new',
+      isConfirm: step === 'confirm',
+      stepNum: String(step === 'done' ? 3 : num),
+      pg1: 'pg on',
+      pg2: (step === 'new' || step === 'confirm' || step === 'done') ? 'pg on' : 'pg',
+      pg3: (step === 'confirm' || step === 'done') ? 'pg on' : 'pg',
+      stepClass: s.sflip === undefined ? '' : (s.sflip ? 'sA' : 'sB'),
+      title: tx.title,
+      sub: tx.sub,
+      iconPath: tx.icon,
+      dots: dots,
+      dotsLabel: entry.length + ' of ' + count + ' digits entered',
+      shakeClass: s.shake === undefined ? '' : (s.shake ? 'shA' : 'shB'),
+      hasErr: errText !== '',
+      err: errText,
+      locked: locked,
+      back: function () {
+        var st = self.state || {};
+        if ((st.lockLeft || 0) > 0 || st.busy) { return; }
+        self.setState({ entry: (st.entry || '').slice(0, -1), err: '' });
+      },
+      cantContinue: entry.length < 4,
+      contClass: entry.length < 4 ? 'cta off' : 'cta',
+      contLabel: entry.length < 4 ? 'Enter at least 4 digits' : 'Continue',
+      cont: function () {
+        var st = self.state || {};
+        var e = st.entry || '';
+        if (e.length < 4 || st.busy) { return; }
+        if (e === CURRENT) { fail("Your new PIN can't be the same as the current one."); return; }
+        if (weak(e)) { fail('That PIN is easy to guess. Try a less obvious one.'); return; }
+        advance({ step: 'confirm', nw: e });
+      },
+      startOver: function () { advance({ step: 'new', nw: '' }); }
+    };
+    for (var k = 0; k < 10; k++) { vals['k' + k] = press(String(k)); }
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

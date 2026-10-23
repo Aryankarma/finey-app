@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Export</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.ib{width:44px;height:44px;border:0;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center;transition:transform .12s ease}
+.ib:active{transform:scale(.94)}
+.tab{position:relative;height:44px;display:flex;align-items:center;color:#8A8A95;font-size:15px;font-weight:500;text-decoration:none}
+.tab.on{color:#F4F4F6}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#7B6CF6}
+.chip{height:36px;padding:0 14px;border-radius:18px;background:#141417;color:#D9D9DE;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;text-decoration:none}
+.gh{display:flex;align-items:baseline;justify-content:space-between;height:32px;font-size:13px;color:#8A8A95}
+.r{display:flex;align-items:center;gap:14px;height:60px;color:#F4F4F6;text-decoration:none}
+.r:hover{color:#F4F4F6}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.scrim{animation:fade .3s ease both}
+.scrim.out{animation:fadeOut .26s ease both}
+@keyframes fade{from{opacity:0}}
+@keyframes fadeOut{to{opacity:0}}
+.sheet{animation:up .42s cubic-bezier(.3,.7,.2,1) both}
+.sheet.out{animation:down .26s cubic-bezier(.4,0,1,1) both}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes down{to{transform:translateY(100%)}}
+.opt{width:100%;display:flex;align-items:center;gap:14px;padding:16px;border:0;border-radius:20px;background:#18181C;text-align:left;box-shadow:inset 0 0 0 1px #1F1F25;transition:background-color .2s ease,box-shadow .2s ease,opacity .2s ease,transform .12s ease}
+.opt:active{transform:scale(.99)}
+.opt.on{background:rgba(123,108,246,.12);box-shadow:inset 0 0 0 1.5px #7B6CF6}
+.opt:disabled{opacity:.5;cursor:default;transform:none}
+.rg{position:relative;width:22px;height:22px;border-radius:11px;box-shadow:inset 0 0 0 2px #4A4A54;transition:box-shadow .2s ease;flex-shrink:0}
+.rg::after{content:"";position:absolute;left:6px;top:6px;width:10px;height:10px;border-radius:5px;background:#A59BFF;transform:scale(0);transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+.rg.on{box-shadow:inset 0 0 0 2px #7B6CF6}
+.rg.on::after{transform:scale(1)}
+.cta{height:56px;border:0;border-radius:28px;width:100%;background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s ease}
+.cta:active{transform:scale(.98)}
+.prog{height:8px;border-radius:4px;background:#1F1F25;overflow:hidden}
+.prog i{display:block;height:8px;border-radius:4px;background:linear-gradient(90deg,#6F5EF0,#A59BFF);transform-origin:0 50%;animation:fill 1.3s cubic-bezier(.5,0,.2,1) both}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.ph{animation:ph .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ph{from{opacity:0;transform:translateY(8px)}}
+.ck circle,.ck path{stroke-dasharray:1;animation:draw .5s cubic-bezier(.4,0,.2,1) both}
+.ck circle{animation-delay:.1s}
+.ck path{animation-delay:.45s;animation-duration:.32s}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.sec{flex:1;height:54px;border:0;border-radius:27px;background:#1A1A1F;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s ease,color .2s ease}
+.sec:active{transform:scale(.98)}
+.sec:disabled{color:#5EE0A1;cursor:default;transform:none}
+.toast{animation:toast .32s cubic-bezier(.2,.8,.2,1) both}
+@keyframes toast{from{opacity:0;transform:translateY(-8px)}}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Ledger</h1>
+    <div style="display: flex; gap: 8px">
+      <button class="ib" aria-label="Export this month as a spreadsheet" onClick="{{reopen}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg></button>
+      <a class="ib" href="V4-Capture.dc.html" aria-label="Add an entry" style="background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+    </div>
+  </header>
+
+  <nav aria-label="Ledger view" style="display: flex; gap: 28px; padding: 0 20px; box-shadow: inset 0 -1px 0 #1A1A1F">
+    <a class="tab on" href="V4-Ledger.dc.html" aria-current="page">List</a>
+    <a class="tab" href="V4-Calendar.dc.html">Calendar</a>
+  </nav>
+
+  <div style="padding: 12px 20px 0">
+    <label style="height: 48px; border-radius: 24px; background: #141417; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: #8A8A95">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input aria-label="Search the ledger" placeholder="Search names or categories" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 15px">
+    </label>
+    <div style="display: flex; gap: 8px; margin-top: 12px; overflow: hidden">
+      <a class="chip" href="V4-Month.dc.html">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+      <a class="chip" href="V4-Filters.dc.html" style="background: rgba(123,108,246,.2); color: #DCD7FF">Expenses only<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+      <a class="chip" href="V4-Filters.dc.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Saved</a>
+      <a class="chip" href="V4-Filters.dc.html">Newest first</a>
+    </div>
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 16px">
+      <span style="font-size: 14px; color: #A6A6B0">58 expenses</span>
+      <span class="w n" style="font-size: 17px; font-weight: 600">−₹68,240</span>
+    </div>
+  </div>
+
+  <section style="padding: 12px 20px 0">
+    <div class="gh"><span style="display: flex; gap: 8px"><span style="color: #F4F4F6; font-weight: 600">Today</span><span>Wed 21 Oct</span></span><span class="n">−₹486</span></div>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #F2A272"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span>
+      <span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Swiggy dinner</span><span style="font-size: 13px; color: #8A8A95">Food &amp; Dining</span></span>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹486</span>
+    </a>
+    <div class="gh" style="margin-top: 16px"><span style="color: #F4F4F6; font-weight: 600">Tue 20 Oct</span><span class="n">−₹2,618</span></div>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #6FB2FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></span>
+      <span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500">Electricity bill<svg width="12" height="12" viewBox="0 0 24 24" fill="#A59BFF" role="img" aria-label="Saved"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span><span style="font-size: 13px; color: #8A8A95">Utilities</span></span>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹2,140</span>
+    </a>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #5CD3C6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM5 11h14"></path></svg></span>
+      <span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Uber to office</span><span style="font-size: 13px; color: #8A8A95">Transportation</span></span>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹238</span>
+    </a>
+    <a class="r" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #F2A272"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span>
+      <span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">BigBasket top-up</span><span style="font-size: 13px; color: #8A8A95">Food &amp; Dining</span></span>
+      <span class="n" style="font-size: 15px; font-weight: 500">−₹240</span>
+    </a>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti on" href="V4-Ledger.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+
+  <sc-if value="{{open}}" hint-placeholder-val="{{ true }}">
+    <div class="{{scrimClass}}" onClick="{{close}}" style="position: absolute; inset: 0; background: rgba(0,0,0,.6)"></div>
+    <section class="{{sheetClass}}" role="dialog" aria-modal="true" aria-labelledby="export-title" style="position: absolute; left: 0; right: 0; bottom: 0; background: #111114; border-radius: 32px 32px 0 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); padding: 12px 24px 28px">
+      <div style="width: 40px; height: 4px; border-radius: 2px; background: #2A2A31; margin: 0 auto 16px"></div>
+
+      <sc-if value="{{notReady}}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between">
+            <span style="width: 52px; height: 52px; border-radius: 26px; background: rgba(94,224,161,.12); color: #5EE0A1; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"></rect><path d="M4 9h16M4 15h16M10 9v12"></path></svg></span>
+            <button class="ib" aria-label="Close" onClick="{{close}}" style="background: #1A1A1F"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+          </div>
+          <h2 id="export-title" class="w" style="margin: 16px 0 0; font-size: 22px; font-weight: 600">Export October</h2>
+          <p style="margin: 6px 0 18px; font-size: 15px; line-height: 1.45; color: #A6A6B0">Pick what goes into the file.</p>
+          <div role="radiogroup" aria-label="What to export" style="display: flex; flex-direction: column; gap: 10px">
+            <button class="{{optAll}}" role="radio" aria-checked="{{isAll}}" disabled="{{busy}}" onClick="{{pickAll}}">
+              <span style="flex: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 600">Everything in October</span><span class="n" style="font-size: 13px; color: #8A8A95">60 entries, money in and out</span></span>
+              <i class="{{rgAll}}" aria-hidden="true"></i>
+            </button>
+            <button class="{{optFil}}" role="radio" aria-checked="{{isFil}}" disabled="{{busy}}" onClick="{{pickFil}}">
+              <span style="flex: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 15px; font-weight: 600">Only what you've filtered</span><span class="n" style="font-size: 13px; color: #8A8A95">58 expenses, newest first</span></span>
+              <i class="{{rgFil}}" aria-hidden="true"></i>
+            </button>
+          </div>
+          <p style="margin: 16px 2px 0; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #8A8A95"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>Saved as a CSV file that opens in any spreadsheet app.</p>
+          <div style="margin-top: 20px; min-height: 56px">
+            <sc-if value="{{idle}}" hint-placeholder-val="{{ true }}">
+              <button class="cta" onClick="{{start}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>{{ctaLabel}}</button>
+            </sc-if>
+            <sc-if value="{{busy}}" hint-placeholder-val="{{ false }}">
+              <div role="status" class="ph" style="display: flex; flex-direction: column; gap: 10px; padding-top: 6px">
+                <div style="display: flex; justify-content: space-between; font-size: 14px"><span style="color: #D9D9DE">Preparing {{fileName}}</span><span class="n" style="color: #8A8A95">{{rowsText}}</span></div>
+                <div class="prog"><i></i></div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ready}}" hint-placeholder-val="{{ false }}">
+        <div class="ph" role="status" style="display: flex; flex-direction: column; align-items: center; text-align: center">
+          <svg class="ck" width="72" height="72" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34" fill="none" stroke="#5EE0A1" stroke-width="3" pathLength="1" transform="rotate(-90 38 38)"></circle><path d="M25 39l9 9 17-19" fill="none" stroke="#5EE0A1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1"></path></svg>
+          <h2 class="w" style="margin: 14px 0 0; font-size: 22px; font-weight: 600">Your file is ready</h2>
+          <div style="width: 100%; margin-top: 18px; padding: 14px 16px; border-radius: 18px; background: #18181C; display: flex; align-items: center; gap: 14px; text-align: left; box-sizing: border-box">
+            <span style="width: 40px; height: 40px; border-radius: 12px; background: rgba(94,224,161,.12); color: #5EE0A1; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">CSV</span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{fileName}}</span><span class="n" style="font-size: 13px; color: #8A8A95">{{rowsText}}, 5 KB</span></span>
+          </div>
+          <sc-if value="{{shareNote}}" hint-placeholder-val="{{ false }}">
+            <p class="toast" role="status" style="margin: 12px 0 0; font-size: 13px; color: #C8C1FF">Pick an app in the share menu to send it.</p>
+          </sc-if>
+          <div style="display: flex; gap: 10px; width: 100%; margin-top: 18px">
+            <button class="sec" disabled="{{saved}}" onClick="{{saveFile}}">{{saveLabel}}</button>
+            <button class="cta" onClick="{{share}}" style="flex: 1; width: auto; height: 54px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"></path></svg>Share file</button>
+          </div>
+          <button onClick="{{close}}" style="margin-top: 8px; height: 44px; padding: 0 16px; border: 0; background: transparent; color: #A6A6B0; font-size: 14px; font-weight: 500">Done</button>
+        </div>
+      </sc-if>
+    </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.t1) { clearTimeout(this.t1); }
+    if (this.t2) { clearTimeout(this.t2); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var open = s.open === undefined ? true : s.open;
+    var closing = !!s.closing;
+    var scope = s.scope || 'filtered';
+    var phase = s.phase || 'idle';
+    var all = scope === 'all';
+    var hide = function () {
+      if (self.t1) { clearTimeout(self.t1); }
+      self.setState({ closing: true });
+      self.t1 = setTimeout(function () { self.setState({ open: false, closing: false }); }, 260);
+    };
+    return {
+      open: open,
+      scrimClass: closing ? 'scrim out' : 'scrim',
+      sheetClass: closing ? 'sheet out' : 'sheet',
+      close: function () { if (!closing && phase !== 'busy') { hide(); } },
+      reopen: function () {
+        if (self.t1) { clearTimeout(self.t1); }
+        if (self.t2) { clearTimeout(self.t2); }
+        self.setState({ open: true, closing: false, phase: 'idle', saved: false, shareNote: false });
+      },
+      isAll: all,
+      isFil: !all,
+      optAll: all ? 'opt on' : 'opt',
+      optFil: all ? 'opt' : 'opt on',
+      rgAll: all ? 'rg on' : 'rg',
+      rgFil: all ? 'rg' : 'rg on',
+      pickAll: function () { self.setState({ scope: 'all' }); },
+      pickFil: function () { self.setState({ scope: 'filtered' }); },
+      notReady: phase !== 'ready',
+      idle: phase === 'idle',
+      busy: phase === 'busy',
+      ready: phase === 'ready',
+      ctaLabel: all ? 'Export 60 entries' : 'Export 58 expenses',
+      fileName: all ? 'finey-oct-2026.csv' : 'finey-oct-2026-expenses.csv',
+      rowsText: all ? '60 rows' : '58 rows',
+      start: function () {
+        if (phase !== 'idle') { return; }
+        self.setState({ phase: 'busy' });
+        if (self.t2) { clearTimeout(self.t2); }
+        self.t2 = setTimeout(function () { self.setState({ phase: 'ready' }); }, 1400);
+      },
+      saved: !!s.saved,
+      saveLabel: s.saved ? 'Saved to Downloads' : 'Save to Downloads',
+      saveFile: function () { self.setState({ saved: true }); },
+      shareNote: !!s.shareNote,
+      share: function () { self.setState({ shareNote: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

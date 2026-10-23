@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ib{width:44px;height:44px;border:0;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center}
+.ib:hover{color:#F4F4F6}
+.press{transition:transform .12s cubic-bezier(.2,.8,.2,1),background-color .15s ease}
+.press:active{transform:scale(.94)}
+.amt{transition:filter .25s ease}
+.hid .amt{filter:blur(9px)}
+.eye{display:flex;animation:spin .26s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spin{from{opacity:0;transform:rotate(-35deg) scale(.7)}}
+.tk line{stroke-dasharray:60;animation:grow .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{stroke-dashoffset:60;opacity:0}30%{opacity:1}to{stroke-dashoffset:0;opacity:1}}
+.tk line:nth-child(1){animation-delay:120ms}.tk line:nth-child(2){animation-delay:148ms}.tk line:nth-child(3){animation-delay:176ms}.tk line:nth-child(4){animation-delay:204ms}.tk line:nth-child(5){animation-delay:232ms}.tk line:nth-child(6){animation-delay:260ms}.tk line:nth-child(7){animation-delay:288ms}.tk line:nth-child(8){animation-delay:316ms}.tk line:nth-child(9){animation-delay:344ms}.tk line:nth-child(10){animation-delay:372ms}.tk line:nth-child(11){animation-delay:400ms}.tk line:nth-child(12){animation-delay:428ms}.tk line:nth-child(13){animation-delay:456ms}.tk line:nth-child(14){animation-delay:484ms}.tk line:nth-child(15){animation-delay:512ms}.tk line:nth-child(16){animation-delay:540ms}.tk line:nth-child(17){animation-delay:568ms}.tk line:nth-child(18){animation-delay:596ms}.tk line:nth-child(19){animation-delay:624ms}.tk line:nth-child(20){animation-delay:652ms}.tk line:nth-child(21){animation-delay:680ms}
+.fut{animation:fade .5s ease both .1s}
+@keyframes fade{from{opacity:0}}
+.inc{transform-box:fill-box;transform-origin:center;animation:pop .36s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.3)}}
+.lbl{animation:fade .4s ease both}
+.pill{animation:rise .45s cubic-bezier(.2,.8,.2,1) both 1.08s}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}}
+.cap{transition:background-color .18s ease,box-shadow .18s ease}
+.cap:focus-within{background:#19191D;box-shadow:0 0 0 1.5px rgba(123,108,246,.65)}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.row{display:flex;align-items:center;gap:14px;height:60px;color:#F4F4F6;text-decoration:none;border-radius:14px;transition:background-color .15s ease}
+.row:hover{color:#F4F4F6}
+.row:active{background:#111114}
+.mo{display:flex;align-items:baseline;gap:8px;color:#F4F4F6;text-decoration:none}
+.mo:hover{color:#F4F4F6}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none;transition:color .15s ease}
+.ti:active{color:#F4F4F6}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div class="{{privacyClass}}" style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <a class="mo" href="V4-Month.dc.html" aria-label="Change month, October 2026">
+      <span class="w" style="font-size: 26px; font-weight: 600; letter-spacing: -0.01em">October</span>
+      <span style="font-size: 15px; font-weight: 500; color: #8A8A95">2026</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="align-self: center"><path d="m6 9 6 6 6-6"></path></svg>
+    </a>
+    <div style="display: flex; gap: 8px">
+      <button class="ib press" aria-label="{{eyeLabel}}" aria-pressed="{{hidden}}" onClick="{{togglePrivacy}}">
+        <sc-if value="{{shown}}" hint-placeholder-val="{{ true }}"><span class="eye"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span></sc-if>
+        <sc-if value="{{hidden}}" hint-placeholder-val="{{ false }}"><span class="eye"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A59BFF" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.7 0 3.2-.5 4.5-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2"></path></svg></span></sc-if>
+      </button>
+      <a class="ib press" href="V4-Settings.dc.html" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg></a>
+    </div>
+  </header>
+
+  <section aria-label="October at a glance" style="position: relative; width: 320px; height: 320px; margin: 4px auto 0">
+    <div style="position: absolute; left: 40px; top: 40px; width: 240px; height: 240px; border-radius: 120px; background: radial-gradient(circle, rgba(123,108,246,.20) 0%, rgba(123,108,246,.06) 45%, rgba(123,108,246,0) 70%)"></div>
+    <svg width="320" height="320" viewBox="0 0 320 320" role="img" aria-label="Spending for each day of October. Largest day was 3 October at ₹14,446; today ₹486. Money came in on 1 and 14 October." style="position: absolute; inset: 0">
+      <circle cx="160" cy="160" r="99" fill="none" stroke="#1A1A1F" stroke-width="1"></circle>
+      <g class="tk" stroke-width="5" stroke-linecap="round"><line x1="160.0" y1="56.0" x2="160.0" y2="41.1" stroke="#5B4FC4"></line><line x1="180.9" y1="58.1" x2="185.4" y2="36.4" stroke="#5B4FC4"></line><line x1="201.0" y1="64.4" x2="219.2" y2="22.2" stroke="#A59BFF"></line><line x1="219.4" y1="74.6" x2="238.1" y2="47.8" stroke="#A59BFF"></line><line x1="235.4" y1="88.3" x2="249.1" y2="75.3" stroke="#5B4FC4"></line><line x1="248.3" y1="105.0" x2="260.0" y2="97.6" stroke="#5B4FC4"></line><line x1="257.5" y1="123.9" x2="282.4" y2="114.7" stroke="#A59BFF"></line><line x1="262.8" y1="144.3" x2="273.7" y2="142.6" stroke="#5B4FC4"></line><line x1="263.9" y1="165.3" x2="281.8" y2="166.2" stroke="#5B4FC4"></line><line x1="260.7" y1="186.1" x2="290.1" y2="193.7" stroke="#A59BFF"></line><line x1="253.4" y1="205.8" x2="274.9" y2="216.4" stroke="#A59BFF"></line><line x1="242.2" y1="223.7" x2="252.2" y2="231.4" stroke="#5B4FC4"></line><line x1="227.7" y1="238.9" x2="238.4" y2="251.3" stroke="#5B4FC4"></line><line x1="210.5" y1="250.9" x2="221.0" y2="269.9" stroke="#5B4FC4"></line><line x1="191.1" y1="259.2" x2="202.7" y2="296.0" stroke="#A59BFF"></line><line x1="170.5" y1="263.5" x2="172.4" y2="281.9" stroke="#5B4FC4"></line><line x1="149.5" y1="263.5" x2="147.9" y2="278.6" stroke="#5B4FC4"></line><line x1="128.9" y1="259.2" x2="123.8" y2="275.3" stroke="#5B4FC4"></line><line x1="109.5" y1="250.9" x2="93.7" y2="279.4" stroke="#A59BFF"></line><line x1="92.3" y1="238.9" x2="78.9" y2="254.4" stroke="#5B4FC4"></line><line x1="77.8" y1="223.7" x2="69.6" y2="230.0" stroke="#FFFFFF"></line></g>
+      <g class="fut" stroke="#26262D" stroke-width="5" stroke-linecap="round"><line x1="66.6" y1="205.8" x2="62.1" y2="208.0"></line><line x1="59.3" y1="186.1" x2="54.5" y2="187.3"></line><line x1="56.1" y1="165.3" x2="51.1" y2="165.5"></line><line x1="57.2" y1="144.3" x2="52.3" y2="143.5"></line><line x1="62.5" y1="123.9" x2="57.8" y2="122.1"></line><line x1="71.7" y1="105.0" x2="67.5" y2="102.3"></line><line x1="84.6" y1="88.3" x2="81.0" y2="84.9"></line><line x1="100.6" y1="74.6" x2="97.7" y2="70.5"></line><line x1="119.0" y1="64.4" x2="117.0" y2="59.8"></line><line x1="139.1" y1="58.1" x2="138.1" y2="53.2"></line></g>
+      <circle class="inc" cx="160" cy="68" r="3.5" fill="#5EE0A1" style="animation-delay: 320ms"></circle>
+      <circle class="inc" cx="206.6" cy="243.9" r="3.5" fill="#5EE0A1" style="animation-delay: 690ms"></circle>
+      <text class="lbl" x="225" y="18" font-size="11" font-weight="600" fill="#A6A6B0" font-family="Archivo, system-ui, sans-serif" style="animation-delay: 480ms">₹14.4k</text>
+      <text class="lbl" x="60" y="244" text-anchor="end" font-size="11" font-weight="600" fill="#F4F4F6" font-family="Archivo, system-ui, sans-serif" style="animation-delay: 1060ms">Today</text>
+    </svg>
+    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center">
+      <span style="font-size: 13px; color: #A6A6B0">Left this month</span>
+      <span class="w n amt" aria-live="off" style="font-size: 34px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.05">{{balance}}</span>
+      <span class="pill" style="font-size: 12px; font-weight: 600; color: #5EE0A1; background: rgba(94,224,161,.12); padding: 4px 10px; border-radius: 12px">45% of income kept</span>
+    </div>
+  </section>
+  <p style="margin: 2px 0 0; text-align: center; font-size: 12px; color: #8A8A95">Each mark is a day of spending. Green dots are days money came in.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 16px 20px 0; padding: 12px 0; box-shadow: inset 0 1px 0 #141417, inset 0 -1px 0 #141417">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px"><span style="font-size: 12px; color: #8A8A95">Money in</span><span class="w n amt" style="font-size: 18px; font-weight: 600; color: #5EE0A1">+₹1,24,500</span></div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; box-shadow: inset 1px 0 0 #141417"><span style="font-size: 12px; color: #8A8A95">Money out</span><span class="w n amt" style="font-size: 18px; font-weight: 600">−₹68,240</span></div>
+  </div>
+
+  <div class="cap" style="margin: 16px 20px 0; height: 60px; border-radius: 30px; background: #141417; display: flex; align-items: center; gap: 8px; padding: 0 6px 0 20px">
+    <label for="cap" class="sr">Describe what you spent or earned</label>
+    <input id="cap" placeholder="Spent 450 on groceries yesterday" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 15px">
+    <a class="press" href="V4-Capture.dc.html" aria-label="Open the full form" style="width: 48px; height: 48px; border-radius: 24px; background: #1F1F25; color: #F4F4F6; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M6 6h.01M12 6h.01M18 6h.01M6 12h.01M12 12h.01M18 12h.01M6 18h.01M12 18h.01M18 18h.01" stroke-width="2.6"></path></svg></a>
+    <a class="press" href="V4-Voice.dc.html" aria-label="Speak an entry" style="width: 48px; height: 48px; border-radius: 24px; background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></a>
+  </div>
+
+  <section style="padding: 22px 20px 0">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; height: 32px">
+      <h2 class="w" style="margin: 0; font-size: 16px; font-weight: 600">Recent</h2>
+      <a href="V4-Ledger.dc.html" style="font-size: 14px; font-weight: 500; text-decoration: none; padding: 8px 0">Open ledger</a>
+    </div>
+    <a class="row" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #F2A272"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Swiggy dinner</span><span style="font-size: 13px; color: #8A8A95">Food &amp; Dining</span></div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amt" style="font-size: 15px; font-weight: 500">−₹486</span><span style="font-size: 12px; color: #8A8A95">Today</span></div>
+    </a>
+    <a class="row" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #6FB2FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Electricity bill</span><span style="font-size: 13px; color: #8A8A95">Utilities</span></div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amt" style="font-size: 15px; font-weight: 500">−₹2,140</span><span style="font-size: 12px; color: #8A8A95">Yesterday</span></div>
+    </a>
+    <a class="row" href="V4-Entry.dc.html">
+      <span class="gl" style="color: #5EE0A1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"></path></svg></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Landing page project</span><span style="font-size: 13px; color: #8A8A95">Freelance</span></div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px"><span class="n amt" style="font-size: 15px; font-weight: 500; color: #5EE0A1">+₹14,500</span><span style="font-size: 12px; color: #8A8A95">14 Oct</span></div>
+    </a>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti on" href="V4-Home.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    var reduce = false;
+    try { reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
+    if (reduce) { this.setState({ p: 1 }); return; }
+    var start = null;
+    var step = function (t) {
+      if (start === null) { start = t; }
+      var x = Math.min(Math.max((t - start - 120) / 980, 0), 1);
+      self.setState({ p: 1 - Math.pow(1 - x, 3) });
+      if (x < 1) { self.raf = requestAnimationFrame(step); }
+    };
+    this.raf = requestAnimationFrame(step);
+  }
+  componentWillUnmount() {
+    if (this.raf) { cancelAnimationFrame(this.raf); }
+  }
+  renderVals() {
+    var s = this.state || {};
+    var hidden = !!s.hidden;
+    var p = (typeof s.p === 'number') ? s.p : 0;
+    var self = this;
+    return {
+      hidden: hidden,
+      shown: !hidden,
+      privacyClass: hidden ? 'hid' : '',
+      eyeLabel: hidden ? 'Show amounts' : 'Hide amounts',
+      balance: '₹' + Math.round(56260 * p).toLocaleString('en-IN'),
+      togglePrivacy: function () { self.setState({ hidden: !hidden }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

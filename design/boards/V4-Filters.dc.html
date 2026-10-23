@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Filter and sort</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+input{font:inherit;color:inherit}
+input::placeholder{color:#8A8A95}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.ib{width:44px;height:44px;border:0;border-radius:22px;background:#141417;color:#F4F4F6;display:flex;align-items:center;justify-content:center;transition:transform .12s ease}
+.ib:active{transform:scale(.94)}
+.tab{position:relative;height:44px;display:flex;align-items:center;color:#8A8A95;font-size:15px;font-weight:500;text-decoration:none}
+.tab.on{color:#F4F4F6}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#7B6CF6}
+.chip{height:36px;padding:0 14px;border:0;border-radius:18px;background:#141417;color:#D9D9DE;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;text-decoration:none;transition:background-color .2s ease,color .2s ease,transform .12s ease}
+.chip:active{transform:scale(.96)}
+.chip.on{background:rgba(123,108,246,.2);color:#DCD7FF}
+.gh{display:flex;align-items:baseline;justify-content:space-between;height:32px;font-size:13px;color:#8A8A95}
+.r{display:flex;align-items:center;gap:14px;height:60px;color:#F4F4F6;text-decoration:none;border-radius:14px;transition:background-color .15s ease}
+.r:hover{color:#F4F4F6}
+.r:active{background:#111114}
+.gl{width:40px;height:40px;border-radius:20px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lA{animation:lA .3s cubic-bezier(.2,.8,.2,1) both}
+.lB{animation:lB .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes lA{from{opacity:0;transform:translateY(8px)}}
+@keyframes lB{from{opacity:0;transform:translateY(8px)}}
+.scrim{animation:fade .3s ease both}
+.scrim.out{animation:fadeOut .26s ease both}
+@keyframes fade{from{opacity:0}}
+@keyframes fadeOut{to{opacity:0}}
+.sheet{animation:up .42s cubic-bezier(.3,.7,.2,1) both}
+.sheet.out{animation:down .26s cubic-bezier(.4,0,1,1) both}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes down{to{transform:translateY(100%)}}
+.lbl{display:block;margin:0 0 10px;font-size:13px;font-weight:600;color:#A6A6B0}
+.seg{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:48px;padding:4px;border-radius:24px;background:#1A1A1F;box-sizing:border-box}
+.seg button{position:relative;z-index:1;border:0;background:transparent;font-size:14px;font-weight:500;color:#A6A6B0;transition:color .2s ease}
+.seg button.on{color:#F4F4F6;font-weight:600}
+.thumb{position:absolute;top:4px;left:4px;bottom:4px;width:calc((100% - 8px) / 3);border-radius:20px;background:#2C2C34;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.swr{width:100%;display:flex;align-items:center;gap:14px;padding:14px 0;border:0;background:transparent;text-align:left}
+.sw{position:relative;width:52px;height:32px;border-radius:16px;background:#26262D;flex-shrink:0;transition:background-color .22s ease}
+.sw i{position:absolute;top:6px;left:6px;width:20px;height:20px;border-radius:10px;background:#8A8A95;transition:transform .26s cubic-bezier(.2,.8,.2,1),background-color .22s ease}
+.sw.on{background:#7B6CF6}
+.sw.on i{transform:translateX(20px);background:#FFFFFF}
+.rd{width:100%;height:52px;border:0;background:transparent;display:flex;align-items:center;justify-content:space-between;padding:0;font-size:15px;font-weight:500;color:#F4F4F6;text-align:left}
+.rd+.rd{box-shadow:inset 0 1px 0 #1C1C21}
+.rg{position:relative;width:22px;height:22px;border-radius:11px;box-shadow:inset 0 0 0 2px #4A4A54;transition:box-shadow .2s ease;flex-shrink:0}
+.rg::after{content:"";position:absolute;left:6px;top:6px;width:10px;height:10px;border-radius:5px;background:#A59BFF;transform:scale(0);transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+.rg.on{box-shadow:inset 0 0 0 2px #7B6CF6}
+.rg.on::after{transform:scale(1)}
+.cta{height:56px;border:0;border-radius:28px;width:100%;background:linear-gradient(180deg,#6F5EF0,#5240D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);color:#FFFFFF;font-size:16px;font-weight:600;transition:opacity .2s ease,transform .12s ease}
+.cta:active{transform:scale(.98)}
+.cta.off{opacity:.38;cursor:not-allowed}
+.cA{display:inline-block;animation:cA .24s ease both}
+.cB{display:inline-block;animation:cB .24s ease both}
+@keyframes cA{from{opacity:0;transform:translateY(4px)}}
+@keyframes cB{from{opacity:0;transform:translateY(4px)}}
+.reset{height:44px;padding:0 4px;border:0;background:transparent;color:#A59BFF;font-size:14px;font-weight:600;transition:opacity .2s ease}
+.reset:disabled{opacity:.35;cursor:default}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Ledger</h1>
+    <div style="display: flex; gap: 8px">
+      <a class="ib" href="V4-Export.dc.html" aria-label="Export this month as a spreadsheet"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg></a>
+      <a class="ib" href="V4-Capture.dc.html" aria-label="Add an entry" style="background: linear-gradient(180deg, #6F5EF0, #5240D9); box-shadow: inset 0 1px 0 rgba(255,255,255,.16); color: #FFFFFF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+    </div>
+  </header>
+
+  <nav aria-label="Ledger view" style="display: flex; gap: 28px; padding: 0 20px; box-shadow: inset 0 -1px 0 #1A1A1F">
+    <a class="tab on" href="V4-Ledger.dc.html" aria-current="page">List</a>
+    <a class="tab" href="V4-Calendar.dc.html">Calendar</a>
+  </nav>
+
+  <div style="padding: 12px 20px 0">
+    <label style="height: 48px; border-radius: 24px; background: #141417; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: #8A8A95">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input aria-label="Search the ledger" placeholder="Search names or categories" style="flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font-size: 15px">
+    </label>
+    <div style="display: flex; gap: 8px; margin-top: 12px; overflow: hidden">
+      <a class="chip" href="V4-Month.dc.html">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+      <button class="{{showChipCls}}" onClick="{{reopen}}">{{showChip}}</button>
+      <button class="{{savedChipCls}}" onClick="{{reopen}}"><svg width="13" height="13" viewBox="0 0 24 24" fill="{{savedFill}}" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Saved</button>
+      <button class="chip" onClick="{{reopen}}">{{sortChip}}</button>
+    </div>
+    <div class="{{listClass}}" style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 16px">
+      <span style="font-size: 14px; color: #A6A6B0">{{countText}}</span>
+      <span class="w n" style="font-size: 17px; font-weight: 600; color: {{totalColor}}">{{totalText}}</span>
+    </div>
+  </div>
+
+  <section class="{{listClass}}" style="padding: 12px 20px 0">
+    <sc-for list="{{items}}" as="it" hint-placeholder-count="7">
+      <sc-if value="{{it.head}}" hint-placeholder-val="{{ false }}">
+        <div class="gh" style="margin-top: {{it.mt}}"><span style="display: flex; gap: 8px"><span style="color: #F4F4F6; font-weight: 600">{{it.t1}}</span><span>{{it.t2}}</span></span><span class="n">{{it.total}}</span></div>
+      </sc-if>
+      <sc-if value="{{it.row}}" hint-placeholder-val="{{ true }}">
+        <a class="r" href="V4-Entry.dc.html">
+          <span class="gl" style="color: {{it.color}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{it.d}}"></path></svg></span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500">{{it.name}}<sc-if value="{{it.saved}}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="#A59BFF" role="img" aria-label="Saved"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></sc-if></span><span style="font-size: 13px; color: #8A8A95">{{it.sub}}</span></span>
+          <span class="n" style="font-size: 15px; font-weight: 500; color: {{it.amtColor}}">{{it.amt}}</span>
+        </a>
+      </sc-if>
+    </sc-for>
+    <sc-if value="{{empty}}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 56px 12px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+        <span style="width: 56px; height: 56px; border-radius: 28px; background: #141417; color: #8A8A95; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span>
+        <h2 class="w" style="margin: 6px 0 0; font-size: 17px; font-weight: 600">No saved income yet</h2>
+        <p style="margin: 0; max-width: 280px; font-size: 14px; line-height: 1.5; color: #A6A6B0">Save an income entry from its details and it will show up here.</p>
+        <button onClick="{{clearAll}}" style="margin-top: 6px; height: 44px; padding: 0 18px; border: 0; border-radius: 22px; background: #141417; color: #F4F4F6; font-size: 14px; font-weight: 500">Clear filters</button>
+      </div>
+    </sc-if>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti" href="V4-Spending.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti on" href="V4-Ledger.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+
+  <sc-if value="{{open}}" hint-placeholder-val="{{ true }}">
+    <div class="{{scrimClass}}" onClick="{{close}}" style="position: absolute; inset: 0; background: rgba(0,0,0,.6)"></div>
+    <section class="{{sheetClass}}" role="dialog" aria-modal="true" aria-labelledby="filter-title" style="position: absolute; left: 0; right: 0; bottom: 0; background: #111114; border-radius: 32px 32px 0 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); padding: 12px 24px 28px">
+      <div style="width: 40px; height: 4px; border-radius: 2px; background: #2A2A31; margin: 0 auto 14px"></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px">
+        <h2 id="filter-title" class="w" style="margin: 0; font-size: 20px; font-weight: 600">Filter and sort</h2>
+        <button class="reset" disabled="{{isDefault}}" onClick="{{reset}}">Reset</button>
+      </div>
+
+      <span class="lbl" id="show-lbl">Show</span>
+      <div class="seg" role="radiogroup" aria-labelledby="show-lbl">
+        <span class="thumb" aria-hidden="true" style="transform: translateX({{thumbX}})"></span>
+        <button class="{{segAll}}" role="radio" aria-checked="{{onAll}}" onClick="{{setAll}}">All</button>
+        <button class="{{segExp}}" role="radio" aria-checked="{{onExp}}" onClick="{{setExp}}">Expenses</button>
+        <button class="{{segInc}}" role="radio" aria-checked="{{onInc}}" onClick="{{setInc}}">Income</button>
+      </div>
+
+      <button class="swr" role="switch" aria-checked="{{dSaved}}" onClick="{{toggleSaved}}" style="margin-top: 8px">
+        <span style="width: 40px; height: 40px; border-radius: 20px; background: #1A1A1F; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="{{dSavedFill}}" stroke="{{dSavedStroke}}" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"></path></svg></span>
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Only saved entries</span><span style="font-size: 13px; color: #8A8A95">Entries you saved for later</span></span>
+        <span class="{{swClass}}" aria-hidden="true"><i></i></span>
+      </button>
+
+      <span class="lbl" id="sort-lbl" style="margin-top: 10px">Sort by</span>
+      <div role="radiogroup" aria-labelledby="sort-lbl">
+        <sc-for list="{{sorts}}" as="o" hint-placeholder-count="4">
+          <button class="rd" role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}">{{o.label}}<i class="{{o.ring}}" aria-hidden="true"></i></button>
+        </sc-for>
+      </div>
+
+      <button class="{{ctaClass}}" aria-disabled="{{noMatch}}" onClick="{{apply}}" style="margin-top: 18px"><span class="{{ctaFlip}}">{{ctaLabel}}</span></button>
+    </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.t1) { clearTimeout(this.t1); }
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var DEF = { show: 'all', saved: false, sort: 'newest' };
+    var applied = s.applied || { show: 'expense', saved: false, sort: 'newest' };
+    var draft = s.draft || applied;
+    var open = s.open === undefined ? true : s.open;
+    var closing = !!s.closing;
+    var fmt = function (v) { return v.toLocaleString('en-IN'); };
+    var IC = {
+      food: { color: '#F2A272', d: 'M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3' },
+      util: { color: '#6FB2FF', d: 'M13 2 4 14h7l-1 8 9-12h-7z' },
+      trans: { color: '#5CD3C6', d: 'M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM5 11h14' },
+      shop: { color: '#F08DBA', d: 'M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2' },
+      health: { color: '#FF8A80', d: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z' },
+      ent: { color: '#B9A6FF', d: 'M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM7 5v14M17 5v14M3 12h18' },
+      inc: { color: '#5EE0A1', d: 'M5 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18' }
+    };
+    var E = [
+      { d: 21, n: 'Swiggy dinner', c: 'Food & Dining', k: 'food', a: 486 },
+      { d: 20, n: 'Electricity bill', c: 'Utilities', k: 'util', a: 2140, sv: true },
+      { d: 20, n: 'Uber to office', c: 'Transportation', k: 'trans', a: 238 },
+      { d: 20, n: 'BigBasket top-up', c: 'Food & Dining', k: 'food', a: 240 },
+      { d: 19, n: 'Headphones', c: 'Shopping', k: 'shop', a: 3499 },
+      { d: 19, n: 'Gym, monthly', c: 'Health', k: 'health', a: 1200 },
+      { d: 19, n: 'Chai and snacks', c: 'Food & Dining', k: 'food', a: 471 },
+      { d: 18, n: 'Dinner out', c: 'Food & Dining', k: 'food', a: 1860 },
+      { d: 15, n: 'Monthly groceries', c: 'Food & Dining', k: 'food', a: 3940, sv: true },
+      { d: 14, n: 'Landing page project', c: 'Freelance', k: 'inc', a: 14500, inc: true },
+      { d: 10, n: 'Groceries, DMart', c: 'Food & Dining', k: 'food', a: 2880 },
+      { d: 9, n: 'Chai and snacks', c: 'Food & Dining', k: 'food', a: 340 },
+      { d: 4, n: 'Birthday dinner', c: 'Food & Dining', k: 'food', a: 2460, sv: true },
+      { d: 3, n: 'Society maintenance', c: 'Utilities', k: 'util', a: 9000 },
+      { d: 3, n: 'Running shoes', c: 'Shopping', k: 'shop', a: 4999 },
+      { d: 3, n: 'Auto rides', c: 'Transportation', k: 'trans', a: 447 },
+      { d: 2, n: 'Groceries, BigBasket', c: 'Food & Dining', k: 'food', a: 1980 },
+      { d: 2, n: 'Movie tickets', c: 'Entertainment', k: 'ent', a: 1000 },
+      { d: 1, n: 'Salary', c: 'Salary', k: 'inc', a: 110000, inc: true },
+      { d: 1, n: 'Swiggy dinner', c: 'Food & Dining', k: 'food', a: 450 },
+      { d: 1, n: 'Metro card top-up', c: 'Transportation', k: 'trans', a: 500 },
+      { d: 1, n: 'Mobile recharge', c: 'Utilities', k: 'util', a: 500 }
+    ];
+    var WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var wd = function (d) { return WD[(d + 3) % 7]; };
+    var countFor = function (f) {
+      if (f.saved) { return f.show === 'income' ? 0 : 3; }
+      return f.show === 'all' ? 60 : (f.show === 'expense' ? 58 : 2);
+    };
+    var SORTS = [
+      { key: 'newest', label: 'Newest first' },
+      { key: 'oldest', label: 'Oldest first' },
+      { key: 'high', label: 'Highest amount' },
+      { key: 'low', label: 'Lowest amount' }
+    ];
+    var sortLabel = function (k) { return SORTS.filter(function (o) { return o.key === k; })[0].label; };
+    var list = E.filter(function (e) {
+      if (applied.show === 'expense' && e.inc) { return false; }
+      if (applied.show === 'income' && !e.inc) { return false; }
+      if (applied.saved && !e.sv) { return false; }
+      return true;
+    });
+    if (applied.sort === 'oldest') { list = list.slice().reverse(); }
+    if (applied.sort === 'high') { list = list.slice().sort(function (a, b) { return b.a - a.a; }); }
+    if (applied.sort === 'low') { list = list.slice().sort(function (a, b) { return a.a - b.a; }); }
+    var full = list;
+    list = list.slice(0, 8);
+    var byDate = applied.sort === 'newest' || applied.sort === 'oldest';
+    var items = [];
+    var lastDay = null;
+    list.forEach(function (e) {
+      if (byDate && e.d !== lastDay) {
+        var tot = 0;
+        full.forEach(function (x) { if (x.d === e.d) { tot += x.inc ? x.a : -x.a; } });
+        items.push({ head: true, row: false, mt: items.length ? '16px' : '0px', t1: e.d === 21 ? 'Today' : wd(e.d) + ' ' + e.d + ' Oct', t2: e.d === 21 ? 'Wed 21 Oct' : '', total: (tot >= 0 ? '+₹' : '−₹') + fmt(Math.abs(tot)), name: '', saved: false, sub: '', amt: '', amtColor: '#F4F4F6', color: '#8A8A95', d: '' });
+        lastDay = e.d;
+      }
+      items.push({
+        head: false, row: true, mt: '0px', t1: '', t2: '', total: '', name: e.n, saved: !!e.sv,
+        sub: byDate ? e.c : e.c + ', ' + e.d + ' Oct',
+        amt: (e.inc ? '+₹' : '−₹') + fmt(e.a), amtColor: e.inc ? '#5EE0A1' : '#F4F4F6',
+        color: IC[e.k].color, d: IC[e.k].d
+      });
+    });
+    var count = countFor(applied);
+    var countText;
+    var totalText;
+    var totalColor = '#F4F4F6';
+    if (applied.saved) {
+      countText = applied.show === 'income' ? 'No saved income' : (applied.show === 'all' ? '3 saved entries' : '3 saved expenses');
+      totalText = applied.show === 'income' ? '₹0' : '−₹8,540';
+    } else if (applied.show === 'all') {
+      countText = '60 entries'; totalText = '+₹56,260'; totalColor = '#5EE0A1';
+    } else if (applied.show === 'expense') {
+      countText = '58 expenses'; totalText = '−₹68,240';
+    } else {
+      countText = '2 income entries'; totalText = '+₹1,24,500'; totalColor = '#5EE0A1';
+    }
+    var setDraft = function (patch) {
+      return function () {
+        var st = self.state || {};
+        var cur = st.draft || draft;
+        var next = { show: cur.show, saved: cur.saved, sort: cur.sort };
+        Object.keys(patch).forEach(function (k) { next[k] = patch[k]; });
+        var changed = countFor(next) !== countFor(cur);
+        var upd = { draft: next };
+        if (changed) { upd.cflip = !st.cflip; }
+        self.setState(upd);
+      };
+    };
+    var hide = function (apply) {
+      if (self.t1) { clearTimeout(self.t1); }
+      self.setState({ closing: true });
+      self.t1 = setTimeout(function () {
+        var st = self.state || {};
+        var next = { open: false, closing: false };
+        if (apply) { next.applied = st.draft || draft; next.lflip = !st.lflip; }
+        self.setState(next);
+      }, 260);
+    };
+    var dCount = countFor(draft);
+    var isDefault = draft.show === DEF.show && !draft.saved && draft.sort === DEF.sort;
+    var X = { all: '0%', expense: '100%', income: '200%' };
+    return {
+      open: open,
+      scrimClass: closing ? 'scrim out' : 'scrim',
+      sheetClass: closing ? 'sheet out' : 'sheet',
+      close: function () { if (!closing) { hide(false); } },
+      apply: function () { if (!closing && dCount > 0) { hide(true); } },
+      reopen: function () {
+        if (self.t1) { clearTimeout(self.t1); }
+        self.setState({ open: true, closing: false, draft: applied });
+      },
+      clearAll: function () { var st = self.state || {}; self.setState({ applied: DEF, draft: DEF, lflip: !st.lflip }); },
+      showChip: applied.show === 'expense' ? 'Expenses only' : (applied.show === 'income' ? 'Income only' : 'All entries'),
+      showChipCls: applied.show === 'all' ? 'chip' : 'chip on',
+      savedChipCls: applied.saved ? 'chip on' : 'chip',
+      savedFill: applied.saved ? 'currentColor' : 'none',
+      sortChip: sortLabel(applied.sort),
+      countText: countText,
+      totalText: totalText,
+      totalColor: totalColor,
+      items: items,
+      empty: items.length === 0,
+      listClass: s.lflip === undefined ? '' : (s.lflip ? 'lA' : 'lB'),
+      thumbX: X[draft.show],
+      segAll: draft.show === 'all' ? 'on' : '',
+      segExp: draft.show === 'expense' ? 'on' : '',
+      segInc: draft.show === 'income' ? 'on' : '',
+      onAll: draft.show === 'all',
+      onExp: draft.show === 'expense',
+      onInc: draft.show === 'income',
+      setAll: setDraft({ show: 'all' }),
+      setExp: setDraft({ show: 'expense' }),
+      setInc: setDraft({ show: 'income' }),
+      dSaved: draft.saved,
+      dSavedFill: draft.saved ? '#A59BFF' : 'none',
+      dSavedStroke: draft.saved ? '#A59BFF' : '#A6A6B0',
+      swClass: draft.saved ? 'sw on' : 'sw',
+      toggleSaved: setDraft({ saved: !draft.saved }),
+      sorts: SORTS.map(function (o) {
+        var on = draft.sort === o.key;
+        return { label: o.label, on: on, ring: on ? 'rg on' : 'rg', pick: setDraft({ sort: o.key }) };
+      }),
+      isDefault: isDefault,
+      reset: function () { var st = self.state || {}; self.setState({ draft: DEF, cflip: !st.cflip }); },
+      noMatch: dCount === 0,
+      ctaClass: dCount === 0 ? 'cta off' : 'cta',
+      ctaLabel: dCount === 0 ? 'No entries match' : (dCount === 1 ? 'Show 1 entry' : 'Show ' + dCount + ' entries'),
+      ctaFlip: s.cflip === undefined ? '' : (s.cflip ? 'cA' : 'cB')
+    };
+  }
+}
+</script>
+</body>
+</html>

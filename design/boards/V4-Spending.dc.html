@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Spending breakdown</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.tab{position:relative;height:44px;display:flex;align-items:center;color:#8A8A95;font-size:15px;font-weight:500;text-decoration:none}
+.tab.on{color:#F4F4F6}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#7B6CF6}
+.wk{display:flex;flex-direction:column;align-items:stretch;gap:6px;text-align:center;border:0;background:transparent;padding:0;color:inherit;transition:transform .12s ease}
+.wk:active{transform:scale(.97)}
+.wk .v,.wk .l{font-size:12px;color:#8A8A95;transition:color .2s ease}
+.wk.on .v,.wk.on .l{color:#F4F4F6;font-weight:600}
+.wk .bx{height:104px;display:flex;align-items:flex-end}
+.wk .b{position:relative;width:100%;border-radius:10px;background:#2A2640;overflow:hidden}
+.wk .b::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#A59BFF,#5240D9);opacity:0;transition:opacity .24s ease}
+.wk.on .b::after{opacity:1}
+.wk .b.empty{background:transparent;box-shadow:inset 0 0 0 1px #2A2A31}
+.wk .b.empty::after{display:none}
+.cA{animation:capA .26s cubic-bezier(.2,.8,.2,1) both}
+.cB{animation:capB .26s cubic-bezier(.2,.8,.2,1) both}
+@keyframes capA{from{opacity:0;transform:translateY(4px)}}
+@keyframes capB{from{opacity:0;transform:translateY(4px)}}
+.r{display:flex;align-items:center;gap:14px;height:56px;width:100%;text-decoration:none;color:inherit;border-radius:12px;transition:background-color .15s ease}
+.r:active{background:#111114}
+.gl{width:38px;height:38px;border-radius:19px;background:#141417;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .32s cubic-bezier(.2,.8,.2,1),opacity .22s ease}
+.more.open{grid-template-rows:1fr;opacity:1}
+.more > div{overflow:hidden;min-height:0}
+.chev{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Spending</h1>
+    <a href="V4-Month.dc.html" style="height: 44px; padding: 0 14px 0 16px; border-radius: 22px; background: #141417; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #F4F4F6; text-decoration: none">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+  </header>
+
+  <nav aria-label="Spending view" style="display: flex; gap: 28px; padding: 0 20px; box-shadow: inset 0 -1px 0 #1A1A1F">
+    <a class="tab on" href="V4-Spending.dc.html" aria-current="page">Breakdown</a>
+    <a class="tab" href="V4-Trend.dc.html">Trends</a>
+  </nav>
+
+  <section style="padding: 20px 20px 0">
+    <span style="font-size: 14px; color: #A6A6B0">You spent</span>
+    <div class="w n" style="font-size: 44px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; margin-top: 2px">₹68,240</div>
+    <p style="margin: 6px 0 0; font-size: 14px; color: #A6A6B0">That's 55% of the <span class="n" style="color: #5EE0A1">₹1,24,500</span> that came in.</p>
+  </section>
+
+  <section style="padding: 24px 20px 0">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px">
+      <h2 class="w" style="margin: 0; font-size: 15px; font-weight: 600">By week</h2>
+      <span style="font-size: 12px; color: #8A8A95">Tap a week</span>
+    </div>
+    <div role="radiogroup" aria-label="Spending by week" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+      <button class="{{w0}}" role="radio" aria-checked="{{s0}}" aria-label="1 to 7 October, ₹31,516" onClick="{{p0}}"><span class="v n">₹31.5k</span><span class="bx"><span class="b" style="height: 104px"></span></span><span class="l">1–7</span></button>
+      <button class="{{w1}}" role="radio" aria-checked="{{s1}}" aria-label="8 to 14 October, ₹16,440" onClick="{{p1}}"><span class="v n">₹16.4k</span><span class="bx"><span class="b" style="height: 54px"></span></span><span class="l">8–14</span></button>
+      <button class="{{w2}}" role="radio" aria-checked="{{s2}}" aria-label="15 to 21 October, ₹20,284 so far" onClick="{{p2}}"><span class="v n">₹20.3k</span><span class="bx"><span class="b" style="height: 67px"></span></span><span class="l">15–21</span></button>
+      <button class="{{w3}}" role="radio" aria-checked="{{s3}}" aria-label="22 to 31 October, not started" onClick="{{p3}}"><span class="v">Not yet</span><span class="bx"><span class="b empty" style="height: 6px"></span></span><span class="l">22–31</span></button>
+    </div>
+    <p class="{{capClass}}" aria-live="polite" style="margin: 14px 0 0; font-size: 14px; line-height: 1.45; color: #A6A6B0">{{caption}}</p>
+  </section>
+
+  <section style="padding: 22px 20px 0">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px">
+      <h2 class="w" style="margin: 0; font-size: 15px; font-weight: 600">By category</h2>
+      <span style="font-size: 12px; color: #8A8A95">Tap one to see its entries</span>
+    </div>
+    <div role="img" aria-label="Share of spending by category" style="display: flex; gap: 2px; height: 10px">
+      <div style="flex: 18420; border-radius: 3px; background: #F2A272"></div>
+      <div style="flex: 12600; border-radius: 3px; background: #6FB2FF"></div>
+      <div style="flex: 11850; border-radius: 3px; background: #F08DBA"></div>
+      <div style="flex: 9340; border-radius: 3px; background: #5CD3C6"></div>
+      <div style="flex: 6780; border-radius: 3px; background: #B9A6FF"></div>
+      <div style="flex: 4950; border-radius: 3px; background: #FF8A80"></div>
+      <div style="flex: 3200; border-radius: 3px; background: #F5CF6E"></div>
+      <div style="flex: 1100; border-radius: 3px; background: #4A4A54"></div>
+    </div>
+    <div style="margin-top: 8px">
+      <a class="r" href="V4-Category.dc.html"><span class="gl" style="color: #F2A272"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7h3"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Food &amp; Dining</span><span style="font-size: 13px; color: #8A8A95">27% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹18,420</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+      <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #6FB2FF"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Utilities</span><span style="font-size: 13px; color: #8A8A95">18% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹12,600</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+      <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #F08DBA"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Shopping</span><span style="font-size: 13px; color: #8A8A95">17% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹11,850</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+      <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #5CD3C6"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM5 11h14"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Transportation</span><span style="font-size: 13px; color: #8A8A95">14% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹9,340</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+      <div class="{{moreClass}}" id="more-cats">
+        <div>
+          <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #B9A6FF"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 5v14M17 5v14M3 12h18"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Entertainment</span><span style="font-size: 13px; color: #8A8A95">10% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹6,780</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+          <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #FF8A80"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Health</span><span style="font-size: 13px; color: #8A8A95">7% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹4,950</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+          <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #F5CF6E"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5z"></path><path d="M6 11v5c3 2 9 2 12 0v-5"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Education</span><span style="font-size: 13px; color: #8A8A95">5% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹3,200</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+          <a class="r" href="V4-Ledger.dc.html"><span class="gl" style="color: #A6A6B0"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 12h1M11.5 12h1M17.5 12h1"></path></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">Other</span><span style="font-size: 13px; color: #8A8A95">2% of spending</span></span><span class="n" style="font-size: 15px; font-weight: 500">₹1,100</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5C66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></a>
+        </div>
+      </div>
+      <button aria-expanded="{{moreOpen}}" aria-controls="more-cats" onClick="{{toggleMore}}" style="height: 40px; border: 0; background: transparent; padding: 0; color: #A59BFF; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px">{{moreLabel}}<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate({{chevDeg}})"><path d="m6 9 6 6 6-6"></path></svg></button>
+    </div>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti on" href="V4-Spending.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var wk = (s.wk === undefined) ? 2 : s.wk;
+    var CAPS = [
+      '₹31,516 in 1–7 Oct, your biggest week. ₹14,446 of it went out on the 3rd.',
+      '₹16,440 in 8–14 Oct, your lightest full week so far.',
+      '₹20,284 so far in 15–21 Oct, about ₹2,898 a day.',
+      'Nothing yet. This week starts tomorrow.'
+    ];
+    var more = !!s.more;
+    var vals = {
+      caption: CAPS[wk],
+      capClass: s.flip === undefined ? '' : (s.flip ? 'cA' : 'cB'),
+      moreClass: more ? 'more open' : 'more',
+      moreOpen: more,
+      moreLabel: more ? 'Show fewer categories' : 'Show Entertainment, Health, Education and Other',
+      chevDeg: more ? '180deg' : '0deg',
+      toggleMore: function () { self.setState({ more: !more }); }
+    };
+    for (var i = 0; i < 4; i++) {
+      (function (k) {
+        vals['w' + k] = k === wk ? 'wk on' : 'wk';
+        vals['s' + k] = k === wk;
+        vals['p' + k] = function () { if (k !== wk) { self.setState({ wk: k, flip: !s.flip }); } };
+      })(i);
+    }
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

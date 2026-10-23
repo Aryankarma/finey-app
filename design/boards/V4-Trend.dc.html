@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finey · Spending trends</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#A59BFF}a:hover{color:#C8C1FF}
+.n{font-variant-numeric:tabular-nums}
+.w{font-stretch:125%;font-variation-settings:'wdth' 125}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #A59BFF;outline-offset:2px}
+.tab{position:relative;height:44px;display:flex;align-items:center;color:#8A8A95;font-size:15px;font-weight:500;text-decoration:none}
+.tab.on{color:#F4F4F6}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#7B6CF6}
+.st{display:flex;flex-direction:column;gap:4px}
+.st+.st{padding-left:14px;box-shadow:inset 1px 0 0 #1A1A1F}
+.fill{animation:fill .8s cubic-bezier(.2,.8,.2,1) both .1s}
+@keyframes fill{from{width:0}}
+.fade{animation:fade .45s ease both}
+@keyframes fade{from{opacity:0}}
+.ln{stroke-dasharray:1;animation:draw 1.05s cubic-bezier(.45,0,.2,1) both .2s}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.area{animation:fade .6s ease both .85s}
+.scrub{animation:fade .35s ease both 1.15s}
+.mv{transition:left .28s cubic-bezier(.2,.8,.2,1),top .28s cubic-bezier(.2,.8,.2,1)}
+.hit{position:absolute;top:0;height:170px;width:16px;border:0;background:transparent;padding:0;border-radius:8px}
+.hit:focus-visible{outline:2px solid #A59BFF;outline-offset:0}
+.tA{animation:tA .22s ease}
+.tB{animation:tB .22s ease}
+@keyframes tA{from{opacity:.4}}
+@keyframes tB{from{opacity:.4}}
+.pop{animation:pop .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.92)}}
+.tb{position:absolute;left:0;right:0;bottom:0;height:76px;background:#08080A;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-bottom:8px;box-sizing:border-box}
+.ti{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8A8A95;font-size:11px;font-weight:500;text-decoration:none}
+.ti.on{color:#F4F4F6}
+.ti.on svg{color:#A59BFF}
+.ti.on::before{content:"";position:absolute;top:0;left:50%;width:20px;margin-left:-10px;height:3px;border-radius:0 0 3px 3px;background:#7B6CF6}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important}}
+</style>
+</helmet>
+<div style="width: 412px; height: 915px; position: relative; overflow: hidden; background: #08080A; color: #F4F4F6; font-family: 'Archivo', system-ui, sans-serif; box-sizing: border-box; padding-top: 36px">
+
+  <header style="height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+    <h1 class="w" style="margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.01em">Spending</h1>
+    <a href="V4-Month.dc.html" style="height: 44px; padding: 0 14px 0 16px; border-radius: 22px; background: #141417; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #F4F4F6; text-decoration: none">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A8A95" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+  </header>
+
+  <nav aria-label="Spending view" style="display: flex; gap: 28px; padding: 0 20px; box-shadow: inset 0 -1px 0 #1A1A1F">
+    <a class="tab" href="V4-Spending.dc.html">Breakdown</a>
+    <a class="tab on" href="V4-Trend.dc.html" aria-current="page">Trends</a>
+  </nav>
+
+  <section style="padding: 20px 20px 0">
+    <span style="font-size: 14px; color: #A6A6B0">You kept</span>
+    <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 2px">
+      <span class="w n" style="font-size: 44px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15">45.2%</span>
+      <span style="font-size: 14px; color: #A6A6B0">of your income</span>
+    </div>
+    <div role="img" aria-label="45.2 percent kept against a 20 percent goal" style="position: relative; height: 6px; margin-top: 14px; border-radius: 3px; background: #1A1A1F">
+      <div class="fill" style="width: 45.2%; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #5240D9, #A59BFF)"></div>
+      <div class="fade" style="position: absolute; left: 20%; top: -4px; width: 2px; height: 14px; border-radius: 1px; background: #F4F4F6; animation-delay: .5s"></div>
+    </div>
+    <div style="position: relative; height: 20px; margin-top: 6px; font-size: 12px; color: #8A8A95"><span style="position: absolute; left: calc(20% - 26px)">20% goal</span></div>
+  </section>
+
+  <section style="padding: 22px 20px 0">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px">
+      <h2 class="w" style="margin: 0; font-size: 15px; font-weight: 600">Running balance</h2>
+      <span style="font-size: 12px; color: #8A8A95">Tap any day to inspect it</span>
+    </div>
+    <div style="position: relative; height: 188px">
+      <svg width="372" height="170" viewBox="0 0 372 170" role="img" aria-label="Running balance from ₹1,08,550 on 1 October down to ₹56,260 on 21 October, rising on 14 October after ₹14,500 came in." style="position: absolute; left: 0; top: 0">
+        <defs><linearGradient id="ar4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7B6CF6" stop-opacity=".34"></stop><stop offset="1" stop-color="#7B6CF6" stop-opacity="0"></stop></linearGradient></defs>
+        <g stroke="#16161A" stroke-width="1"><line x1="0" y1="44.3" x2="334" y2="44.3"></line><line x1="0" y1="98.2" x2="334" y2="98.2"></line><line x1="0" y1="152" x2="334" y2="152"></line></g>
+        <g font-size="10" fill="#8A8A95" font-family="Archivo, system-ui, sans-serif"><text x="340" y="47.5">₹1L</text><text x="340" y="101.5">₹75k</text><text x="340" y="155">₹50k</text></g>
+        <path class="area" fill="url(#ar4)" d="M0.0,25.9 C2.8,27.0 11.1,26.1 16.7,32.3 C22.3,38.6 27.8,56.4 33.4,63.4 C39.0,70.5 44.5,71.9 50.1,74.6 C55.7,77.3 61.2,78.3 66.8,79.6 C72.4,80.9 77.9,80.4 83.5,82.3 C89.1,84.1 94.6,89.0 100.2,90.6 C105.8,92.3 111.3,91.0 116.9,92.0 C122.5,93.0 128.0,94.1 133.6,96.6 C139.2,99.0 144.7,103.8 150.3,106.7 C155.9,109.6 161.4,112.4 167.0,114.0 C172.6,115.5 178.1,115.1 183.7,116.1 C189.3,117.0 194.8,123.4 200.4,119.8 C206.0,116.3 211.5,96.7 217.1,94.8 C222.7,93.0 228.2,105.6 233.8,108.7 C239.4,111.8 244.9,112.1 250.5,113.4 C256.1,114.8 261.6,115.5 267.2,116.7 C272.8,117.9 278.3,118.2 283.9,120.7 C289.5,123.2 295.0,129.0 300.6,131.8 C306.2,134.6 311.7,136.4 317.3,137.5 C322.9,138.6 331.2,138.3 334.0,138.5 L334,170 L0,170 Z"></path>
+        <path class="ln" pathLength="1" fill="none" stroke="#A59BFF" stroke-width="2.25" stroke-linecap="round" d="M0.0,25.9 C2.8,27.0 11.1,26.1 16.7,32.3 C22.3,38.6 27.8,56.4 33.4,63.4 C39.0,70.5 44.5,71.9 50.1,74.6 C55.7,77.3 61.2,78.3 66.8,79.6 C72.4,80.9 77.9,80.4 83.5,82.3 C89.1,84.1 94.6,89.0 100.2,90.6 C105.8,92.3 111.3,91.0 116.9,92.0 C122.5,93.0 128.0,94.1 133.6,96.6 C139.2,99.0 144.7,103.8 150.3,106.7 C155.9,109.6 161.4,112.4 167.0,114.0 C172.6,115.5 178.1,115.1 183.7,116.1 C189.3,117.0 194.8,123.4 200.4,119.8 C206.0,116.3 211.5,96.7 217.1,94.8 C222.7,93.0 228.2,105.6 233.8,108.7 C239.4,111.8 244.9,112.1 250.5,113.4 C256.1,114.8 261.6,115.5 267.2,116.7 C272.8,117.9 278.3,118.2 283.9,120.7 C289.5,123.2 295.0,129.0 300.6,131.8 C306.2,134.6 311.7,136.4 317.3,137.5 C322.9,138.6 331.2,138.3 334.0,138.5"></path>
+        <circle class="fade" cx="334" cy="138.5" r="3.5" fill="#A59BFF" style="animation-delay: 1.2s"></circle>
+      </svg>
+
+      <div class="scrub" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none">
+        <div class="mv" style="position: absolute; top: 0; left: {{lineX}}; width: 0; height: 170px; border-left: 1px dashed rgba(165,155,255,.5)"></div>
+        <div class="mv" style="position: absolute; left: {{dotX}}; top: {{dotY}}; width: 12px; height: 12px; border-radius: 6px; background: #08080A; box-shadow: inset 0 0 0 2.5px #F4F4F6"></div>
+        <div class="mv" style="position: absolute; left: {{tipX}}; top: 0; width: 146px; padding: 10px 12px; box-sizing: border-box; border-radius: 14px; background: #1A1A1F; box-shadow: 0 10px 24px rgba(0,0,0,.45)">
+          <div class="{{tipClass}}" style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 12px; color: #A6A6B0">{{tipDate}}</span>
+            <span class="w n" style="font-size: 16px; font-weight: 600">{{tipBal}}</span>
+            <span class="n" style="font-size: 12px; color: {{tipInColor}}">{{tipIn}}</span>
+            <span class="n" style="font-size: 12px; color: #D9D9DE">{{tipOut}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div role="group" aria-label="Days in October" style="position: absolute; left: 0; top: 0; width: 372px; height: 170px">
+        <sc-for list="{{hits}}" as="h" hint-placeholder-count="21">
+          <button class="hit" aria-label="{{h.aria}}" aria-pressed="{{h.on}}" onClick="{{h.pick}}" style="left: {{h.left}}"></button>
+        </sc-for>
+      </div>
+
+      <div class="n" style="position: absolute; left: 0; top: 172px; width: 334px; height: 16px; font-size: 11px; color: #8A8A95">
+        <span style="position: absolute; left: 0">1 Oct</span><span style="position: absolute; left: 96px">7</span><span style="position: absolute; left: 210px">14</span><span style="position: absolute; right: 0">21</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 22px 20px 0">
+    <div class="st"><span style="font-size: 12px; color: #8A8A95">Spent a day</span><span class="w n" style="font-size: 16px; font-weight: 600">₹3,250</span></div>
+    <div class="st"><span style="font-size: 12px; color: #8A8A95">Earned a day</span><span class="w n" style="font-size: 16px; font-weight: 600; color: #5EE0A1">₹5,929</span></div>
+    <div class="st"><span style="font-size: 12px; color: #8A8A95">Entries</span><span class="w n" style="font-size: 16px; font-weight: 600">60</span></div>
+  </section>
+
+  <section style="margin: 22px 20px 0; padding: 18px; border-radius: 22px; background: radial-gradient(120% 140% at 100% 0%, rgba(123,108,246,.22), rgba(123,108,246,0) 60%), #111114; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <span class="w" style="font-size: 16px; font-weight: 600">Try a <span class="n">₹81,238</span> monthly budget</span>
+      <span style="font-size: 14px; line-height: 1.45; color: #A6A6B0">{{budgetText}}</span>
+    </div>
+    <sc-if value="{{notSet}}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{setBudget}}" style="align-self: flex-start; height: 44px; padding: 0 20px; border: 0; border-radius: 22px; background: #F4F4F6; color: #08080A; font-size: 14px; font-weight: 600; transition: transform .12s ease">Set this budget</button>
+    </sc-if>
+    <sc-if value="{{isSet}}" hint-placeholder-val="{{ false }}">
+      <div class="pop" role="status" style="align-self: flex-start; height: 44px; padding: 0 18px 0 14px; border-radius: 22px; background: rgba(94,224,161,.14); color: #5EE0A1; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>Budget set</div>
+    </sc-if>
+  </section>
+
+  <nav class="tb" aria-label="Main">
+    <a class="ti" href="V4-Home.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a class="ti on" href="V4-Spending.dc.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"></path><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"></path></svg>Spending</a>
+    <a class="ti" href="V4-Ledger.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg>Ledger</a>
+    <a class="ti" href="V4-People.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c1.6.6 2.6 2.2 3 5"></path></svg>People</a>
+    <a class="ti" href="V4-Wealth.dc.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"></path></svg>Wealth</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":412,"height":915}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var day = s.day || 14;
+    var EXP = [1450, 2980, 14446, 5200, 2310, 1240, 3890, 640, 2100, 4720, 3360, 980, 1750, 2890, 6420, 2210, 1520, 1860, 5170, 2618, 486];
+    var INC = { 1: 110000, 14: 14500 };
+    var DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var fmt = function (v) { return v.toLocaleString('en-IN'); };
+    var cum = [];
+    var run = 0;
+    for (var i = 0; i < 21; i++) { run += (INC[i + 1] || 0) - EXP[i]; cum.push(run); }
+    var xOf = function (d) { return (d - 1) * 334 / 20; };
+    var yOf = function (v) { return 12 + (115000 - v) / 65000 * 140; };
+    var hits = [];
+    for (var d = 1; d <= 21; d++) {
+      (function (k) {
+        hits.push({
+          left: (xOf(k) - 8).toFixed(1) + 'px',
+          on: k === day,
+          aria: LONG[(4 + k - 1) % 7] + ' ' + k + ' October, balance ₹' + fmt(cum[k - 1]),
+          pick: function () { if (k !== day) { self.setState({ day: k, flip: !s.flip }); } }
+        });
+      })(d);
+    }
+    var x = xOf(day);
+    var y = yOf(cum[day - 1]);
+    var inn = INC[day] || 0;
+    var budgetSet = !!s.budget;
+    return {
+      hits: hits,
+      lineX: x.toFixed(1) + 'px',
+      dotX: (x - 6).toFixed(1) + 'px',
+      dotY: (y - 6).toFixed(1) + 'px',
+      tipX: (x > 180 ? x - 156 : x + 12).toFixed(1) + 'px',
+      tipClass: s.flip === undefined ? '' : (s.flip ? 'tA' : 'tB'),
+      tipDate: DAYS[(4 + day - 1) % 7] + ' ' + day + ' Oct',
+      tipBal: '₹' + fmt(cum[day - 1]),
+      tipIn: inn ? '+₹' + fmt(inn) + ' in' : 'Nothing came in',
+      tipInColor: inn ? '#5EE0A1' : '#8A8A95',
+      tipOut: '−₹' + fmt(EXP[day - 1]) + ' out',
+      notSet: !budgetSet,
+      isSet: budgetSet,
+      budgetText: budgetSet ? "Done. Finey will tell you when you've used 80% of it." : "That covers 25 days at your current daily spend, and keeps your saving rate above goal.",
+      setBudget: function () { self.setState({ budget: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
