@@ -2,8 +2,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { ViewTabs } from '@/components/view-tabs';
 import { Icon, type IconName } from '@/ui/icons';
-import { colors, fonts, gradients, layout, space, type } from '@/ui/theme';
+import { colors, gradients, layout, space, type } from '@/ui/theme';
 
 // Title, actions and the List / Calendar tabs shared by both Ledger views.
 export function LedgerHeader({ view, action }: { view: 'list' | 'calendar'; action: { icon: IconName; label: string; onPress?: () => void } }) {
@@ -25,19 +26,15 @@ export function LedgerHeader({ view, action }: { view: 'list' | 'calendar'; acti
         </View>
       </View>
 
-      <View style={styles.tabs} role="tablist" aria-label="Ledger view">
-        {(['list', 'calendar'] as const).map((v) => (
-          <Pressable
-            key={v}
-            role="tab"
-            aria-selected={view === v}
-            onPress={() => view !== v && router.replace(v === 'list' ? '/ledger' : '/ledger/calendar')}
-            style={styles.tab}>
-            <Text style={[styles.tabLabel, view === v && { color: colors.text }]}>{v === 'list' ? 'List' : 'Calendar'}</Text>
-            {view === v && <View style={styles.underline} />}
-          </Pressable>
-        ))}
-      </View>
+      <ViewTabs
+        label="Ledger view"
+        tabs={[
+          { key: 'list', label: 'List' },
+          { key: 'calendar', label: 'Calendar' },
+        ]}
+        value={view}
+        onChange={(v) => router.replace(v === 'list' ? '/ledger' : '/ledger/calendar')}
+      />
     </>
   );
 }
@@ -62,8 +59,4 @@ const styles = StyleSheet.create({
   },
   add: { borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.16)' },
   pressed: { transform: [{ scale: 0.94 }] },
-  tabs: { flexDirection: 'row', gap: 28, paddingHorizontal: space.screenX, borderBottomWidth: 1, borderBottomColor: colors.line },
-  tab: { height: 44, justifyContent: 'center' },
-  tabLabel: { fontFamily: fonts.medium, fontSize: 15, color: colors.textFaint },
-  underline: { position: 'absolute', left: 0, right: 0, bottom: -1, height: 2, borderRadius: 2, backgroundColor: colors.iris },
 });
