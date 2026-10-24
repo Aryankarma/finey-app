@@ -1,16 +1,20 @@
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { Amount } from '@/components/amount';
 import { QuickAdd } from '@/components/home/quick-add';
 import { RecentRow } from '@/components/home/recent-row';
 import { SpendRing } from '@/components/home/spend-ring';
+import { MonthPickerSheet } from '@/components/month-picker-sheet';
 import { Screen } from '@/components/screen';
+import { UnlockSheet } from '@/components/unlock-sheet';
 import { useEntrance } from '@/hooks/use-entrance';
 import { currentDay, useEntries } from '@/store/entries';
+import { usePasteHandoff } from '@/store/paste-handoff';
 import { useSettings } from '@/store/settings';
-import { dailySpend, incomeDays, monthSummary } from '@/store/summary';
+import { dailySpend, inMonth, incomeDays, monthSummary } from '@/store/summary';
+import { useIsCurrentMonth, useViewDay } from '@/store/view-month';
 import { daysInMonth, formatMoney, monthName } from '@/ui/format';
 import { Icon } from '@/ui/icons';
 import { colors, fonts, layout, motion, space, tabular } from '@/ui/theme';
@@ -20,25 +24,35 @@ const RING_MAX = 320;
 export default function HomeScreen() {
   const router = useRouter();
   const hidden = useSettings((s) => s.hideAmounts);
-  const toggle = useSettings((s) => s.toggleHideAmounts);
+  const setHidden = useSettings((s) => s.setHideAmounts);
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  // Hiding is instant; showing them again asks for the PIN.
+  const toggle = () => (hidden ? setUnlockOpen(true) : setHidden(true));
   const entries = useEntries((s) => s.entries);
   const { width } = useWindowDimensions();
   const elapsed = useEntrance(1600);
   const today = currentDay();
-  const month = monthName(today);
+  const viewDay = useViewDay(); // today, or the last day of a past month picked above
+  const isCurrent = useIsCurrentMonth();
+  const [monthOpen, setMonthOpen] = useState(false);
+  const month = monthName(viewDay);
 
-  const summary = useMemo(() => monthSummary(entries, today), [entries, today]);
-  const spend = useMemo(() => dailySpend(entries, today), [entries, today]);
-  const income = useMemo(() => incomeDays(entries, today), [entries, today]);
-  const recent = entries.slice(0, 3);
+  const summary = useMemo(() => monthSummary(entries, viewDay), [entries, viewDay]);
+  const spend = useMemo(() => dailySpend(entries, viewDay), [entries, viewDay]);
+  const income = useMemo(() => incomeDays(entries, viewDay), [entries, viewDay]);
+  const recent = useMemo(() => inMonth(entries, viewDay).slice(0, 3), [entries, viewDay]);
 
   return (
     <Screen style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Pressable style={styles.month} accessibilityRole="button" accessibilityLabel={`Change month, ${month} ${today.slice(0, 4)}`}>
+          <Pressable
+            onPress={() => setMonthOpen(true)}
+            style={styles.month}
+            accessibilityRole="button"
+            accessibilityLabel={`Change month, ${month} ${viewDay.slice(0, 4)}`}>
             <Text style={styles.monthName}>{month}</Text>
-            <Text style={styles.year}>{today.slice(0, 4)}</Text>
+            <Text style={styles.year}>{viewDay.slice(0, 4)}</Text>
             <View style={styles.chevron}>
               <Icon name="chevronDown" size={16} color={colors.textFaint} strokeWidth={2} />
             </View>
@@ -52,7 +66,7 @@ export default function HomeScreen() {
               style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
               <Icon name={hidden ? 'eyeOff' : 'eye'} color={hidden ? colors.lilac : colors.text} />
             </Pressable>
-            <Pressable accessibilityRole="button" accessibilityLabel="Settings" style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
+            <Pressable onPress={() => router.push('/settings')} accessibilityRole="button" accessibilityLabel="Settings" style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
               <Icon name="sliders" color={colors.text} />
             </Pressable>
           </View>
@@ -63,11 +77,13 @@ export default function HomeScreen() {
             size={Math.min(RING_MAX, width - space.screenX * 2)}
             elapsed={elapsed}
             dailySpend={spend}
-            daysInMonth={daysInMonth(today)}
+            daysInMonth={daysInMonth(viewDay)}
             incomeDays={income}
             balance={summary.net}
             savingsRate={summary.savingsRate}
             monthLabel={month}
+            current={isCurrent}
+            caption={isCurrent ? 'Left this month' : `Left at the end of ${month}`}
           />
         </View>
         <Text style={styles.legend}>Each mark is a day of spending. Green dots are days money came in.</Text>
@@ -83,7 +99,14 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <QuickAdd onOpenForm={() => router.push('/entry/new')} />
+        <QuickAdd
+          onOpenForm={() => router.push('/entry/new')}
+          onVoice={() => router.push('/entry/voice')}
+          onSubmit={(text) => {
+            usePasteHandoff.getState().give(text);
+            router.push('/entry/paste');
+          }}
+        />
 
         <View style={styles.recent}>
           <View style={styles.recentHeader}>
@@ -95,8 +118,11 @@ export default function HomeScreen() {
           {recent.map((entry) => (
             <RecentRow key={entry.id} entry={entry} today={today} />
           ))}
+          {recent.length === 0 && <Text style={styles.nothing}>Nothing recorded in {month} yet.</Text>}
         </View>
       </ScrollView>
+      <MonthPickerSheet visible={monthOpen} onClose={() => setMonthOpen(false)} />
+      <UnlockSheet visible={unlockOpen} onClose={() => setUnlockOpen(false)} />
     </Screen>
   );
 }
@@ -144,4 +170,5 @@ const styles = StyleSheet.create({
   recentHeader: { height: 32, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   recentTitle: { fontFamily: fonts.expandedSemibold, fontSize: 16, color: colors.text },
   link: { fontFamily: fonts.medium, fontSize: 14, color: colors.lilac },
+  nothing: { paddingVertical: 12, fontFamily: fonts.regular, fontSize: 14, color: colors.textMuted },
 });

@@ -6,8 +6,9 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Amount } from '@/components/amount';
 import { Screen } from '@/components/screen';
 import { SpendingHeader } from '@/components/spending/spending-header';
-import { currentDay, useEntries } from '@/store/entries';
+import { useEntries } from '@/store/entries';
 import { categorySpend, dailySpend, monthSummary, weekBuckets, type WeekBucket } from '@/store/summary';
+import { useIsCurrentMonth, useViewDay } from '@/store/view-month';
 import { categories } from '@/ui/categories';
 import { dayOfMonth, daysInMonth, formatCompact, formatMoney, monthName } from '@/ui/format';
 import { Icon } from '@/ui/icons';
@@ -49,7 +50,8 @@ function weekCaption(week: WeekBucket, weeks: WeekBucket[], spend: number[], tod
 export default function SpendingScreen() {
   const router = useRouter();
   const entries = useEntries((s) => s.entries);
-  const today = currentDay();
+  const today = useViewDay();
+  const isCurrent = useIsCurrentMonth();
   const todayNum = dayOfMonth(today);
   const mon = monthName(today, 'short');
 
@@ -58,7 +60,11 @@ export default function SpendingScreen() {
   const weeks = useMemo(() => weekBuckets(spend, today, daysInMonth(today)), [spend, today]);
   const byCategory = useMemo(() => categorySpend(entries, today), [entries, today]);
 
-  const [picked, setPicked] = useState(() => Math.max(0, weeks.findIndex((w) => w.current)));
+  // Picked week, remembered per month. A month starts on the week in progress, or its last week.
+  const [weekPick, setWeekPick] = useState<{ month: string; index: number } | null>(null);
+  const current = weeks.findIndex((w) => w.current);
+  const picked = weekPick?.month === today ? weekPick.index : current >= 0 ? current : weeks.length - 1;
+  const setPicked = (index: number) => setWeekPick({ month: today, index });
   const [showAll, setShowAll] = useState(false);
   const tallest = Math.max(1, ...weeks.map((w) => w.total));
   const hidden = byCategory.slice(VISIBLE_CATEGORIES);
@@ -66,7 +72,7 @@ export default function SpendingScreen() {
 
   return (
     <Screen style={styles.screen}>
-      <SpendingHeader view="breakdown" month={monthName(today)} />
+      <SpendingHeader view="breakdown" />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
           <Text style={styles.muted}>You spent</Text>
@@ -78,7 +84,7 @@ export default function SpendingScreen() {
                 <Text style={{ color: colors.mint, ...tabular }}>{formatMoney(summary.income)}</Text> that came in.
               </>
             ) : (
-              'Nothing has come in yet this month.'
+              isCurrent ? 'Nothing has come in yet this month.' : `Nothing came in during ${monthName(today)}.`
             )}
           </Text>
         </View>

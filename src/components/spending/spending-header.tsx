@@ -5,13 +5,13 @@ import { MonthChip } from '@/components/month-chip';
 import { ViewTabs } from '@/components/view-tabs';
 import { colors, layout, space, type } from '@/ui/theme';
 
-export function SpendingHeader({ view, month }: { view: 'breakdown' | 'trends'; month: string }) {
+export function SpendingHeader({ view }: { view: 'breakdown' | 'trends' }) {
   const router = useRouter();
   return (
     <>
       <View style={styles.header}>
         <Text style={styles.title} role="heading">Spending</Text>
-        <MonthChip label={month} />
+        <MonthChip />
       </View>
       <ViewTabs
         label="Spending view"

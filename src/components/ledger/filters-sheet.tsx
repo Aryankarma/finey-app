@@ -5,7 +5,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { Segmented } from '@/components/segmented';
 import { Sheet } from '@/components/sheet';
 import { SwitchMark } from '@/components/switch';
-import { currentDay, useEntries } from '@/store/entries';
+import { useEntries } from '@/store/entries';
 import {
   defaultFilters,
   isDefaultFilters,
@@ -16,6 +16,7 @@ import {
   type LedgerShow,
   type LedgerSort,
 } from '@/store/ledger';
+import { useViewDay } from '@/store/view-month';
 import { Icon } from '@/ui/icons';
 import { colors, fonts } from '@/ui/theme';
 
@@ -30,6 +31,7 @@ const SORTS = Object.keys(sortLabels) as LedgerSort[];
 export function FiltersSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const ledger = useLedger();
   const entries = useEntries((s) => s.entries);
+  const viewDay = useViewDay();
   const [draft, setDraft] = useState<LedgerFilters>(defaultFilters);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export function FiltersSheet({ visible, onClose }: { visible: boolean; onClose: 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  const count = useMemo(() => ledgerEntries(entries, currentDay(), draft, ledger.query).length, [entries, draft, ledger.query]);
+  const count = useMemo(() => ledgerEntries(entries, viewDay, draft, ledger.query).length, [entries, viewDay, draft, ledger.query]);
   const patch = (p: Partial<LedgerFilters>) => setDraft((d) => ({ ...d, ...p }));
 
   return (

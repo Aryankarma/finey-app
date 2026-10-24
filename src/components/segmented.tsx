@@ -11,6 +11,8 @@ export function Segmented<T extends string>({
   label,
   background = colors.surface3,
   thumbColor = '#2C2C34',
+  textColor = colors.textMuted,
+  textOnColor = colors.text,
 }: {
   options: { key: T; label: string }[];
   value: T;
@@ -18,6 +20,8 @@ export function Segmented<T extends string>({
   label?: string;
   background?: string;
   thumbColor?: string;
+  textColor?: string;
+  textOnColor?: string;
 }) {
   const [width, setWidth] = useState(0);
   const index = Math.max(0, options.findIndex((o) => o.key === value));
@@ -35,7 +39,7 @@ export function Segmented<T extends string>({
       )}
       {options.map((o) => (
         <Pressable key={o.key} role="radio" aria-checked={value === o.key} onPress={() => onChange(o.key)} style={styles.item}>
-          <Text style={[styles.label, value === o.key && styles.labelOn]}>{o.label}</Text>
+          <Text style={[styles.label, { color: textColor }, value === o.key && [styles.labelOn, { color: textOnColor }]]}>{o.label}</Text>
         </Pressable>
       ))}
     </View>

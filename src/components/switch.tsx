@@ -4,7 +4,17 @@ import { Animated, Easing, StyleSheet } from 'react-native';
 import { colors } from '@/ui/theme';
 
 // The boards' on/off switch. Visual only: put it inside the row that toggles it.
-export function SwitchMark({ on }: { on: boolean }) {
+export function SwitchMark({
+  on,
+  onColor = colors.iris,
+  offColor = colors.switchOff,
+  knobOffColor = colors.switchKnobOff,
+}: {
+  on: boolean;
+  onColor?: string;
+  offColor?: string;
+  knobOffColor?: string;
+}) {
   const t = useRef(new Animated.Value(on ? 1 : 0)).current;
 
   useEffect(() => {
@@ -19,12 +29,12 @@ export function SwitchMark({ on }: { on: boolean }) {
   return (
     <Animated.View
       aria-hidden
-      style={[styles.track, { backgroundColor: t.interpolate({ inputRange: [0, 1], outputRange: [colors.switchOff, colors.iris] }) }]}>
+      style={[styles.track, { backgroundColor: t.interpolate({ inputRange: [0, 1], outputRange: [offColor, onColor] }) }]}>
       <Animated.View
         style={[
           styles.knob,
           {
-            backgroundColor: t.interpolate({ inputRange: [0, 1], outputRange: [colors.switchKnobOff, '#FFFFFF'] }),
+            backgroundColor: t.interpolate({ inputRange: [0, 1], outputRange: [knobOffColor, '#FFFFFF'] }),
             transform: [{ translateX: t.interpolate({ inputRange: [0, 1], outputRange: [0, 20] }) }],
           },
         ]}

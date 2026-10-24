@@ -8,8 +8,9 @@ import { MonthChip } from '@/components/month-chip';
 import { Screen } from '@/components/screen';
 import type { CategoryKey, Entry } from '@/data/seed';
 import { easeOutCubic, progress, useEntrance } from '@/hooks/use-entrance';
-import { currentDay, useEntries } from '@/store/entries';
+import { useEntries } from '@/store/entries';
 import { inMonth, monthSummary } from '@/store/summary';
+import { useIsCurrentMonth, useViewDay } from '@/store/view-month';
 import { categories } from '@/ui/categories';
 import { addDays, dayOfMonth, daysInMonth, formatMoney, monthName, shortDay, toIso, weekday } from '@/ui/format';
 import { Icon } from '@/ui/icons';
@@ -40,7 +41,8 @@ export default function CategoryScreen() {
 function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () => void }) {
   const router = useRouter();
   const entries = useEntries((s) => s.entries);
-  const today = currentDay();
+  const today = useViewDay(); // last day shown: today, or the end of a past month
+  const isCurrent = useIsCurrentMonth();
   const todayNum = dayOfMonth(today);
   const monthDays = daysInMonth(today);
   const c = categories[category];
@@ -62,7 +64,10 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
   const weekStart = addDays(today, -6);
   const lastWeek = list.filter((e) => e.date >= weekStart);
 
-  const [selected, setSelected] = useState(() => perDay.indexOf(Math.max(...perDay)) + 1 || todayNum);
+  // Picked bar, remembered per month; a new month starts on its biggest day.
+  const [pick, setPick] = useState<{ month: string; day: number } | null>(null);
+  const selected = pick?.month === today ? pick.day : perDay.indexOf(Math.max(...perDay)) + 1 || todayNum;
+  const setSelected = (day: number) => setPick({ month: today, day });
   const [showAll, setShowAll] = useState(false);
   const [openEntry, setOpenEntry] = useState<string | null>(null);
 
@@ -79,7 +84,7 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
 
   return (
     <Screen style={styles.screen}>
-      <Header title={c.label} onBack={onBack} badge={{ icon: c.icon, color: c.color }} month={monthName(today)} />
+      <Header title={c.label} onBack={onBack} badge={{ icon: c.icon, color: c.color }} showMonth />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
           <Text style={styles.muted}>You spent</Text>
@@ -142,7 +147,9 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
           </View>
           <View style={styles.barLabels}>
             <Text style={styles.barLabel}>1 {monthName(today, 'short')}</Text>
-            <Text style={[styles.barLabel, styles.todayLabel, { left: `${((todayNum - 0.5) / monthDays) * 100}%` }]}>Today</Text>
+            {isCurrent && (
+              <Text style={[styles.barLabel, styles.todayLabel, { left: `${((todayNum - 0.5) / monthDays) * 100}%` }]}>Today</Text>
+            )}
             <Text style={[styles.barLabel, { position: 'absolute', right: 0 }]}>{monthDays}</Text>
           </View>
         </View>
@@ -196,7 +203,7 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
   );
 }
 
-function Header({ title, onBack, badge, month }: { title: string; onBack: () => void; badge?: { icon: (typeof categories)[CategoryKey]['icon']; color: string }; month?: string }) {
+function Header({ title, onBack, badge, showMonth }: { title: string; onBack: () => void; badge?: { icon: (typeof categories)[CategoryKey]['icon']; color: string }; showMonth?: boolean }) {
   return (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
@@ -210,7 +217,7 @@ function Header({ title, onBack, badge, month }: { title: string; onBack: () => 
         )}
         <Text style={styles.title} numberOfLines={1} role="heading">{title}</Text>
       </View>
-      {month && <MonthChip label={month} />}
+      {showMonth && <MonthChip />}
     </View>
   );
 }

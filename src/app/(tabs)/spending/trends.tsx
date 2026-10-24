@@ -7,10 +7,11 @@ import { Amount } from '@/components/amount';
 import { Screen } from '@/components/screen';
 import { BalanceChart } from '@/components/spending/balance-chart';
 import { SpendingHeader } from '@/components/spending/spending-header';
-import { currentDay, useEntries } from '@/store/entries';
+import { useEntries } from '@/store/entries';
 import { useSettings } from '@/store/settings';
 import { BUDGET_DAYS, inMonth, monthSummary, runningBalance, suggestedBudget } from '@/store/summary';
-import { dayOfMonth, formatMoney, monthName } from '@/ui/format';
+import { useViewDay } from '@/store/view-month';
+import { dayOfMonth, formatMoney } from '@/ui/format';
 import { Icon } from '@/ui/icons';
 import { colors, fonts, radius, space, tabular, type } from '@/ui/theme';
 
@@ -21,13 +22,16 @@ export default function TrendsScreen() {
   const budget = useSettings((s) => s.monthlyBudget);
   const setBudget = useSettings((s) => s.setMonthlyBudget);
   const { width } = useWindowDimensions();
-  const today = currentDay();
+  const today = useViewDay();
   const days = dayOfMonth(today);
 
   const summary = useMemo(() => monthSummary(entries, today), [entries, today]);
   const balance = useMemo(() => runningBalance(entries, today), [entries, today]);
   const count = useMemo(() => inMonth(entries, today).length, [entries, today]);
-  const [selected, setSelected] = useState(days - 1);
+  // The inspected day, remembered per month; a new month starts on its last day.
+  const [pick, setPick] = useState({ month: today, index: days - 1 });
+  const selected = pick.month === today ? pick.index : days - 1;
+  const setSelected = (index: number) => setPick({ month: today, index });
 
   const suggestion = suggestedBudget(summary.spent, days);
   const keepsGoal = summary.income > 0 && ((summary.income - suggestion) / summary.income) * 100 >= SAVING_GOAL;
@@ -35,7 +39,7 @@ export default function TrendsScreen() {
 
   return (
     <Screen style={styles.screen}>
-      <SpendingHeader view="trends" month={monthName(today)} />
+      <SpendingHeader view="trends" />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.hero}>
           <Text style={styles.muted}>You kept</Text>
@@ -69,6 +73,7 @@ export default function TrendsScreen() {
           <Stat label="Entries" value={String(count)} divider plain />
         </View>
 
+        {summary.spent > 0 && (
         <View style={styles.card}>
           <Svg style={StyleSheet.absoluteFill} width="100%" height="100%">
             <Defs>
@@ -100,6 +105,7 @@ export default function TrendsScreen() {
             </View>
           )}
         </View>
+        )}
       </ScrollView>
     </Screen>
   );

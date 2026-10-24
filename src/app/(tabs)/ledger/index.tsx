@@ -3,15 +3,18 @@ import { useCallback, useMemo, useState } from 'react';
 import { FlatList, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Amount } from '@/components/amount';
+import { ExportSheet } from '@/components/export-sheet';
 import { EntryRow } from '@/components/ledger/entry-row';
 import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { FiltersSheet } from '@/components/ledger/filters-sheet';
 import { LedgerHeader } from '@/components/ledger/ledger-header';
+import { MonthPickerSheet } from '@/components/month-picker-sheet';
 import { Screen } from '@/components/screen';
 import type { Entry } from '@/data/seed';
 import { deleteEntryWithUndo } from '@/store/actions';
 import { currentDay, useEntries } from '@/store/entries';
 import { countLabel, defaultFilters, ledgerEntries, signedAmount, sortLabels, useLedger } from '@/store/ledger';
+import { useViewDay } from '@/store/view-month';
 import { categories } from '@/ui/categories';
 import { dayOfMonth, formatMoney, monthName, shortDay } from '@/ui/format';
 import { Icon } from '@/ui/icons';
@@ -26,14 +29,17 @@ export default function LedgerScreen() {
   const entries = useEntries((s) => s.entries);
   const ledger = useLedger();
   const today = currentDay();
+  const viewDay = useViewDay();
+  const [monthOpen, setMonthOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [swiped, setSwiped] = useState<string | null>(null);
 
   const filters = { show: ledger.show, savedOnly: ledger.savedOnly, sort: ledger.sort };
   const list = useMemo(
-    () => ledgerEntries(entries, today, { show: ledger.show, savedOnly: ledger.savedOnly, sort: ledger.sort }, ledger.query),
-    [entries, today, ledger.show, ledger.savedOnly, ledger.sort, ledger.query],
+    () => ledgerEntries(entries, viewDay, { show: ledger.show, savedOnly: ledger.savedOnly, sort: ledger.sort }, ledger.query),
+    [entries, viewDay, ledger.show, ledger.savedOnly, ledger.sort, ledger.query],
   );
   const total = list.reduce((sum, e) => sum + signedAmount(e), 0);
   const byDay = ledger.sort === 'newest' || ledger.sort === 'oldest';
@@ -63,7 +69,7 @@ export default function LedgerScreen() {
 
   return (
     <Screen style={styles.screen}>
-      <LedgerHeader view="list" action={{ icon: 'upload', label: 'Export this month as a spreadsheet' }} />
+      <LedgerHeader view="list" action={{ icon: 'upload', label: 'Export this month as a spreadsheet', onPress: () => setExportOpen(true) }} />
 
       <View style={styles.top}>
         <View style={styles.search}>
@@ -85,7 +91,7 @@ export default function LedgerScreen() {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipScroller} contentContainerStyle={styles.chips}>
-          <Chip label={monthName(today)} trailing="chevronDown" />
+          <Chip label={monthName(viewDay)} trailing="chevronDown" onPress={() => setMonthOpen(true)} />
           <Chip
             label={ledger.show === 'expense' ? 'Expenses only' : ledger.show === 'income' ? 'Income only' : 'All entries'}
             on={ledger.show !== 'all'}
@@ -164,6 +170,8 @@ export default function LedgerScreen() {
         }}
       />
       <FiltersSheet visible={filtersOpen} onClose={() => setFiltersOpen(false)} />
+      <MonthPickerSheet visible={monthOpen} onClose={() => setMonthOpen(false)} />
+      <ExportSheet visible={exportOpen} onClose={() => setExportOpen(false)} />
     </Screen>
   );
 }

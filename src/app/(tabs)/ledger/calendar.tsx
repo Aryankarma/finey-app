@@ -7,9 +7,11 @@ import { Amount } from '@/components/amount';
 import { EntryRow } from '@/components/ledger/entry-row';
 import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { LedgerHeader } from '@/components/ledger/ledger-header';
+import { MonthPickerSheet } from '@/components/month-picker-sheet';
 import { Screen } from '@/components/screen';
 import { currentDay, useEntries } from '@/store/entries';
 import { inMonth, monthSummary } from '@/store/summary';
+import { useViewDay } from '@/store/view-month';
 import { addDays, dayOfMonth, daysInMonth, formatMoney, monthName, toIso, weekday } from '@/ui/format';
 import { colors, fonts, gradients, space, tabular } from '@/ui/theme';
 
@@ -22,12 +24,17 @@ const compact = (v: number) => (v < 1000 ? String(v) : `${(v / 1000).toFixed(1)}
 export default function LedgerCalendarScreen() {
   const router = useRouter();
   const entries = useEntries((s) => s.entries);
-  const today = currentDay();
-  const [selectedDay, setSelectedDay] = useState(today);
+  const today = currentDay(); // real today: outlined, and days after it are dimmed
+  const viewDay = useViewDay(); // last day of the month being shown
+  const [picked, setPicked] = useState(viewDay);
   const [openEntry, setOpenEntry] = useState<string | null>(null);
+  const [monthOpen, setMonthOpen] = useState(false);
+  // A pick from another month falls back to the shown month's last day.
+  const selectedDay = picked.slice(0, 7) === viewDay.slice(0, 7) ? picked : viewDay;
+  const setSelectedDay = setPicked;
 
-  const month = useMemo(() => inMonth(entries, today), [entries, today]);
-  const summary = useMemo(() => monthSummary(entries, today), [entries, today]);
+  const month = useMemo(() => inMonth(entries, viewDay), [entries, viewDay]);
+  const summary = useMemo(() => monthSummary(entries, viewDay), [entries, viewDay]);
   const days = useMemo(() => {
     const byDay = new Map<string, { spent: number; income: number }>();
     for (const e of month) {
@@ -39,8 +46,8 @@ export default function LedgerCalendarScreen() {
     return byDay;
   }, [month]);
 
-  const y = Number(today.slice(0, 4));
-  const m = Number(today.slice(5, 7));
+  const y = Number(viewDay.slice(0, 4));
+  const m = Number(viewDay.slice(5, 7));
   const first = toIso(y, m, 1);
   const lead = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
   const cells = [
@@ -54,7 +61,8 @@ export default function LedgerCalendarScreen() {
 
   return (
     <Screen style={styles.screen}>
-      <LedgerHeader view="calendar" action={{ icon: 'calendar', label: `Change month, ${monthName(today)} ${y}` }} />
+      <LedgerHeader view="calendar" action={{ icon: 'calendar', label: `Change month, ${monthName(viewDay)} ${y}`, onPress: () => setMonthOpen(true) }} />
+      <MonthPickerSheet visible={monthOpen} onClose={() => setMonthOpen(false)} />
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.totals}>
@@ -69,7 +77,7 @@ export default function LedgerCalendarScreen() {
               <Text key={d} style={styles.weekday}>{d}</Text>
             ))}
           </View>
-          <View style={styles.grid} role="grid" aria-label={`${monthName(today)} ${y}, days shaded by how much you spent`}>
+          <View style={styles.grid} role="grid" aria-label={`${monthName(viewDay)} ${y}, days shaded by how much you spent`}>
             {cells.map(({ iso, outside }) => {
               const future = iso > today;
               const info = days.get(iso);

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { CategoryChips } from '@/components/category-chips';
 import { DatePickerSheet } from '@/components/date-picker-sheet';
@@ -68,7 +68,15 @@ export default function NewEntryScreen() {
 
   return (
     <Screen bottom style={styles.screen}>
-      <FormHeader title="New entry" onClose={close} right={<Text style={formStyles.link}>Paste text instead</Text>} />
+      <FormHeader
+        title="New entry"
+        onClose={close}
+        right={
+          <Pressable onPress={() => router.push('/entry/paste')} hitSlop={8}>
+            <Text style={formStyles.link}>Paste text instead</Text>
+          </Pressable>
+        }
+      />
 
       <TypeTabs value={draft.type} onChange={(t) => t !== draft.type && draft.set({ type: t, category: null })} />
 

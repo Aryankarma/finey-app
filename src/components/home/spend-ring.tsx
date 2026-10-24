@@ -29,6 +29,8 @@ type Props = {
   balance: number;
   savingsRate: number;
   monthLabel: string;
+  current?: boolean; // the month in progress: last tick is today, shown in white and labelled
+  caption?: string;
 };
 
 function point(day: number, days: number, r: number) {
@@ -36,7 +38,18 @@ function point(day: number, days: number, r: number) {
   return { x: C + r * Math.cos(a), y: C + r * Math.sin(a) };
 }
 
-export function SpendRing({ size, elapsed, dailySpend, daysInMonth, incomeDays, balance, savingsRate, monthLabel }: Props) {
+export function SpendRing({
+  size,
+  elapsed,
+  dailySpend,
+  daysInMonth,
+  incomeDays,
+  balance,
+  savingsRate,
+  monthLabel,
+  current = true,
+  caption = 'Left this month',
+}: Props) {
   const today = dailySpend.length;
   const average = dailySpend.reduce((a, b) => a + b, 0) / today;
   const maxSpend = Math.max(...dailySpend);
@@ -49,7 +62,7 @@ export function SpendRing({ size, elapsed, dailySpend, daysInMonth, incomeDays, 
     const p = easeOutCubic(progress(elapsed, tickDelay(day), 420));
     const inner = point(day, daysInMonth, TICK_INNER);
     const outer = point(day, daysInMonth, TICK_INNER + Math.max(length * p, 0.01));
-    const color = day === today ? tickColors.today : spend > average ? tickColors.high : tickColors.low;
+    const color = current && day === today ? tickColors.today : spend > average ? tickColors.high : tickColors.low;
     return { day, inner, outer, color, opacity: Math.min(p / 0.3, 1), fullOuter: point(day, daysInMonth, TICK_INNER + length) };
   });
 
@@ -97,29 +110,33 @@ export function SpendRing({ size, elapsed, dailySpend, daysInMonth, incomeDays, 
           return <Circle key={day} cx={x} cy={y} r={3.5 * (0.3 + 0.7 * p)} fill={colors.mint} opacity={p} />;
         })}
 
-        <SvgText
-          x={maxTip.x + 6}
-          y={maxTip.y - 4}
-          fontSize={11}
-          fontFamily={fonts.semibold}
-          fill={colors.textMuted}
-          opacity={progress(elapsed, tickDelay(maxDay) + 300, 400)}>
-          {formatCompact(maxSpend)}
-        </SvgText>
-        <SvgText
-          x={todayTip.x - 10}
-          y={todayTip.y + 14}
-          textAnchor="end"
-          fontSize={11}
-          fontFamily={fonts.semibold}
-          fill={colors.text}
-          opacity={progress(elapsed, tickDelay(today) + 380, 400)}>
-          Today
-        </SvgText>
+        {maxSpend > 0 && (
+          <SvgText
+            x={maxTip.x + 6}
+            y={maxTip.y - 4}
+            fontSize={11}
+            fontFamily={fonts.semibold}
+            fill={colors.textMuted}
+            opacity={progress(elapsed, tickDelay(maxDay) + 300, 400)}>
+            {formatCompact(maxSpend)}
+          </SvgText>
+        )}
+        {current && (
+          <SvgText
+            x={todayTip.x - 10}
+            y={todayTip.y + 14}
+            textAnchor="end"
+            fontSize={11}
+            fontFamily={fonts.semibold}
+            fill={colors.text}
+            opacity={progress(elapsed, tickDelay(today) + 380, 400)}>
+            Today
+          </SvgText>
+        )}
       </Svg>
 
       <View style={styles.center} pointerEvents="none">
-        <Text style={styles.caption}>Left this month</Text>
+        <Text style={styles.caption}>{caption}</Text>
         <Amount style={styles.balance}>{formatMoney(Math.round(balance * count))}</Amount>
         <Text style={[styles.pill, { opacity: pillIn, transform: [{ translateY: 6 * (1 - pillIn) }] }]}>
           {Math.round(savingsRate)}% of income kept

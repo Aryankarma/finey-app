@@ -6,7 +6,8 @@ import { Icon } from '@/ui/icons';
 import { colors, fonts, gradients, motion } from '@/ui/theme';
 
 // Free-text capture field with buttons for the full form and voice entry.
-export function QuickAdd({ onOpenForm, onVoice }: { onOpenForm?: () => void; onVoice?: () => void }) {
+// Typing a line and pressing enter hands it to `onSubmit` (Paste text reads it).
+export function QuickAdd({ onOpenForm, onVoice, onSubmit }: { onOpenForm?: () => void; onVoice?: () => void; onSubmit?: (text: string) => void }) {
   const [focused, setFocused] = useState(false);
   const [text, setText] = useState('');
 
@@ -17,6 +18,12 @@ export function QuickAdd({ onOpenForm, onVoice }: { onOpenForm?: () => void; onV
         onChangeText={setText}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        returnKeyType="done"
+        onSubmitEditing={() => {
+          if (!text.trim()) return;
+          onSubmit?.(text.trim());
+          setText('');
+        }}
         placeholder="Spent 450 on groceries yesterday"
         placeholderTextColor={colors.textFaint}
         accessibilityLabel="Describe what you spent or earned"
