@@ -8,6 +8,8 @@ import { Screen } from '@/components/screen';
 import { Segmented } from '@/components/segmented';
 import { SwitchMark } from '@/components/switch';
 import { useAccent } from '@/hooks/use-accent';
+import { useEntries } from '@/store/entries';
+import { hasSampleData, loadSampleData, removeSampleData, SAMPLE_MONTHS } from '@/store/sample-data';
 import { useSettings, type AccentKey, type ThemeChoice } from '@/store/settings';
 import { Icon, type IconName } from '@/ui/icons';
 import { accents, fonts, layout, space, type } from '@/ui/theme';
@@ -32,6 +34,7 @@ export default function SettingsScreen() {
   const settings = useSettings();
   const phone = useColorScheme() === 'light' ? 'light' : 'dark';
   const [exportOpen, setExportOpen] = useState(false);
+  const hasSample = useEntries((s) => hasSampleData(s.entries));
 
   const light = settings.theme === 'light' || (settings.theme === 'system' && phone === 'light');
   const t = light ? PALETTES.light : PALETTES.dark;
@@ -126,6 +129,27 @@ export default function SettingsScreen() {
         <Section title="Data" t={t}>
           <Row t={t} icon="rupee" accent={accentText} title="Currency" sub="Indian rupee, amounts like ₹1,24,500" />
           <Row t={t} divider icon="download" accent={accentText} title="Export your data" sub="Download a month as a CSV file" onPress={() => setExportOpen(true)} chevron />
+          {hasSample ? (
+            <Row
+              t={t}
+              divider
+              icon="trash"
+              accent={accentText}
+              title="Remove sample data"
+              sub="Takes out the example entries, people and holdings. Yours stay."
+              onPress={removeSampleData}
+            />
+          ) : (
+            <Row
+              t={t}
+              divider
+              icon="table"
+              accent={accentText}
+              title="Load sample data"
+              sub={`Fill the last ${SAMPLE_MONTHS} months with example entries to try Finey`}
+              onPress={loadSampleData}
+            />
+          )}
         </Section>
 
         <Section title="About" t={t}>
