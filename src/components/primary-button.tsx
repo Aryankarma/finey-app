@@ -1,10 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
 
+import { useAccent } from '@/hooks/use-accent';
 import { Icon, type IconName } from '@/ui/icons';
-import { colors, gradients, layout, type } from '@/ui/theme';
+import { colors, layout, type } from '@/ui/theme';
 
-// The full-width purple button. Disabled keeps it visible but faded, as on the boards.
+// The full-width accent button. Disabled keeps it visible but faded, as on the boards.
 export function PrimaryButton({
   label,
   onPress,
@@ -20,13 +21,14 @@ export function PrimaryButton({
   icon?: IconName;
   style?: StyleProp<ViewStyle>;
 }) {
+  const accent = useAccent();
   return (
     <Pressable
       onPress={disabled ? undefined : onPress}
       accessibilityRole="button"
       aria-disabled={disabled}
       style={({ pressed }) => [style, { opacity: disabled ? 0.38 : 1 }, pressed && !disabled && styles.pressed]}>
-      <LinearGradient colors={gradients.primary} style={[styles.fill, { height, borderRadius: height / 2 }]}>
+      <LinearGradient colors={accent.primary} style={[styles.fill, { height, borderRadius: height / 2 }]}>
         {icon && <Icon name={icon} size={18} color={colors.textOnAccent} />}
         <Text style={[styles.label, height < layout.buttonHeight && { fontSize: 15 }]}>{label}</Text>
       </LinearGradient>

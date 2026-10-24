@@ -6,6 +6,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { Sheet } from '@/components/sheet';
 import { SwitchMark } from '@/components/switch';
 import type { Entry } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { deleteEntryWithUndo } from '@/store/actions';
 import { useEntries, useEntry } from '@/store/entries';
 import { signedAmount } from '@/store/ledger';
@@ -30,6 +31,7 @@ function addedLabel(entry: Entry): string | null {
 // Entry details over the Ledger. Delete closes it and offers Undo; Edit hands off to Edit entry.
 export function EntrySheet({ entryId, onClose, onEdit }: { entryId: string | null; onClose: () => void; onEdit: (id: string) => void }) {
   const live = useEntry(entryId);
+  const accent = useAccent();
   const toggleSaved = useEntries((s) => s.toggleSaved);
   // Keep showing the last entry while the sheet slides away.
   const last = useRef<Entry | undefined>(undefined);
@@ -100,7 +102,7 @@ export function EntrySheet({ entryId, onClose, onEdit }: { entryId: string | nul
           }}
           style={styles.saveRow}>
           <Animated.View style={[styles.saveIcon, { transform: [{ scale: pop }] }]}>
-            <Icon name="bookmark" size={18} color={entry.saved ? colors.lilac : colors.textMuted} fill={entry.saved ? colors.lilac : 'none'} />
+            <Icon name="bookmark" size={18} color={entry.saved ? accent.lilac : colors.textMuted} fill={entry.saved ? accent.lilac : 'none'} />
           </Animated.View>
           <View style={{ flex: 1, gap: 2 }}>
             <Text style={styles.value}>Save for later</Text>

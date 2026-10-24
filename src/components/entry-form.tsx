@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { Animated, Easing, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { Entry } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { groupIndian } from '@/ui/format';
 import { Icon, type IconName } from '@/ui/icons';
 import { colors, fonts, layout, radius, space, tabular, type } from '@/ui/theme';
@@ -33,6 +34,7 @@ export function FormHeader({ title, closeLabel = 'Close', onClose, right }: { ti
 }
 
 export function TypeTabs({ value, onChange }: { value: Entry['type']; onChange: (t: Entry['type']) => void }) {
+  const accent = useAccent();
   const x = useRef(new Animated.Value(value === 'income' ? TAB_WIDTH : 0)).current;
 
   useEffect(() => {
@@ -51,13 +53,14 @@ export function TypeTabs({ value, onChange }: { value: Entry['type']; onChange: 
           <Text style={[styles.tabLabel, value === t && { color: colors.text }]}>{t === 'expense' ? 'Expense' : 'Income'}</Text>
         </Pressable>
       ))}
-      <Animated.View style={[styles.indicator, { transform: [{ translateX: x }] }]} />
+      <Animated.View style={[styles.indicator, { backgroundColor: accent.iris, transform: [{ translateX: x }] }]} />
     </View>
   );
 }
 
 // The big amount with a blinking caret; bumps on every key press. `note` sits underneath ("Was ₹486").
 export function AmountDisplay({ digits, note }: { digits: string; note?: string }) {
+  const accent = useAccent();
   const value = digits === '' ? 0 : parseInt(digits, 10);
   const bump = useRef(new Animated.Value(1)).current;
   const caret = useRef(new Animated.Value(1)).current;
@@ -91,7 +94,7 @@ export function AmountDisplay({ digits, note }: { digits: string; note?: string 
         <Text style={[styles.amount, value === 0 && { color: colors.textDisabled }]} aria-live="polite">
           {groupIndian(value)}
         </Text>
-        <Animated.View style={[styles.caret, { opacity: caret }]} />
+        <Animated.View style={[styles.caret, { backgroundColor: accent.iris, opacity: caret }]} />
       </Animated.View>
       {note !== undefined && <Text style={styles.note}>{note}</Text>}
     </View>
@@ -170,14 +173,13 @@ const styles = StyleSheet.create({
     width: TAB_WIDTH,
     height: 2,
     borderRadius: 2,
-    backgroundColor: colors.iris,
   },
   amountArea: { flex: 1, minHeight: 140, alignItems: 'center', justifyContent: 'center', gap: space.sm },
   amountLabel: { fontFamily: fonts.regular, fontSize: 13, color: colors.textFaint },
   amountRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   rupee: { fontFamily: fonts.expandedMedium, fontSize: 34, color: colors.textFaint, alignSelf: 'flex-start', marginTop: 6 },
   amount: { ...type.amountXL, ...tabular, lineHeight: 68, color: colors.text },
-  caret: { width: 3, height: 56, borderRadius: 2, backgroundColor: colors.iris, marginLeft: 2 },
+  caret: { width: 3, height: 56, borderRadius: 2, marginLeft: 2 },
   note: { height: 20, fontFamily: fonts.regular, fontSize: 13, color: colors.textFaint, ...tabular },
   details: { marginTop: 14, marginHorizontal: space.screenX, borderRadius: radius.card, backgroundColor: colors.surface1, overflow: 'hidden' },
   detailRow: formStyles.detailRow,

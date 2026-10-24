@@ -2,9 +2,10 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { deviceStorage } from '@/store/storage';
+import type { AccentKey } from '@/ui/theme';
 
+export type { AccentKey };
 export type ThemeChoice = 'system' | 'dark' | 'light';
-export type AccentKey = 'iris' | 'blue' | 'teal' | 'amber';
 
 type SettingsState = {
   hideAmounts: boolean; // the eye button on Home; every Amount reads it
@@ -25,7 +26,7 @@ export const useSettings = create<SettingsState>()(
       hideAmounts: false,
       toggleHideAmounts: () => set((s) => ({ hideAmounts: !s.hideAmounts })),
       setHideAmounts: (hideAmounts) => set({ hideAmounts }),
-      hideOnOpen: false,
+      hideOnOpen: true,
       fingerprint: true,
       theme: 'dark',
       accent: 'iris',

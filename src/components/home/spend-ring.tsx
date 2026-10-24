@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, G, Line, RadialGradient, Stop, Text as SvgText } from 'react-native-svg';
 
 import { Amount } from '@/components/amount';
+import { useAccent } from '@/hooks/use-accent';
 import { easeOutCubic, progress } from '@/hooks/use-entrance';
 import { formatCompact, formatMoney } from '@/ui/format';
 import { colors, fonts, motion } from '@/ui/theme';
@@ -17,8 +18,6 @@ const TICK_FULL_AT = 8000; // spend at which a tick reaches full length
 const FUTURE_LENGTH = 5;
 const INCOME_DOT_R = 92;
 const TICK_STAGGER = 28;
-
-const tickColors = { low: '#5B4FC4', high: colors.lilac, today: '#FFFFFF', future: colors.lineStrong };
 
 type Props = {
   size: number;
@@ -50,6 +49,9 @@ export function SpendRing({
   current = true,
   caption = 'Left this month',
 }: Props) {
+  const accent = useAccent();
+  // low is a dimmed accent (#5B4FC4-ish for Iris on the dark background)
+  const tickColors = { low: `rgba(${accent.rgb},0.75)`, high: accent.lilac, today: '#FFFFFF', future: colors.lineStrong };
   const today = dailySpend.length;
   const average = dailySpend.reduce((a, b) => a + b, 0) / today;
   const maxSpend = Math.max(...dailySpend);
@@ -82,9 +84,9 @@ export function SpendRing({
         accessibilityLabel={`Spending for each day of ${monthLabel}. Largest day was ${maxDay} ${monthLabel} at ${formatMoney(maxSpend)}; today ${formatMoney(dailySpend[today - 1])}.`}>
         <Defs>
           <RadialGradient id="glow" cx={C} cy={C} r={120 * Math.SQRT2} gradientUnits="userSpaceOnUse">
-            <Stop offset="0" stopColor={colors.iris} stopOpacity={0.2} />
-            <Stop offset="0.45" stopColor={colors.iris} stopOpacity={0.06} />
-            <Stop offset="0.7" stopColor={colors.iris} stopOpacity={0} />
+            <Stop offset="0" stopColor={accent.iris} stopOpacity={0.2} />
+            <Stop offset="0.45" stopColor={accent.iris} stopOpacity={0.06} />
+            <Stop offset="0.7" stopColor={accent.iris} stopOpacity={0} />
           </RadialGradient>
         </Defs>
         <Circle cx={C} cy={C} r={120} fill="url(#glow)" />

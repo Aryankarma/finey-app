@@ -3,6 +3,7 @@ import { Animated, Easing, PanResponder, Platform, Pressable, StyleSheet, Text, 
 
 import { Amount } from '@/components/amount';
 import type { Entry } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { signedAmount } from '@/store/ledger';
 import { categories } from '@/ui/categories';
 import { formatMoney } from '@/ui/format';
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export function EntryRow({ entry, subtitle, onPress, onDelete, swipeOpen = false, onSwipeChange }: Props) {
+  const accent = useAccent();
   const x = useRef(new Animated.Value(0)).current;
   const resting = useRef(0);
 
@@ -77,7 +79,7 @@ export function EntryRow({ entry, subtitle, onPress, onDelete, swipeOpen = false
           <View style={styles.middle}>
             <View style={styles.nameLine}>
               <Text style={styles.name} numberOfLines={1}>{entry.name}</Text>
-              {entry.saved && <Icon name="bookmark" size={12} color={colors.lilac} fill={colors.lilac} strokeWidth={0} />}
+              {entry.saved && <Icon name="bookmark" size={12} color={accent.lilac} fill={accent.lilac} strokeWidth={0} />}
             </View>
             <Text style={styles.sub} numberOfLines={1}>{subtitle ?? category.label}</Text>
           </View>

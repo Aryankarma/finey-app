@@ -5,6 +5,7 @@ import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-nativ
 import { DrawnCheck } from '@/components/drawn-check';
 import { PrimaryButton } from '@/components/primary-button';
 import { Sheet } from '@/components/sheet';
+import { useAccent } from '@/hooks/use-accent';
 import { useEntries } from '@/store/entries';
 import { buildCsv, saveCsv, shareCsv } from '@/store/export';
 import { countLabel, isDefaultFilters, ledgerEntries, sortLabels, useLedger } from '@/store/ledger';
@@ -12,7 +13,7 @@ import { inMonth } from '@/store/summary';
 import { useViewDay } from '@/store/view-month';
 import { monthName } from '@/ui/format';
 import { Icon } from '@/ui/icons';
-import { colors, fonts, gradients, tabular } from '@/ui/theme';
+import { colors, fonts, tabular } from '@/ui/theme';
 
 type Scope = 'all' | 'filtered';
 type Phase = 'idle' | 'busy' | 'ready';
@@ -20,6 +21,7 @@ const PREPARE_MS = 1400;
 
 // Export the shown month as CSV: everything, or only what the Ledger is filtered to.
 export function ExportSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+  const accent = useAccent();
   const entries = useEntries((s) => s.entries);
   const ledger = useLedger();
   const viewDay = useViewDay();
@@ -85,7 +87,7 @@ export function ExportSheet({ visible, onClose }: { visible: boolean; onClose: (
               <Text style={styles.small}>{`${rowsText}, ${kb} KB`}</Text>
             </View>
           </View>
-          {shareNote !== '' && <Text style={styles.shareNote} role="status">{shareNote}</Text>}
+          {shareNote !== '' && <Text style={[styles.shareNote, { color: accent.lilacSoft }]} role="status">{shareNote}</Text>}
           <View style={styles.readyActions}>
             <Pressable
               disabled={saved}
@@ -161,7 +163,7 @@ export function ExportSheet({ visible, onClose }: { visible: boolean; onClose: (
                 </View>
                 <View style={styles.track}>
                   <Animated.View style={{ height: 8, width: progress.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }}>
-                    <LinearGradient colors={[gradients.primary[0], colors.lilac]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.fill} />
+                    <LinearGradient colors={[accent.primary[0], accent.lilac]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.fill} />
                   </Animated.View>
                 </View>
               </View>
@@ -174,18 +176,24 @@ export function ExportSheet({ visible, onClose }: { visible: boolean; onClose: (
 }
 
 function Option({ on, disabled, title, sub, onPress }: { on: boolean; disabled: boolean; title: string; sub: string; onPress: () => void }) {
+  const accent = useAccent();
   return (
     <Pressable
       role="radio"
       aria-checked={on}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [styles.option, on && styles.optionOn, disabled && !on && { opacity: 0.5 }, pressed && { transform: [{ scale: 0.99 }] }]}>
+      style={({ pressed }) => [
+        styles.option,
+        on && [styles.optionOn, { backgroundColor: `rgba(${accent.rgb},0.12)`, borderColor: accent.iris }],
+        disabled && !on && { opacity: 0.5 },
+        pressed && { transform: [{ scale: 0.99 }] },
+      ]}>
       <View style={{ flex: 1, gap: 3 }}>
         <Text style={styles.optionTitle}>{title}</Text>
         <Text style={styles.small}>{sub}</Text>
       </View>
-      <View style={[styles.ring, on && { borderColor: colors.iris }]}>{on && <View style={styles.ringDot} />}</View>
+      <View style={[styles.ring, on && { borderColor: accent.iris }]}>{on && <View style={[styles.ringDot, { backgroundColor: accent.lilac }]} />}</View>
     </Pressable>
   );
 }
@@ -207,11 +215,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.surface4,
   },
-  optionOn: { backgroundColor: 'rgba(123,108,246,0.12)', borderColor: colors.iris, borderWidth: 1.5, padding: 15.5 },
+  optionOn: { borderWidth: 1.5, padding: 15.5 },
   optionTitle: { fontFamily: fonts.semibold, fontSize: 15, color: colors.text },
   small: { fontFamily: fonts.regular, fontSize: 13, color: colors.textFaint, ...tabular },
   ring: { width: 22, height: 22, borderRadius: 11, borderWidth: 2, borderColor: '#4A4A54', alignItems: 'center', justifyContent: 'center' },
-  ringDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.lilac },
+  ringDot: { width: 10, height: 10, borderRadius: 5 },
   infoRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 16, marginHorizontal: 2 },
   action: { marginTop: 20, minHeight: 56, justifyContent: 'center' },
   progressWrap: { gap: 10, paddingTop: 6 },
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
   fileBadge: { width: 40, height: 40, borderRadius: 12, backgroundColor: colors.mintTint, alignItems: 'center', justifyContent: 'center' },
   fileBadgeText: { fontFamily: fonts.bold, fontSize: 11, color: colors.mint },
   fileName: { fontFamily: fonts.medium, fontSize: 15, color: colors.text },
-  shareNote: { marginTop: 12, fontFamily: fonts.regular, fontSize: 13, color: colors.lilacSoft, textAlign: 'center' },
+  shareNote: { marginTop: 12, fontFamily: fonts.regular, fontSize: 13, textAlign: 'center' },
   readyActions: { flexDirection: 'row', gap: 10, alignSelf: 'stretch', marginTop: 18 },
   secondary: { flex: 1, height: 54, borderRadius: 27, backgroundColor: colors.surface3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   secondaryLabel: { fontFamily: fonts.medium, fontSize: 15, color: colors.text },

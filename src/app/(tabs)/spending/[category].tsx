@@ -7,6 +7,7 @@ import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { MonthChip } from '@/components/month-chip';
 import { Screen } from '@/components/screen';
 import type { CategoryKey, Entry } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { easeOutCubic, progress, useEntrance } from '@/hooks/use-entrance';
 import { useEntries } from '@/store/entries';
 import { inMonth, monthSummary } from '@/store/summary';
@@ -39,6 +40,7 @@ export default function CategoryScreen() {
 }
 
 function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () => void }) {
+  const accent = useAccent();
   const router = useRouter();
   const entries = useEntries((s) => s.entries);
   const today = useViewDay(); // last day shown: today, or the end of a past month
@@ -174,7 +176,7 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
               </View>
               <View style={styles.entryName}>
                 <Text style={styles.name} numberOfLines={1}>{e.name}</Text>
-                {e.saved && <Icon name="bookmark" size={12} color={colors.lilac} fill={colors.lilac} strokeWidth={0} />}
+                {e.saved && <Icon name="bookmark" size={12} color={accent.lilac} fill={accent.lilac} strokeWidth={0} />}
               </View>
               <Amount style={styles.name}>{formatMoney(-e.amount)}</Amount>
             </Pressable>
@@ -182,9 +184,9 @@ function CategoryView({ category, onBack }: { category: CategoryKey; onBack: () 
           {list.length === 0 && <Text style={[styles.muted, { paddingVertical: 12 }]}>Nothing in {c.label} this month yet.</Text>}
           {list.length > FIRST_ROWS && (
             <Pressable onPress={() => setShowAll(!showAll)} aria-expanded={showAll} style={styles.more}>
-              <Text style={styles.moreLabel}>{showAll ? 'Show fewer' : `Show all ${list.length} entries`}</Text>
+              <Text style={[styles.moreLabel, { color: accent.lilac }]}>{showAll ? 'Show fewer' : `Show all ${list.length} entries`}</Text>
               <View style={{ transform: [{ rotate: showAll ? '180deg' : '0deg' }] }}>
-                <Icon name="chevronDown" size={14} color={colors.lilac} strokeWidth={2} />
+                <Icon name="chevronDown" size={14} color={accent.lilac} strokeWidth={2} />
               </View>
             </Pressable>
           )}
@@ -293,5 +295,5 @@ const styles = StyleSheet.create({
   entryName: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 6 },
   name: { flexShrink: 1, fontFamily: fonts.medium, fontSize: 15, color: colors.text },
   more: { height: 44, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  moreLabel: { fontFamily: fonts.medium, fontSize: 14, color: colors.lilac },
+  moreLabel: { fontFamily: fonts.medium, fontSize: 14 },
 });

@@ -9,15 +9,17 @@ import { Spin } from '@/components/spin';
 import { holdingCode, holdingMeta } from '@/components/wealth/holding-text';
 import { Treemap, type Tile } from '@/components/wealth/treemap';
 import type { Holding } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { returnOf, typeLabels, useHoldings } from '@/store/holdings';
 import { formatMoney } from '@/ui/format';
 import { Icon } from '@/ui/icons';
-import { colors, fonts, gradients, layout, space, tabular, type } from '@/ui/theme';
+import { colors, fonts, layout, space, tabular, type } from '@/ui/theme';
 
 type HoldingType = Holding['type'];
 
 export default function WealthScreen() {
   const router = useRouter();
+  const accent = useAccent();
   const holdings = useHoldings((s) => s.holdings);
   const [filter, setFilter] = useState<HoldingType | null>(null);
   const [refresh, setRefresh] = useState<'idle' | 'busy' | 'fresh'>('idle');
@@ -64,7 +66,7 @@ export default function WealthScreen() {
       <View style={styles.header}>
         <Text style={styles.title} role="heading">Wealth</Text>
         <Pressable onPress={() => router.push('/wealth/new')} accessibilityLabel="Add a holding" style={({ pressed }) => pressed && { transform: [{ scale: 0.94 }] }}>
-          <LinearGradient colors={gradients.primary} style={styles.add}>
+          <LinearGradient colors={accent.primary} style={styles.add}>
             <Icon name="plus" size={20} color={colors.textOnAccent} strokeWidth={2.2} />
           </LinearGradient>
         </Pressable>

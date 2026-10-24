@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, G, Line, LinearGradient, Path, Stop, Text as SvgText } from 'react-native-svg';
 
+import { useAccent } from '@/hooks/use-accent';
 import { useSettings } from '@/store/settings';
 import { formatMoney, monthName, shortDay } from '@/ui/format';
 import { colors, fonts, tabular } from '@/ui/theme';
@@ -51,6 +52,7 @@ export function BalanceChart({
   selected: number; // index into days
   onSelect: (index: number) => void;
 }) {
+  const accent = useAccent();
   const hidden = useSettings((s) => s.hideAmounts);
   const plotWidth = width - AXIS_WIDTH;
   const balances = days.map((d) => d.balance);
@@ -83,8 +85,8 @@ export function BalanceChart({
       <Svg width={width} height={HEIGHT} style={StyleSheet.absoluteFill}>
         <Defs>
           <LinearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={colors.iris} stopOpacity={0.34} />
-            <Stop offset="1" stopColor={colors.iris} stopOpacity={0} />
+            <Stop offset="0" stopColor={accent.iris} stopOpacity={0.34} />
+            <Stop offset="1" stopColor={accent.iris} stopOpacity={0} />
           </LinearGradient>
         </Defs>
         <G stroke="#16161A" strokeWidth={1}>
@@ -99,9 +101,9 @@ export function BalanceChart({
             </SvgText>
           ))}
         <Path d={`${line} L${plotWidth},${HEIGHT} L0,${HEIGHT} Z`} fill="url(#area)" />
-        <Path d={line} fill="none" stroke={colors.lilac} strokeWidth={2.25} strokeLinecap="round" />
-        <Circle cx={last.x} cy={last.y} r={3.5} fill={colors.lilac} />
-        <Line x1={sx} y1={0} x2={sx} y2={HEIGHT} stroke="rgba(165,155,255,0.5)" strokeWidth={1} strokeDasharray="4 4" />
+        <Path d={line} fill="none" stroke={accent.lilac} strokeWidth={2.25} strokeLinecap="round" />
+        <Circle cx={last.x} cy={last.y} r={3.5} fill={accent.lilac} />
+        <Line x1={sx} y1={0} x2={sx} y2={HEIGHT} stroke={accent.lilac} strokeOpacity={0.5} strokeWidth={1} strokeDasharray="4 4" />
       </Svg>
 
       <View pointerEvents="none" style={[styles.dot, { left: sx - 6, top: sy - 6 }]} />

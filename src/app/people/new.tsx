@@ -9,6 +9,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
 import { Screen } from '@/components/screen';
 import type { Debt } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { useDebts } from '@/store/debts';
 import { currentDay } from '@/store/entries';
 import { formatMoney, longDay } from '@/ui/format';
@@ -20,6 +21,7 @@ type Direction = Debt['direction'];
 // New debt or credit: who owes whom, amount, person, kind, note and date.
 export default function NewDebtScreen() {
   const router = useRouter();
+  const accent = useAccent();
   const debts = useDebts((s) => s.debts);
   const addDebt = useDebts((s) => s.addDebt);
   const today = currentDay();
@@ -67,7 +69,7 @@ export default function NewDebtScreen() {
             on={!them}
             onPress={() => setDirection('iOweThem')}
             icon="arrowOut"
-            tint={colors.iris}
+            tint={accent.iris}
             title="I owe them"
             sub="You borrowed, or they paid for you"
           />
@@ -75,7 +77,7 @@ export default function NewDebtScreen() {
 
         <View>
           <FieldLabel>Amount</FieldLabel>
-          <AmountField digits={digits} onChange={setDigits} color={them ? colors.mint : colors.lilacSoft} />
+          <AmountField digits={digits} onChange={setDigits} color={them ? colors.mint : accent.lilacSoft} />
         </View>
 
         <View>
@@ -156,6 +158,7 @@ function DirectionCard({
   title: string;
   sub: string;
 }) {
+  const accent = useAccent();
   const mint = tint === colors.mint;
   return (
     <Pressable
@@ -164,16 +167,16 @@ function DirectionCard({
       onPress={onPress}
       style={({ pressed }) => [
         styles.card,
-        on && { backgroundColor: mint ? 'rgba(94,224,161,0.07)' : 'rgba(123,108,246,0.1)', borderColor: tint, borderWidth: 1.5, padding: 13.5 },
+        on && { backgroundColor: mint ? 'rgba(94,224,161,0.07)' : `rgba(${accent.rgb},0.1)`, borderColor: tint, borderWidth: 1.5, padding: 13.5 },
         pressed && { transform: [{ scale: 0.98 }] },
       ]}>
       <View
         style={[
           styles.cardIcon,
-          { backgroundColor: mint ? 'rgba(94,224,161,0.14)' : 'rgba(123,108,246,0.18)' },
+          { backgroundColor: mint ? 'rgba(94,224,161,0.14)' : `rgba(${accent.rgb},0.18)` },
           on && { transform: [{ rotate: '-8deg' }, { scale: 1.06 }] },
         ]}>
-        <Icon name={icon} size={18} color={mint ? colors.mint : colors.lilac} strokeWidth={2} />
+        <Icon name={icon} size={18} color={mint ? colors.mint : accent.lilac} strokeWidth={2} />
       </View>
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardSub}>{sub}</Text>

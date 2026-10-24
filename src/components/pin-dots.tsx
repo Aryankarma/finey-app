@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Easing, Platform, StyleSheet, View } from 'react-native';
 
+import { useAccent } from '@/hooks/use-accent';
 import { colors } from '@/ui/theme';
 
 const nativeDriver = Platform.OS !== 'web';
@@ -22,6 +23,7 @@ export function PinDots({
   size?: number;
   gap?: number;
 }) {
+  const accent = useAccent();
   const x = useRef(new Animated.Value(0)).current;
   const first = useRef(true);
 
@@ -39,7 +41,7 @@ export function PinDots({
     <Animated.View style={[styles.row, { gap, transform: [{ translateX: x }] }]} role="img" aria-label={`${filled} of ${count} digits entered`}>
       {Array.from({ length: count }, (_, i) => {
         const on = i < filled;
-        const color = wrong ? colors.rose : colors.lilac;
+        const color = wrong ? colors.rose : accent.lilac;
         return (
           <View
             key={i}

@@ -7,6 +7,7 @@ import { PinDots } from '@/components/pin-dots';
 import { PinPad } from '@/components/pin-pad';
 import { PrimaryButton } from '@/components/primary-button';
 import { Screen } from '@/components/screen';
+import { useAccent } from '@/hooks/use-accent';
 import { getPin, isWeakPin, setPin } from '@/store/pin';
 import { Icon, type IconName } from '@/ui/icons';
 import { colors, fonts, layout, space, type } from '@/ui/theme';
@@ -24,6 +25,7 @@ const STEPS: Record<Exclude<Step, 'done'>, { title: string; sub: string; icon: I
 
 // Change PIN: current PIN (3 wrong tries means a 30 second wait), new PIN of 4 to 6 digits, then confirm.
 export default function ChangePinScreen() {
+  const accent = useAccent();
   const router = useRouter();
   const [currentPin, setCurrentPin] = useState<string | null>(null);
   const [step, setStep] = useState<Step>('current');
@@ -139,7 +141,7 @@ export default function ChangePinScreen() {
       <View style={styles.progress} role="progressbar" aria-label={`Step ${stepNum} of 3`}>
         {[1, 2, 3].map((n) => (
           <View key={n} style={styles.progressTrack}>
-            <View style={[styles.progressFill, { width: n <= stepNum ? '100%' : '0%' }]} />
+            <View style={[styles.progressFill, { width: n <= stepNum ? '100%' : '0%', backgroundColor: accent.iris }]} />
           </View>
         ))}
       </View>
@@ -158,8 +160,8 @@ export default function ChangePinScreen() {
       ) : (
         <>
           <View style={styles.middle}>
-            <View style={styles.badge}>
-              <Icon name={STEPS[step].icon} size={26} color={colors.lilac} />
+            <View style={[styles.badge, { backgroundColor: `rgba(${accent.rgb},0.16)` }]}>
+              <Icon name={STEPS[step].icon} size={26} color={accent.lilac} />
             </View>
             <Text style={styles.stepTitle}>{STEPS[step].title}</Text>
             <Text style={styles.stepSub}>{STEPS[step].sub}</Text>
@@ -205,9 +207,9 @@ const styles = StyleSheet.create({
   title: { ...type.pageTitle, color: colors.text },
   progress: { flexDirection: 'row', gap: 6, paddingTop: 8, paddingHorizontal: space.screenX },
   progressTrack: { flex: 1, height: 4, borderRadius: 2, backgroundColor: colors.surface4, overflow: 'hidden' },
-  progressFill: { height: 4, borderRadius: 2, backgroundColor: colors.iris },
+  progressFill: { height: 4, borderRadius: 2 },
   middle: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32 },
-  badge: { width: 60, height: 60, borderRadius: 30, backgroundColor: 'rgba(123,108,246,0.16)', alignItems: 'center', justifyContent: 'center' },
+  badge: { width: 60, height: 60, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
   stepTitle: { marginTop: 20, fontFamily: fonts.expandedSemibold, fontSize: 22, color: colors.text, textAlign: 'center' },
   stepSub: { marginTop: 8, fontFamily: fonts.regular, fontSize: 15, lineHeight: 22, color: colors.textMuted, textAlign: 'center' },
   errorSlot: { minHeight: 44, marginTop: 16 },

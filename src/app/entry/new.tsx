@@ -19,6 +19,7 @@ import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
 import { Screen } from '@/components/screen';
 import type { Entry } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { useEntryDraft } from '@/store/entry-draft';
 import { currentDay, useEntries } from '@/store/entries';
 import { descriptionHistory } from '@/store/summary';
@@ -33,6 +34,7 @@ export default function NewEntryScreen() {
   const addEntry = useEntries((s) => s.addEntry);
   const today = currentDay();
   const [dateOpen, setDateOpen] = useState(false);
+  const accent = useAccent();
   const [recorded, setRecorded] = useState<Entry | null>(null);
 
   // Start clean every time the screen opens; returning from the description screen keeps the draft.
@@ -73,7 +75,7 @@ export default function NewEntryScreen() {
         onClose={close}
         right={
           <Pressable onPress={() => router.push('/entry/paste')} hitSlop={8}>
-            <Text style={formStyles.link}>Paste text instead</Text>
+            <Text style={[formStyles.link, { color: accent.lilac }]}>Paste text instead</Text>
           </Pressable>
         }
       />

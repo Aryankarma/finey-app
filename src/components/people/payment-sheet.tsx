@@ -9,6 +9,7 @@ import { kindNoun, methodFromNote, theyOwe } from '@/components/people/debt-text
 import { PrimaryButton } from '@/components/primary-button';
 import { Sheet } from '@/components/sheet';
 import type { Debt } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { progress, useEntrance } from '@/hooks/use-entrance';
 import { paidSoFar, useDebt, useDebts } from '@/store/debts';
 import { currentDay } from '@/store/entries';
@@ -21,6 +22,7 @@ const BIG_C = 2 * Math.PI * BIG_R;
 
 // Record a payment against a debt: keypad amount, 50% / 75% / all quick picks, and a done ring.
 export function PaymentSheet({ debtId, onClose }: { debtId: string | null; onClose: () => void }) {
+  const accent = useAccent();
   const live = useDebt(debtId);
   const addPayment = useDebts((s) => s.addPayment);
   const last = useRef<Debt | undefined>(undefined);
@@ -77,7 +79,7 @@ export function PaymentSheet({ debtId, onClose }: { debtId: string | null; onClo
       ) : (
         <View style={styles.body}>
           <View style={styles.who}>
-            <PersonRing name={debt.person} paid={paid / debt.amount} color={them ? colors.mint : colors.iris} fill={colors.surface3} />
+            <PersonRing name={debt.person} paid={paid / debt.amount} color={them ? colors.mint : accent.iris} fill={colors.surface3} />
             <View style={{ gap: 3, flex: 1 }}>
               <Text style={styles.title} role="heading">{them ? `${debt.person} is paying you back` : `You're paying ${debt.person} back`}</Text>
               <Text style={styles.muted}>
@@ -91,12 +93,12 @@ export function PaymentSheet({ debtId, onClose }: { debtId: string | null; onClo
             <Text style={[styles.amount, amount === 0 && { color: colors.textDisabled }, over && { color: colors.rose }]} aria-label="Amount">
               {groupIndian(amount)}
             </Text>
-            <View style={styles.caret} />
+            <View style={[styles.caret, { backgroundColor: accent.iris }]} />
           </View>
 
           <View>
             <View style={styles.bar} role="img">
-              {paid > 0 && <View style={[styles.seg, { flexGrow: paid, backgroundColor: colors.lilac }]} />}
+              {paid > 0 && <View style={[styles.seg, { flexGrow: paid, backgroundColor: accent.lilac }]} />}
               {now > 0 && <View style={[styles.seg, { flexGrow: now, backgroundColor: colors.mint }]} />}
               {left - now > 0 && <View style={[styles.seg, { flexGrow: left - now, backgroundColor: colors.surface3 }]} />}
             </View>
@@ -115,9 +117,9 @@ export function PaymentSheet({ debtId, onClose }: { debtId: string | null; onClo
                   role="radio"
                   aria-checked={on}
                   onPress={() => setDigits(String(p.value))}
-                  style={({ pressed }) => [styles.pick, on && styles.pickOn, pressed && { transform: [{ scale: 0.96 }] }]}>
+                  style={({ pressed }) => [styles.pick, on && { backgroundColor: accent.irisTint, borderColor: accent.iris }, pressed && { transform: [{ scale: 0.96 }] }]}>
                   <Text style={styles.pickLabel}>{p.label}</Text>
-                  <Text style={[styles.pickValue, on && { color: '#DCD7FF' }]}>{formatMoney(p.value)}</Text>
+                  <Text style={[styles.pickValue, on && { color: accent.chipText }]}>{formatMoney(p.value)}</Text>
                 </Pressable>
               );
             })}
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
   amountRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingTop: 6, paddingBottom: 2 },
   rupee: { fontFamily: fonts.expandedMedium, fontSize: 28, color: colors.textFaint, alignSelf: 'flex-start', marginTop: 4 },
   amount: { fontFamily: fonts.expandedSemibold, fontSize: 52, letterSpacing: -1, lineHeight: 56, color: colors.text, ...tabular },
-  caret: { width: 3, height: 46, borderRadius: 2, backgroundColor: colors.iris, marginLeft: 2 },
+  caret: { width: 3, height: 46, borderRadius: 2, marginLeft: 2 },
   bar: { flexDirection: 'row', gap: 3, height: 8 },
   seg: { flexBasis: 0, borderRadius: 4 },
   barLabels: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8, gap: 8 },
@@ -251,7 +253,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'transparent',
   },
-  pickOn: { backgroundColor: colors.irisTint, borderColor: colors.iris },
   pickLabel: { fontFamily: fonts.semibold, fontSize: 15, color: colors.text },
   pickValue: { fontFamily: fonts.medium, fontSize: 12, color: colors.textMuted, ...tabular },
   note: { height: 48, borderRadius: 24, backgroundColor: colors.surface3, flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16 },

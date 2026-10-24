@@ -3,10 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { FormHeader, formStyles } from '@/components/entry-form';
+import { ParsedEditSheet } from '@/components/parsed-edit-sheet';
 import { ParsedRow } from '@/components/parsed-row';
 import { PrimaryButton } from '@/components/primary-button';
 import { ResultSheet } from '@/components/result-sheet';
 import { Screen } from '@/components/screen';
+import { useAccent } from '@/hooks/use-accent';
 import { currentDay, useEntries } from '@/store/entries';
 import { parseLine, type ParsedEntry } from '@/store/parse-entries';
 import { usePasteHandoff } from '@/store/paste-handoff';
@@ -21,6 +23,7 @@ const READ_MS = 900;
 // Paste text: one entry per line. Read, review (possible repeats start unticked), then save.
 export default function PasteScreen() {
   const router = useRouter();
+  const accent = useAccent();
   // Text from Home's quick-add box, if that's how we got here.
   const [handed] = useState(() => usePasteHandoff.getState().text);
   const entries = useEntries((s) => s.entries);
@@ -32,6 +35,7 @@ export default function PasteScreen() {
   const [phase, setPhase] = useState<Phase>('write');
   const [rows, setRows] = useState<ParsedEntry[]>([]);
   const [ticks, setTicks] = useState<boolean[]>([]);
+  const [editing, setEditing] = useState<number | null>(null);
   const [saved, setSaved] = useState<{ count: number; out: number; in: number } | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -80,8 +84,8 @@ export default function PasteScreen() {
         onClose={close}
         right={
           <Pressable onPress={() => router.replace('/entry/voice')} style={styles.voice}>
-            <Icon name="mic" size={16} color={colors.lilac} />
-            <Text style={formStyles.link}>Use voice</Text>
+            <Icon name="mic" size={16} color={accent.lilac} />
+            <Text style={[formStyles.link, { color: accent.lilac }]}>Use voice</Text>
           </Pressable>
         }
       />
@@ -113,7 +117,7 @@ export default function PasteScreen() {
               </Text>
               {text.length > 0 && (
                 <Pressable onPress={() => setText('')} style={{ height: 44, justifyContent: 'center' }}>
-                  <Text style={formStyles.link}>Clear</Text>
+                  <Text style={[formStyles.link, { color: accent.lilac }]}>Clear</Text>
                 </Pressable>
               )}
             </View>
@@ -121,7 +125,7 @@ export default function PasteScreen() {
               <Text style={styles.tipsTitle}>Works best with</Text>
               {['One entry per line, with its amount', '“today” or “yesterday” to set the date', '“salary” or “received” for money coming in'].map((t) => (
                 <View key={t} style={styles.tip}>
-                  <View style={styles.tipDot} />
+                  <View style={[styles.tipDot, { backgroundColor: accent.iris }]} />
                   <Text style={styles.tipText}>{t}</Text>
                 </View>
               ))}
@@ -144,7 +148,7 @@ export default function PasteScreen() {
               {rows.length === 1 ? 'Found 1 entry' : `Found ${rows.length} entries`}
               {toCheck ? `, ${toCheck} to check` : ''}
             </Text>
-            <Text style={styles.foundSub}>Untick anything you don&apos;t want to save.</Text>
+            <Text style={styles.foundSub}>Untick anything you don&apos;t want to save, or tap one to change it.</Text>
             {rows.map((r, i) => (
               <ParsedRow
                 key={i}
@@ -152,9 +156,10 @@ export default function PasteScreen() {
                 on={!!ticks[i]}
                 today={today}
                 onToggle={() => setTicks(ticks.map((t, j) => (j === i ? !t : t)))}
+                onEdit={() => setEditing(i)}
                 warning={
                   r.amount === 0
-                    ? { text: "We couldn't find an amount in this line. Edit the text to add one.", bad: true }
+                    ? { text: "We couldn't find an amount in this line. Tap it to add one.", bad: true }
                     : r.duplicateOf
                       ? { text: `You already have ${r.duplicateOf.name} for ${formatMoney(r.duplicateOf.amount)} on ${shortDay(r.duplicateOf.date).slice(4)}. Tick it to save it again.` }
                       : undefined
@@ -191,6 +196,16 @@ export default function PasteScreen() {
         )}
       </View>
 
+      <ParsedEditSheet
+        entry={editing !== null ? rows[editing] : null}
+        today={today}
+        onClose={() => setEditing(null)}
+        onSave={(changed) => {
+          setRows(rows.map((r, i) => (i === editing ? changed : r)));
+          setTicks(ticks.map((t, i) => (i === editing ? true : t)));
+          setEditing(null);
+        }}
+      />
       <ResultSheet
         visible={saved !== null}
         title={saved?.count === 1 ? '1 entry saved' : `${saved?.count ?? 0} entries saved`}
@@ -261,7 +276,7 @@ const styles = StyleSheet.create({
   tips: { marginTop: 10, padding: 16, borderRadius: 18, backgroundColor: '#0E0E11', borderWidth: 1, borderColor: '#17171B', gap: 8 },
   tipsTitle: { marginBottom: 2, fontFamily: fonts.semibold, fontSize: 13, color: '#D9D9DE' },
   tip: { flexDirection: 'row', gap: 10 },
-  tipDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.iris, marginTop: 7 },
+  tipDot: { width: 6, height: 6, borderRadius: 3, marginTop: 7 },
   tipText: { flex: 1, fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.textMuted },
   skelRow: { height: 72, flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 14, borderRadius: 18, backgroundColor: colors.surface1, marginBottom: 10 },
   skel: { backgroundColor: '#24242B' },

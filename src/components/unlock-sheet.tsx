@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { PinDots } from '@/components/pin-dots';
 import { PinPad } from '@/components/pin-pad';
 import { Sheet } from '@/components/sheet';
+import { useAccent } from '@/hooks/use-accent';
 import { canUseBiometrics, getPin, unlockWithBiometrics } from '@/store/pin';
 import { useSettings } from '@/store/settings';
 import { useToast } from '@/store/toast';
@@ -12,6 +13,7 @@ import { colors, fonts } from '@/ui/theme';
 
 // "Amounts are hidden": enter the PIN (or use fingerprint) to show amounts again.
 export function UnlockSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+  const accent = useAccent();
   const fingerprintOn = useSettings((s) => s.fingerprint);
   const setHidden = useSettings((s) => s.setHideAmounts);
   const showToast = useToast((s) => s.show);
@@ -62,8 +64,8 @@ export function UnlockSheet({ visible, onClose }: { visible: boolean; onClose: (
     <Sheet visible={visible} onClose={onClose}>
       <View style={styles.body}>
         <View style={styles.head}>
-          <View style={styles.badge}>
-            <Icon name="lock" size={22} color={colors.lilac} />
+          <View style={[styles.badge, { backgroundColor: `rgba(${accent.rgb},0.16)` }]}>
+            <Icon name="lock" size={22} color={accent.lilac} />
           </View>
           <View style={{ gap: 3, flex: 1 }}>
             <Text style={styles.title} role="heading">Amounts are hidden</Text>
@@ -80,7 +82,7 @@ export function UnlockSheet({ visible, onClose }: { visible: boolean; onClose: (
             fingerprintOn && biometrics
               ? {
                   label: 'Use fingerprint',
-                  icon: <Icon name="fingerprint" size={26} color={colors.lilac} />,
+                  icon: <Icon name="fingerprint" size={26} color={accent.lilac} />,
                   onPress: () => unlockWithBiometrics().then((ok) => ok && unlock()),
                 }
               : undefined
@@ -94,7 +96,7 @@ export function UnlockSheet({ visible, onClose }: { visible: boolean; onClose: (
 const styles = StyleSheet.create({
   body: { gap: 24, paddingHorizontal: 8, paddingBottom: 4 },
   head: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  badge: { width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(123,108,246,0.16)', alignItems: 'center', justifyContent: 'center' },
+  badge: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center' },
   title: { fontFamily: fonts.expandedSemibold, fontSize: 19, color: colors.text },
   message: { fontFamily: fonts.regular, fontSize: 14, color: colors.textMuted },
 });

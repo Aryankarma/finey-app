@@ -10,16 +10,17 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { useAccent } from '@/hooks/use-accent';
 import { colors, fonts } from '@/ui/theme';
 
 SplashScreen.preventAutoHideAsync();
 
-const navTheme = {
-  ...DarkTheme,
-  colors: { ...DarkTheme.colors, background: colors.bg, card: colors.bg, text: colors.text, primary: colors.iris },
-};
-
 export default function RootLayout() {
+  const accent = useAccent();
+  const navTheme = {
+    ...DarkTheme,
+    colors: { ...DarkTheme.colors, background: colors.bg, card: colors.bg, text: colors.text, primary: accent.iris },
+  };
   // The Expanded names use the normal cut until the Archivo Expanded TTFs are added to assets/fonts.
   const [loaded] = useFonts({
     [fonts.regular]: Archivo_400Regular,

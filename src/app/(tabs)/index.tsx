@@ -9,6 +9,7 @@ import { SpendRing } from '@/components/home/spend-ring';
 import { MonthPickerSheet } from '@/components/month-picker-sheet';
 import { Screen } from '@/components/screen';
 import { UnlockSheet } from '@/components/unlock-sheet';
+import { useAccent } from '@/hooks/use-accent';
 import { useEntrance } from '@/hooks/use-entrance';
 import { currentDay, useEntries } from '@/store/entries';
 import { usePasteHandoff } from '@/store/paste-handoff';
@@ -23,6 +24,7 @@ const RING_MAX = 320;
 
 export default function HomeScreen() {
   const router = useRouter();
+  const accent = useAccent();
   const hidden = useSettings((s) => s.hideAmounts);
   const setHidden = useSettings((s) => s.setHideAmounts);
   const [unlockOpen, setUnlockOpen] = useState(false);
@@ -64,7 +66,7 @@ export default function HomeScreen() {
               accessibilityLabel={hidden ? 'Show amounts' : 'Hide amounts'}
               aria-pressed={hidden}
               style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
-              <Icon name={hidden ? 'eyeOff' : 'eye'} color={hidden ? colors.lilac : colors.text} />
+              <Icon name={hidden ? 'eyeOff' : 'eye'} color={hidden ? accent.lilac : colors.text} />
             </Pressable>
             <Pressable onPress={() => router.push('/settings')} accessibilityRole="button" accessibilityLabel="Settings" style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
               <Icon name="sliders" color={colors.text} />
@@ -112,7 +114,7 @@ export default function HomeScreen() {
           <View style={styles.recentHeader}>
             <Text style={styles.recentTitle}>Recent</Text>
             <Pressable onPress={() => router.navigate('/ledger')} accessibilityRole="link" hitSlop={8}>
-              <Text style={styles.link}>Open ledger</Text>
+              <Text style={[styles.link, { color: accent.lilac }]}>Open ledger</Text>
             </Pressable>
           </View>
           {recent.map((entry) => (
@@ -169,6 +171,6 @@ const styles = StyleSheet.create({
   recent: { paddingTop: 22, paddingHorizontal: space.screenX },
   recentHeader: { height: 32, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   recentTitle: { fontFamily: fonts.expandedSemibold, fontSize: 16, color: colors.text },
-  link: { fontFamily: fonts.medium, fontSize: 14, color: colors.lilac },
+  link: { fontFamily: fonts.medium, fontSize: 14 },
   nothing: { paddingVertical: 12, fontFamily: fonts.regular, fontSize: 14, color: colors.textMuted },
 });

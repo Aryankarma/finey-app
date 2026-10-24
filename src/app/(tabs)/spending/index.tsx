@@ -6,6 +6,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Amount } from '@/components/amount';
 import { Screen } from '@/components/screen';
 import { SpendingHeader } from '@/components/spending/spending-header';
+import { useAccent } from '@/hooks/use-accent';
 import { useEntries } from '@/store/entries';
 import { categorySpend, dailySpend, monthSummary, weekBuckets, type WeekBucket } from '@/store/summary';
 import { useIsCurrentMonth, useViewDay } from '@/store/view-month';
@@ -48,6 +49,7 @@ function weekCaption(week: WeekBucket, weeks: WeekBucket[], spend: number[], tod
 }
 
 export default function SpendingScreen() {
+  const accent = useAccent();
   const router = useRouter();
   const entries = useEntries((s) => s.entries);
   const today = useViewDay();
@@ -106,8 +108,8 @@ export default function SpendingScreen() {
                   <Text style={[styles.weekText, on && styles.weekTextOn]}>{w.started ? formatCompact(w.total) : 'Not yet'}</Text>
                   <View style={styles.barBox}>
                     {w.started ? (
-                      <View style={[styles.bar, { height }]}>
-                        {on && <LinearGradient colors={[colors.lilac, '#5240D9']} style={StyleSheet.absoluteFill} />}
+                      <View style={[styles.bar, { height, backgroundColor: `rgba(${accent.rgb},0.25)` }]}>
+                        {on && <LinearGradient colors={[accent.lilac, accent.primary[1]]} style={StyleSheet.absoluteFill} />}
                       </View>
                     ) : (
                       <View style={[styles.bar, styles.barEmpty, { height }]} />
@@ -152,11 +154,11 @@ export default function SpendingScreen() {
             })}
             {hidden.length > 0 && (
               <Pressable onPress={() => setShowAll(!showAll)} aria-expanded={showAll} style={styles.more}>
-                <Text style={styles.moreLabel}>
+                <Text style={[styles.moreLabel, { color: accent.lilac }]}>
                   {showAll ? 'Show fewer categories' : `Show ${listNames(hidden.map((c) => categories[c.category].label))}`}
                 </Text>
                 <View style={{ transform: [{ rotate: showAll ? '180deg' : '0deg' }] }}>
-                  <Icon name="chevronDown" size={14} color={colors.lilac} strokeWidth={2} />
+                  <Icon name="chevronDown" size={14} color={accent.lilac} strokeWidth={2} />
                 </View>
               </Pressable>
             )}
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
   weekText: { textAlign: 'center', fontFamily: fonts.regular, fontSize: 12, color: colors.textFaint, ...tabular },
   weekTextOn: { fontFamily: fonts.semibold, color: colors.text },
   barBox: { height: BAR_HEIGHT, justifyContent: 'flex-end' },
-  bar: { width: '100%', borderRadius: 10, backgroundColor: '#2A2640', overflow: 'hidden' },
+  bar: { width: '100%', borderRadius: 10, overflow: 'hidden' },
   barEmpty: { backgroundColor: 'transparent', borderWidth: 1, borderColor: '#2A2A31' },
   caption: { marginTop: 14, fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.textMuted },
   share: { flexDirection: 'row', gap: 2, height: 10 },
@@ -202,5 +204,5 @@ const styles = StyleSheet.create({
   rowSub: { fontFamily: fonts.regular, fontSize: 13, color: colors.textFaint },
   rowAmount: { fontFamily: fonts.medium, fontSize: 15, color: colors.text },
   more: { height: 40, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  moreLabel: { fontFamily: fonts.medium, fontSize: 14, color: colors.lilac },
+  moreLabel: { fontFamily: fonts.medium, fontSize: 14 },
 });

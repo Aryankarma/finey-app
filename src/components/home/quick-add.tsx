@@ -2,17 +2,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
+import { useAccent } from '@/hooks/use-accent';
 import { Icon } from '@/ui/icons';
-import { colors, fonts, gradients, motion } from '@/ui/theme';
+import { colors, fonts, motion } from '@/ui/theme';
 
 // Free-text capture field with buttons for the full form and voice entry.
 // Typing a line and pressing enter hands it to `onSubmit` (Paste text reads it).
 export function QuickAdd({ onOpenForm, onVoice, onSubmit }: { onOpenForm?: () => void; onVoice?: () => void; onSubmit?: (text: string) => void }) {
   const [focused, setFocused] = useState(false);
   const [text, setText] = useState('');
+  const accent = useAccent();
 
   return (
-    <View style={[styles.bar, focused && styles.barFocused]}>
+    <View style={[styles.bar, focused && [styles.barFocused, { borderColor: `rgba(${accent.rgb},0.65)` }]]}>
       <TextInput
         value={text}
         onChangeText={setText}
@@ -41,7 +43,7 @@ export function QuickAdd({ onOpenForm, onVoice, onSubmit }: { onOpenForm?: () =>
         accessibilityRole="button"
         accessibilityLabel="Speak an entry"
         style={({ pressed }) => pressed && styles.pressed}>
-        <LinearGradient colors={gradients.primary} style={[styles.round, styles.gradient]}>
+        <LinearGradient colors={accent.primary} style={[styles.round, styles.gradient]}>
           <Icon name="mic" color={colors.textOnAccent} strokeWidth={1.9} />
         </LinearGradient>
       </Pressable>
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'transparent',
   },
-  barFocused: { backgroundColor: '#19191D', borderColor: 'rgba(123,108,246,0.65)' },
+  barFocused: { backgroundColor: '#19191D' },
   input: {
     flex: 1,
     minWidth: 0,

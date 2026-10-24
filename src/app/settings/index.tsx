@@ -7,16 +7,12 @@ import { ExportSheet } from '@/components/export-sheet';
 import { Screen } from '@/components/screen';
 import { Segmented } from '@/components/segmented';
 import { SwitchMark } from '@/components/switch';
+import { useAccent } from '@/hooks/use-accent';
 import { useSettings, type AccentKey, type ThemeChoice } from '@/store/settings';
 import { Icon, type IconName } from '@/ui/icons';
-import { fonts, layout, space, type } from '@/ui/theme';
+import { accents, fonts, layout, space, type } from '@/ui/theme';
 
-const ACCENTS: { key: AccentKey; name: string; color: string; text: string; soft: string }[] = [
-  { key: 'iris', name: 'Iris', color: '#7B6CF6', text: '#5240D9', soft: '#A59BFF' },
-  { key: 'blue', name: 'Blue', color: '#4F8CF7', text: '#2F6FDB', soft: '#8FB6FF' },
-  { key: 'teal', name: 'Teal', color: '#22B8B0', text: '#148A84', soft: '#6FDCD5' },
-  { key: 'amber', name: 'Amber', color: '#E39A2D', text: '#B5700F', soft: '#F2C27A' },
-];
+const ACCENT_KEYS = Object.keys(accents) as AccentKey[];
 
 // Settings has its own palette so choosing Light previews it right here (the rest of the app stays dark).
 const PALETTES = {
@@ -39,8 +35,8 @@ export default function SettingsScreen() {
 
   const light = settings.theme === 'light' || (settings.theme === 'system' && phone === 'light');
   const t = light ? PALETTES.light : PALETTES.dark;
-  const accent = ACCENTS.find((a) => a.key === settings.accent) ?? ACCENTS[0];
-  const accentText = light ? accent.text : accent.soft;
+  const accent = useAccent();
+  const accentText = light ? accent.lightText : accent.lilac;
   const back = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
   return (
@@ -62,7 +58,7 @@ export default function SettingsScreen() {
             sub={settings.hideOnOpen ? 'Tap the eye on Home and enter your PIN to show them' : 'Amounts show as soon as you open Finey'}
             onPress={() => settings.set({ hideOnOpen: !settings.hideOnOpen })}
             switchOn={settings.hideOnOpen}
-            switchColor={accent.color}
+            switchColor={accent.iris}
           />
           <Row
             t={t}
@@ -73,7 +69,7 @@ export default function SettingsScreen() {
             sub={settings.fingerprint ? 'Use your fingerprint instead of typing the PIN' : 'You will type your PIN every time'}
             onPress={() => settings.set({ fingerprint: !settings.fingerprint })}
             switchOn={settings.fingerprint}
-            switchColor={accent.color}
+            switchColor={accent.iris}
           />
           <Row
             t={t}
@@ -108,17 +104,18 @@ export default function SettingsScreen() {
             <View style={[styles.innerDivider, { backgroundColor: t.dv }]} />
             <Text style={[styles.rowTitle, { color: t.tx }]}>Accent colour</Text>
             <View style={styles.swatches} role="radiogroup" aria-label="Accent colour">
-              {ACCENTS.map((a) => {
-                const on = a.key === settings.accent;
+              {ACCENT_KEYS.map((key) => {
+                const a = accents[key];
+                const on = key === settings.accent;
                 return (
                   <Pressable
-                    key={a.key}
+                    key={key}
                     role="radio"
                     aria-checked={on}
                     accessibilityLabel={a.name}
-                    onPress={() => settings.set({ accent: a.key })}
-                    style={({ pressed }) => [styles.swatchRing, on && { borderColor: a.color }, pressed && { transform: [{ scale: 0.9 }] }]}>
-                    <View style={[styles.swatch, { backgroundColor: a.color }]}>{on && <Icon name="check" size={18} color="#FFFFFF" strokeWidth={2.4} />}</View>
+                    onPress={() => settings.set({ accent: key })}
+                    style={({ pressed }) => [styles.swatchRing, on && { borderColor: a.iris }, pressed && { transform: [{ scale: 0.9 }] }]}>
+                    <View style={[styles.swatch, { backgroundColor: a.iris }]}>{on && <Icon name="check" size={18} color="#FFFFFF" strokeWidth={2.4} />}</View>
                   </Pressable>
                 );
               })}

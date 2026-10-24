@@ -4,9 +4,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PrimaryButton } from '@/components/primary-button';
 import { Sheet } from '@/components/sheet';
+import { useAccent } from '@/hooks/use-accent';
 import { addDays, dayOfMonth, daysInMonth, monthName, toIso, weekday } from '@/ui/format';
 import { Icon } from '@/ui/icons';
-import { colors, fonts, gradients, tabular } from '@/ui/theme';
+import { colors, fonts, tabular } from '@/ui/theme';
 
 const EARLIEST = { y: 2025, m: 1 }; // the boards stop at January 2025
 const WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -36,6 +37,7 @@ export function DatePickerSheet({
   onClose: () => void;
   onPick: (iso: string) => void;
 }) {
+  const accent = useAccent();
   const [selected, setSelected] = useState(value);
   const [view, setView] = useState(monthOf(value));
   const yesterday = addDays(today, -1);
@@ -114,7 +116,7 @@ export function DatePickerSheet({
               style={styles.cell}>
               {({ pressed }) => (
                 <View style={[styles.day, iso === today && !on && styles.dayToday, pressed && { transform: [{ scale: 0.9 }] }]}>
-                  {on && <LinearGradient colors={gradients.primary} style={[StyleSheet.absoluteFill, styles.dayOn]} />}
+                  {on && <LinearGradient colors={accent.primary} style={[StyleSheet.absoluteFill, styles.dayOn]} />}
                   <Text style={[styles.dayLabel, on && styles.dayLabelOn, future && { color: '#3A3A42' }]}>{dayOfMonth(iso)}</Text>
                 </View>
               )}
@@ -129,8 +131,9 @@ export function DatePickerSheet({
 }
 
 function QuickChip({ label, on, onPress }: { label: string; on: boolean; onPress: () => void }) {
+  const accent = useAccent();
   return (
-    <Pressable onPress={onPress} aria-pressed={on} style={({ pressed }) => [styles.chip, on && styles.chipOn, pressed && { transform: [{ scale: 0.96 }] }]}>
+    <Pressable onPress={onPress} aria-pressed={on} style={({ pressed }) => [styles.chip, on && { backgroundColor: accent.irisTint, borderColor: accent.iris }, pressed && { transform: [{ scale: 0.96 }] }]}>
       <Text style={[styles.chipLabel, on && { color: colors.text }]}>{label}</Text>
     </Pressable>
   );
@@ -149,7 +152,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'transparent',
   },
-  chipOn: { backgroundColor: colors.irisTint, borderColor: colors.iris },
   chipLabel: { fontFamily: fonts.medium, fontSize: 13, color: '#D9D9DE' },
   monthRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 },
   nav: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.surface3, alignItems: 'center', justifyContent: 'center' },

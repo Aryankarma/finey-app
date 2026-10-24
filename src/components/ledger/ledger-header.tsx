@@ -3,12 +3,14 @@ import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { ViewTabs } from '@/components/view-tabs';
+import { useAccent } from '@/hooks/use-accent';
 import { Icon, type IconName } from '@/ui/icons';
-import { colors, gradients, layout, space, type } from '@/ui/theme';
+import { colors, layout, space, type } from '@/ui/theme';
 
 // Title, actions and the List / Calendar tabs shared by both Ledger views.
 export function LedgerHeader({ view, action }: { view: 'list' | 'calendar'; action: { icon: IconName; label: string; onPress?: () => void } }) {
   const router = useRouter();
+  const accent = useAccent();
 
   return (
     <>
@@ -19,7 +21,7 @@ export function LedgerHeader({ view, action }: { view: 'list' | 'calendar'; acti
             <Icon name={action.icon} size={18} color={colors.text} />
           </Pressable>
           <Pressable onPress={() => router.push('/entry/new')} accessibilityLabel="Add an entry" style={({ pressed }) => pressed && styles.pressed}>
-            <LinearGradient colors={gradients.primary} style={[styles.iconButton, styles.add]}>
+            <LinearGradient colors={accent.primary} style={[styles.iconButton, styles.add]}>
               <Icon name="plus" size={20} color={colors.textOnAccent} strokeWidth={2.2} />
             </LinearGradient>
           </Pressable>

@@ -9,15 +9,17 @@ import { EntrySheet } from '@/components/ledger/entry-sheet';
 import { LedgerHeader } from '@/components/ledger/ledger-header';
 import { MonthPickerSheet } from '@/components/month-picker-sheet';
 import { Screen } from '@/components/screen';
+import { SlideIn } from '@/components/slide-in';
+import { useAccent } from '@/hooks/use-accent';
 import { currentDay, useEntries } from '@/store/entries';
 import { inMonth, monthSummary } from '@/store/summary';
 import { useViewDay } from '@/store/view-month';
 import { addDays, dayOfMonth, daysInMonth, formatMoney, monthName, toIso, weekday } from '@/ui/format';
-import { colors, fonts, gradients, space, tabular } from '@/ui/theme';
+import { colors, fonts, space, tabular } from '@/ui/theme';
 
 const WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 // Day shading by spend, matching the legend.
-const HEAT = ['rgba(123,108,246,0.10)', 'rgba(123,108,246,0.20)', 'rgba(123,108,246,0.34)', 'rgba(123,108,246,0.55)'];
+const HEAT = [0.1, 0.2, 0.34, 0.55]; // accent alpha
 const heat = (spent: number) => (spent < 1000 ? 0 : spent < 3000 ? 1 : spent < 6000 ? 2 : 3);
 const compact = (v: number) => (v < 1000 ? String(v) : `${(v / 1000).toFixed(1)}k`);
 
@@ -29,9 +31,14 @@ export default function LedgerCalendarScreen() {
   const [picked, setPicked] = useState(viewDay);
   const [openEntry, setOpenEntry] = useState<string | null>(null);
   const [monthOpen, setMonthOpen] = useState(false);
+  const accent = useAccent();
   // A pick from another month falls back to the shown month's last day.
   const selectedDay = picked.slice(0, 7) === viewDay.slice(0, 7) ? picked : viewDay;
-  const setSelectedDay = setPicked;
+  const [picks, setPicks] = useState(0); // the details only animate once you pick a day
+  const setSelectedDay = (iso: string) => {
+    setPicked(iso);
+    setPicks((n) => n + 1);
+  };
 
   const month = useMemo(() => inMonth(entries, viewDay), [entries, viewDay]);
   const summary = useMemo(() => monthSummary(entries, viewDay), [entries, viewDay]);
@@ -93,17 +100,17 @@ export default function LedgerCalendarScreen() {
                     accessibilityLabel={`${weekday(iso)} ${dayOfMonth(iso)} ${monthName(iso)}${disabled ? '' : `, ${formatMoney(spent)} spent`}`}
                     style={({ pressed }) => [
                       styles.cell,
-                      !disabled && !on && { backgroundColor: HEAT[heat(spent)] },
-                      iso === today && !on && styles.today,
+                      !disabled && !on && { backgroundColor: `rgba(${accent.rgb},${HEAT[heat(spent)]})` },
+                      iso === today && !on && [styles.today, { borderColor: accent.lilac }],
                       pressed && { transform: [{ scale: 0.92 }] },
                     ]}>
-                    {on && <LinearGradient colors={gradients.primary} style={[StyleSheet.absoluteFill, styles.selected]} />}
+                    {on && <LinearGradient colors={accent.primary} style={[StyleSheet.absoluteFill, styles.selected]} />}
                     {!!info?.income && !outside && <View style={styles.incomeDot} />}
                     <Text style={[styles.cellDay, outside && { color: '#34343C' }, future && !outside && { color: colors.textDisabled }]}>
                       {dayOfMonth(iso)}
                     </Text>
                     {!disabled && (
-                      <Text style={[styles.cellAmount, heat(spent) === 3 && { color: '#E9E6FF' }, on && { color: '#F1EFFF' }]}>{compact(spent)}</Text>
+                      <Amount style={[styles.cellAmount, (heat(spent) === 3 || on) && { color: accent.chipText }]}>{compact(spent)}</Amount>
                     )}
                   </Pressable>
                 </View>
@@ -117,31 +124,34 @@ export default function LedgerCalendarScreen() {
             </View>
             <View style={styles.legendItem}>
               <Text style={styles.legendText}>Less</Text>
-              {HEAT.map((bg) => (
-                <View key={bg} style={[styles.legendSwatch, { backgroundColor: bg }]} />
+              {HEAT.map((alpha) => (
+                <View key={alpha} style={[styles.legendSwatch, { backgroundColor: `rgba(${accent.rgb},${alpha})` }]} />
               ))}
               <Text style={styles.legendText}>More spent</Text>
             </View>
           </View>
         </View>
 
+        {/* Rises in each time you pick a day. */}
         <View style={styles.detail} aria-live="polite">
-          <View style={styles.detailHead}>
-            <Text style={styles.detailTitle}>
-              {weekday(selectedDay)} {dayOfMonth(selectedDay)} {monthName(selectedDay, 'short')}
+          <SlideIn key={selectedDay} y={picks ? 8 : 0} duration={260}>
+            <View style={styles.detailHead}>
+              <Text style={styles.detailTitle}>
+                {weekday(selectedDay)} {dayOfMonth(selectedDay)} {monthName(selectedDay, 'short')}
+              </Text>
+              <Amount style={[styles.detailNet, net >= 0 && { color: colors.mint }]}>
+                {net === 0 ? '₹0' : formatMoney(net, { signed: true })}
+              </Amount>
+            </View>
+            <Text style={styles.detailSub}>
+              {dayEntries.length === 0
+                ? 'Nothing recorded on this day.'
+                : `${dayEntries.length} ${dayEntries.length === 1 ? 'entry' : 'entries'}, ${sel.income ? `${formatMoney(sel.income)} came in` : 'nothing came in'}`}
             </Text>
-            <Amount style={[styles.detailNet, net >= 0 && { color: colors.mint }]}>
-              {net === 0 ? '₹0' : formatMoney(net, { signed: true })}
-            </Amount>
-          </View>
-          <Text style={styles.detailSub}>
-            {dayEntries.length === 0
-              ? 'Nothing recorded on this day.'
-              : `${dayEntries.length} ${dayEntries.length === 1 ? 'entry' : 'entries'}, ${sel.income ? `${formatMoney(sel.income)} came in` : 'nothing came in'}`}
-          </Text>
-          {dayEntries.map((entry) => (
-            <EntryRow key={entry.id} entry={entry} onPress={() => setOpenEntry(entry.id)} />
-          ))}
+            {dayEntries.map((entry) => (
+              <EntryRow key={entry.id} entry={entry} onPress={() => setOpenEntry(entry.id)} />
+            ))}
+          </SlideIn>
         </View>
       </ScrollView>
 
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', rowGap: 6 },
   cellSlot: { width: `${100 / 7}%`, paddingHorizontal: 2 },
   cell: { height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center', gap: 1, overflow: 'hidden' },
-  today: { borderWidth: 1.5, borderColor: colors.lilac },
+  today: { borderWidth: 1.5 },
   selected: { borderRadius: 14, borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.16)' },
   cellDay: { fontFamily: fonts.medium, fontSize: 14, color: colors.text, ...tabular },
   cellAmount: { fontFamily: fonts.medium, fontSize: 10, color: '#B4B4BE', ...tabular },

@@ -12,6 +12,7 @@ import { Screen } from '@/components/screen';
 import { Spin } from '@/components/spin';
 import { unitWord } from '@/components/wealth/holding-text';
 import type { Holding } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { currentDay } from '@/store/entries';
 import { isMarketType, lookUpTicker, typeLabels, useHoldings } from '@/store/holdings';
 import { formatMoney, groupIndian, longDay } from '@/ui/format';
@@ -29,6 +30,7 @@ const namePlaceholder: Partial<Record<HoldingType, string>> = { fd: 'SBI FD, 1 y
 // New holding: stocks and crypto look up a live price by ticker; everything else takes a name and value.
 export default function NewHoldingScreen() {
   const router = useRouter();
+  const accent = useAccent();
   const addHolding = useHoldings((s) => s.addHolding);
   const today = currentDay();
   const close = () => (router.canGoBack() ? router.back() : router.replace('/wealth'));
@@ -151,12 +153,12 @@ export default function NewHoldingScreen() {
               <Pressable onPress={lookUp} disabled={!tk || lookup === 'loading'} style={({ pressed }) => [styles.look, (!tk || lookup === 'loading') && { opacity: 0.4 }, pressed && { transform: [{ scale: 0.96 }] }]}>
                 {lookup === 'loading' ? (
                   <Spin spinning>
-                    <Icon name="spinner" size={16} color={colors.lilacSoft} strokeWidth={2.2} />
+                    <Icon name="spinner" size={16} color={accent.lilacSoft} strokeWidth={2.2} />
                   </Spin>
                 ) : (
-                  <Icon name="search" size={16} color={colors.lilacSoft} strokeWidth={2} />
+                  <Icon name="search" size={16} color={accent.lilacSoft} strokeWidth={2} />
                 )}
-                <Text style={styles.lookLabel}>Look up</Text>
+                <Text style={[styles.lookLabel, { color: accent.lilacSoft }]}>Look up</Text>
               </Pressable>
             </View>
             <View style={styles.status} role="status">
@@ -350,7 +352,7 @@ const styles = StyleSheet.create({
   input: { flex: 1, minWidth: 0, height: '100%', fontFamily: fonts.medium, fontSize: 15, color: colors.text },
   affix: { fontFamily: fonts.regular, fontSize: 13, color: colors.textFaint },
   look: { height: 44, paddingHorizontal: 16, borderRadius: 22, backgroundColor: colors.surface4, flexDirection: 'row', alignItems: 'center', gap: 6 },
-  lookLabel: { fontFamily: fonts.semibold, fontSize: 14, color: colors.lilacSoft },
+  lookLabel: { fontFamily: fonts.semibold, fontSize: 14 },
   status: { minHeight: 22, marginTop: 10 },
   statusText: { fontFamily: fonts.regular, fontSize: 13, color: colors.textFaint },
   found: {

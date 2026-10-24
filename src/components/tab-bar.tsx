@@ -1,6 +1,7 @@
 import type { BottomTabBarProps } from 'expo-router/tabs';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { useAccent } from '@/hooks/use-accent';
 import { Icon, type IconName } from '@/ui/icons';
 import { colors, layout, type } from '@/ui/theme';
 
@@ -13,6 +14,7 @@ const tabs: Record<string, { label: string; icon: IconName }> = {
 };
 
 export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarProps) {
+  const accent = useAccent();
   return (
     <View style={[styles.bar, { height: layout.tabBarHeight + insets.bottom, paddingBottom: 8 + insets.bottom }]} role="tablist">
       {state.routes.map((route, index) => {
@@ -27,8 +29,8 @@ export function TabBar({ state, emitter, navigateToTab, insets }: BottomTabBarPr
           <Pressable key={route.key} onPress={onPress} style={styles.item} role="tab" aria-selected={focused}>
             {({ pressed }) => (
               <>
-                {focused && <View style={styles.indicator} />}
-                <Icon name={tab.icon} size={22} color={focused ? colors.lilac : pressed ? colors.text : colors.textFaint} />
+                {focused && <View style={[styles.indicator, { backgroundColor: accent.iris }]} />}
+                <Icon name={tab.icon} size={22} color={focused ? accent.lilac : pressed ? colors.text : colors.textFaint} />
                 <Text style={[styles.label, { color: focused || pressed ? colors.text : colors.textFaint }]}>{tab.label}</Text>
               </>
             )}
@@ -54,7 +56,6 @@ const styles = StyleSheet.create({
     height: 3,
     borderBottomLeftRadius: 3,
     borderBottomRightRadius: 3,
-    backgroundColor: colors.iris,
   },
   label: type.tabLabel,
 });

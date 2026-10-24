@@ -11,16 +11,19 @@ import { LedgerHeader } from '@/components/ledger/ledger-header';
 import { MonthPickerSheet } from '@/components/month-picker-sheet';
 import { Screen } from '@/components/screen';
 import type { Entry } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { deleteEntryWithUndo } from '@/store/actions';
 import { currentDay, useEntries } from '@/store/entries';
-import { countLabel, defaultFilters, ledgerEntries, signedAmount, sortLabels, useLedger } from '@/store/ledger';
+import { countLabel, defaultFilters, ledgerEntries, type LedgerSort, signedAmount, sortLabels, useLedger } from '@/store/ledger';
 import { useViewDay } from '@/store/view-month';
 import { categories } from '@/ui/categories';
 import { dayOfMonth, formatMoney, monthName, shortDay } from '@/ui/format';
 import { Icon } from '@/ui/icons';
 import { colors, fonts, space, tabular } from '@/ui/theme';
 
-type Item = { kind: 'day'; date: string; total: number; first: boolean } | { kind: 'entry'; entry: Entry };
+const sortOrder: LedgerSort[] = ['newest', 'oldest', 'high', 'low'];
+
+type Item ={ kind: 'day'; date: string; total: number; first: boolean } | { kind: 'entry'; entry: Entry };
 
 const signed = (n: number) => (n === 0 ? '₹0' : formatMoney(n, { signed: true }));
 
@@ -66,6 +69,7 @@ export default function LedgerScreen() {
   }, []);
 
   const filtered = ledger.show !== 'all' || ledger.savedOnly || ledger.query.trim() !== '';
+  const activeFilters = (ledger.show !== 'all' ? 1 : 0) + (ledger.savedOnly ? 1 : 0) + (ledger.sort !== 'newest' ? 1 : 0);
 
   return (
     <Screen style={styles.screen}>
@@ -91,15 +95,25 @@ export default function LedgerScreen() {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipScroller} contentContainerStyle={styles.chips}>
-          <Chip label={monthName(viewDay)} trailing="chevronDown" onPress={() => setMonthOpen(true)} />
           <Chip
-            label={ledger.show === 'expense' ? 'Expenses only' : ledger.show === 'income' ? 'Income only' : 'All entries'}
-            on={ledger.show !== 'all'}
+            label={activeFilters ? `Filters ${activeFilters}` : 'Filters'}
+            leading="sliders"
+            on={activeFilters > 0}
             onPress={() => setFiltersOpen(true)}
-            onClear={ledger.show !== 'all' ? () => ledger.setFilters({ ...filters, show: 'all' }) : undefined}
+            accessibilityLabel="Open all filters"
           />
-          <Chip label="Saved" leading="bookmark" on={ledger.savedOnly} onPress={() => setFiltersOpen(true)} />
-          <Chip label={sortLabels[ledger.sort]} onPress={() => setFiltersOpen(true)} />
+          <Chip label={monthName(viewDay)} trailing="chevronDown" onPress={() => setMonthOpen(true)} />
+          {/* Each chip applies its filter straight away; tap again to turn it off. */}
+          <Chip label="Expenses" on={ledger.show === 'expense'} onPress={() => ledger.setFilters({ ...filters, show: ledger.show === 'expense' ? 'all' : 'expense' })} />
+          <Chip label="Income" on={ledger.show === 'income'} onPress={() => ledger.setFilters({ ...filters, show: ledger.show === 'income' ? 'all' : 'income' })} />
+          <Chip label="Saved" leading="bookmark" on={ledger.savedOnly} onPress={() => ledger.setFilters({ ...filters, savedOnly: !ledger.savedOnly })} />
+          <Chip
+            label={sortLabels[ledger.sort]}
+            leading="sort"
+            on={ledger.sort !== 'newest'}
+            onPress={() => ledger.setFilters({ ...filters, sort: sortOrder[(sortOrder.indexOf(ledger.sort) + 1) % sortOrder.length] })}
+            accessibilityLabel={`Sorted ${sortLabels[ledger.sort].toLowerCase()}. Change order`}
+          />
         </ScrollView>
 
         <View style={styles.summary}>
@@ -182,26 +196,27 @@ function Chip({
   leading,
   trailing,
   onPress,
-  onClear,
+  accessibilityLabel,
 }: {
   label: string;
   on?: boolean;
-  leading?: 'bookmark';
+  leading?: 'bookmark' | 'sliders' | 'sort';
   trailing?: 'chevronDown';
   onPress?: () => void;
-  onClear?: () => void;
+  accessibilityLabel?: string;
 }) {
-  const color = on ? '#DCD7FF' : '#D9D9DE';
+  const accent = useAccent();
+  const color = on ? accent.chipText : '#D9D9DE';
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.chip, on && styles.chipOn, pressed && { transform: [{ scale: 0.96 }] }]}>
-      {leading && <Icon name={leading} size={13} color={color} strokeWidth={2} fill={on ? color : 'none'} />}
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      aria-pressed={on}
+      style={({ pressed }) => [styles.chip, on && { backgroundColor: accent.irisTint }, pressed && { transform: [{ scale: 0.96 }] }]}>
+      {leading && <Icon name={leading} size={14} color={color} strokeWidth={2} fill={leading === 'bookmark' && on ? color : 'none'} />}
       <Text style={[styles.chipLabel, { color }]}>{label}</Text>
       {trailing && <Icon name={trailing} size={14} color={color} strokeWidth={2} />}
-      {onClear && (
-        <Pressable onPress={onClear} hitSlop={10} accessibilityLabel={`Clear ${label}`}>
-          <Icon name="close" size={13} color={color} strokeWidth={2.2} />
-        </Pressable>
-      )}
     </Pressable>
   );
 }
@@ -238,7 +253,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
-  chipOn: { backgroundColor: colors.irisTint },
   chipLabel: { fontFamily: fonts.medium, fontSize: 13 },
   summary: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 16 },
   count: { fontFamily: fonts.regular, fontSize: 14, color: colors.textMuted },

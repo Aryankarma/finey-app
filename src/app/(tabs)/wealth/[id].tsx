@@ -10,6 +10,7 @@ import { Sheet } from '@/components/sheet';
 import { Spin } from '@/components/spin';
 import { dayMonthYear, unitWord } from '@/components/wealth/holding-text';
 import type { Holding } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { easeOutCubic, progress, useEntrance } from '@/hooks/use-entrance';
 import { gainOf, isMarketType, returnOf, typeLabels, unitPrice, useHolding, useHoldings } from '@/store/holdings';
 import { useToast } from '@/store/toast';
@@ -44,6 +45,7 @@ export default function HoldingScreen() {
 }
 
 function HoldingView({ holding: h, removed, onBack }: { holding: Holding; removed: boolean; onBack: () => void }) {
+  const accent = useAccent();
   const holdings = useHoldings((s) => s.holdings);
   const updateHolding = useHoldings((s) => s.updateHolding);
   const removeHolding = useHoldings((s) => s.removeHolding);
@@ -80,7 +82,7 @@ function HoldingView({ holding: h, removed, onBack }: { holding: Holding; remove
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.top}>
           <View style={styles.tags}>
-            {h.ticker && <Text style={[styles.tag, styles.tagAccent]}>{h.ticker}</Text>}
+            {h.ticker && <Text style={[styles.tag, { backgroundColor: `rgba(${accent.rgb},0.18)`, color: accent.lilacSoft }]}>{h.ticker}</Text>}
             <Text style={styles.tag}>{typeLabels[h.type]}</Text>
             <Text style={styles.tag}>{h.platform}</Text>
           </View>
@@ -357,7 +359,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#D9D9DE',
   },
-  tagAccent: { backgroundColor: 'rgba(123,108,246,0.18)', color: colors.lilacSoft },
   name: { marginTop: 14, ...type.screenTitle, color: colors.text },
   big: { ...type.display, letterSpacing: -0.66, lineHeight: 50, marginTop: 4, color: colors.text },
   muted: { fontFamily: fonts.regular, fontSize: 14, color: colors.textMuted },

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Easing, Platform, Pressable, StyleSheet, Text } from 'react-native';
 
+import { useAccent } from '@/hooks/use-accent';
 import { useToast } from '@/store/toast';
 import { colors, fonts, radius } from '@/ui/theme';
 
@@ -8,6 +9,7 @@ import { colors, fonts, radius } from '@/ui/theme';
 export function Toast({ bottom }: { bottom: number }) {
   const toast = useToast((s) => s.toast);
   const hide = useToast((s) => s.hide);
+  const accent = useAccent();
   const enter = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export function Toast({ bottom }: { bottom: number }) {
             hide();
           }}
           style={styles.action}>
-          <Text style={styles.actionLabel}>{toast.actionLabel}</Text>
+          <Text style={[styles.actionLabel, { color: accent.lilac }]}>{toast.actionLabel}</Text>
         </Pressable>
       )}
     </Animated.View>
@@ -66,5 +68,5 @@ const styles = StyleSheet.create({
   },
   message: { flex: 1, fontFamily: fonts.regular, fontSize: 14, color: colors.text },
   action: { height: 40, paddingHorizontal: 14, borderRadius: 20, justifyContent: 'center' },
-  actionLabel: { fontFamily: fonts.semibold, fontSize: 14, color: colors.lilac },
+  actionLabel: { fontFamily: fonts.semibold, fontSize: 14 },
 });

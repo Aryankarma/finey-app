@@ -37,6 +37,29 @@ export const gradients = {
   gain: ['#3BB57D', '#5EE0A1'] as const,
 };
 
+// The accent colour picked in Settings. Read it with useAccent() so the whole app follows the choice;
+// colors.iris, colors.lilac, colors.lilacSoft, colors.irisTint and gradients.primary are the Iris defaults.
+export type Accent = {
+  name: string;
+  iris: string; // selected states, switches, indicators
+  lilac: string; // links, accent text
+  lilacSoft: string;
+  chipText: string; // text on irisTint
+  irisTint: string; // selected chip fill
+  rgb: string; // for other alphas: `rgba(${accent.rgb},0.65)`
+  primary: readonly [string, string]; // primary button gradient
+  lightText: string; // accent text on the light Settings preview
+};
+
+export const accents = {
+  iris: { name: 'Iris', iris: '#7B6CF6', lilac: '#A59BFF', lilacSoft: '#C8C1FF', chipText: '#DCD7FF', irisTint: 'rgba(123,108,246,0.2)', rgb: '123,108,246', primary: ['#6F5EF0', '#5240D9'], lightText: '#5240D9' },
+  blue: { name: 'Blue', iris: '#4F8CF7', lilac: '#8FB6FF', lilacSoft: '#BCD3FF', chipText: '#D6E4FF', irisTint: 'rgba(79,140,247,0.2)', rgb: '79,140,247', primary: ['#4F8CF7', '#2F6FDB'], lightText: '#2F6FDB' },
+  teal: { name: 'Teal', iris: '#22B8B0', lilac: '#6FDCD5', lilacSoft: '#A8EEEA', chipText: '#CDF5F2', irisTint: 'rgba(34,184,176,0.2)', rgb: '34,184,176', primary: ['#1FAFA7', '#13827D'], lightText: '#148A84' },
+  amber: { name: 'Amber', iris: '#E39A2D', lilac: '#F2C27A', lilacSoft: '#F8DCAE', chipText: '#FBE6C6', irisTint: 'rgba(227,154,45,0.2)', rgb: '227,154,45', primary: ['#D98F22', '#AD6A0E'], lightText: '#B5700F' },
+} satisfies Record<string, Accent>;
+
+export type AccentKey = keyof typeof accents;
+
 export const categoryColors = {
   food: '#F2A272',
   transport: '#5CD3C6',

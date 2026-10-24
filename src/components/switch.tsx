@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 
+import { useAccent } from '@/hooks/use-accent';
 import { colors } from '@/ui/theme';
 
 // The boards' on/off switch. Visual only: put it inside the row that toggles it.
 export function SwitchMark({
   on,
-  onColor = colors.iris,
+  onColor,
   offColor = colors.switchOff,
   knobOffColor = colors.switchKnobOff,
 }: {
@@ -15,6 +16,7 @@ export function SwitchMark({
   offColor?: string;
   knobOffColor?: string;
 }) {
+  const accent = useAccent();
   const t = useRef(new Animated.Value(on ? 1 : 0)).current;
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export function SwitchMark({
   return (
     <Animated.View
       aria-hidden
-      style={[styles.track, { backgroundColor: t.interpolate({ inputRange: [0, 1], outputRange: [offColor, onColor] }) }]}>
+      style={[styles.track, { backgroundColor: t.interpolate({ inputRange: [0, 1], outputRange: [offColor, onColor ?? accent.iris] }) }]}>
       <Animated.View
         style={[
           styles.knob,

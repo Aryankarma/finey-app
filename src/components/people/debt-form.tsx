@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import type { Debt } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { kindLabels } from '@/store/debts';
 import { groupIndian } from '@/ui/format';
 import { Icon } from '@/ui/icons';
@@ -30,6 +31,7 @@ export function AmountField({
   size?: number;
   error?: boolean;
 }) {
+  const accent = useAccent();
   const [focused, setFocused] = useState(false);
   return (
     <View style={styles.amount}>
@@ -45,7 +47,7 @@ export function AmountField({
         accessibilityLabel="Amount"
         style={[styles.amountInput, { fontSize: size, color }, noOutline]}
       />
-      <View style={[styles.underline, focused && { backgroundColor: colors.iris }, error && { backgroundColor: colors.rose }]} />
+      <View style={[styles.underline, focused && { backgroundColor: accent.iris }, error && { backgroundColor: colors.rose }]} />
     </View>
   );
 }
@@ -77,12 +79,13 @@ export function ChipRow({ children }: { children: ReactNode }) {
 }
 
 export function Chip({ label, on, onPress, initial }: { label: string; on: boolean; onPress: () => void; initial?: string }) {
+  const accent = useAccent();
   return (
     <Pressable
       onPress={onPress}
       role="radio"
       aria-checked={on}
-      style={({ pressed }) => [styles.chip, initial !== undefined && styles.personChip, on && styles.chipOn, pressed && { transform: [{ scale: 0.96 }] }]}>
+      style={({ pressed }) => [styles.chip, initial !== undefined && styles.personChip, on && { backgroundColor: accent.irisTint, borderColor: accent.iris }, pressed && { transform: [{ scale: 0.96 }] }]}>
       {initial !== undefined && (
         <View style={styles.initial}>
           <Text style={styles.initialText}>{initial}</Text>
@@ -149,7 +152,6 @@ const styles = StyleSheet.create({
   chipRow: { gap: 8, paddingHorizontal: 20 },
   chip: { height: 40, paddingHorizontal: 16, borderRadius: 20, backgroundColor: colors.surface2, justifyContent: 'center', borderWidth: 1.5, borderColor: 'transparent' },
   personChip: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingLeft: 4, paddingRight: 14 },
-  chipOn: { backgroundColor: colors.irisTint, borderColor: colors.iris },
   chipLabel: { fontFamily: fonts.medium, fontSize: 14, color: '#D9D9DE' },
   initial: { width: 30, height: 30, borderRadius: 15, backgroundColor: colors.surface4, alignItems: 'center', justifyContent: 'center' },
   initialText: { fontFamily: fonts.semibold, fontSize: 13, color: colors.text },

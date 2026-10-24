@@ -4,6 +4,7 @@ import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } fr
 
 import { PrimaryButton } from '@/components/primary-button';
 import { Screen } from '@/components/screen';
+import { useAccent } from '@/hooks/use-accent';
 import { useEntryDraft } from '@/store/entry-draft';
 import { useEntries } from '@/store/entries';
 import { descriptionHistory, type HistoryItem } from '@/store/summary';
@@ -17,6 +18,7 @@ const MAX_SUGGESTIONS = 6;
 // "What was it for?" Filters past descriptions as you type; picking one also sets its category.
 export default function DescribeScreen() {
   const router = useRouter();
+  const accent = useAccent();
   const draft = useEntryDraft();
   const entries = useEntries((s) => s.entries);
   const history = useMemo(() => descriptionHistory(entries), [entries]);
@@ -46,9 +48,10 @@ export default function DescribeScreen() {
     router.back();
   };
 
+  const rowOn = { backgroundColor: `rgba(${accent.rgb},0.14)` };
   const note =
     picked === 'new'
-      ? { text: "New description. You'll pick its category next.", dot: colors.lilac }
+      ? { text: "New description. You'll pick its category next.", dot: accent.lilac }
       : picked
         ? { text: `Also sets the category to ${categories[picked.category].label}`, dot: categories[picked.category].color }
         : null;
@@ -63,8 +66,8 @@ export default function DescribeScreen() {
       </View>
 
       <View style={styles.top}>
-        <View style={styles.field}>
-          <Icon name="lines" size={18} color={colors.lilac} />
+        <View style={[styles.field, { borderColor: `rgba(${accent.rgb},0.65)` }]}>
+          <Icon name="lines" size={18} color={accent.lilac} />
           <TextInput
             value={query}
             onChangeText={type}
@@ -88,7 +91,7 @@ export default function DescribeScreen() {
           {note && (
             <View style={styles.note} role="status">
               <View style={[styles.noteDot, { backgroundColor: note.dot }]} />
-              <Text style={styles.noteText}>{note.text}</Text>
+              <Text style={[styles.noteText, { color: accent.lilacSoft }]}>{note.text}</Text>
             </View>
           )}
         </View>
@@ -112,7 +115,7 @@ export default function DescribeScreen() {
                 setPicked(h);
               }}
               aria-pressed={on}
-              style={({ pressed }) => [styles.row, on && styles.rowOn, pressed && !on && styles.rowPressed]}>
+              style={({ pressed }) => [styles.row, on && rowOn, pressed && !on && styles.rowPressed]}>
               <View style={styles.glyph}>
                 <Icon name={c.icon} size={18} color={c.color} />
               </View>
@@ -142,9 +145,9 @@ export default function DescribeScreen() {
           <Pressable
             onPress={() => setPicked('new')}
             aria-pressed={picked === 'new'}
-            style={({ pressed }) => [styles.row, picked === 'new' && styles.rowOn, pressed && picked !== 'new' && styles.rowPressed]}>
-            <View style={[styles.glyph, { backgroundColor: 'rgba(123,108,246,0.14)' }]}>
-              <Icon name="plus" size={18} color={colors.lilac} strokeWidth={2} />
+            style={({ pressed }) => [styles.row, picked === 'new' && rowOn, pressed && picked !== 'new' && styles.rowPressed]}>
+            <View style={[styles.glyph, rowOn]}>
+              <Icon name="plus" size={18} color={accent.lilac} strokeWidth={2} />
             </View>
             <View style={styles.rowMiddle}>
               <Text style={styles.rowName} numberOfLines={1}>Add “{query.trim()}”</Text>
@@ -186,7 +189,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 8,
     borderWidth: 1.5,
-    borderColor: 'rgba(123,108,246,0.65)',
   },
   input: {
     flex: 1,
@@ -201,14 +203,13 @@ const styles = StyleSheet.create({
   noteSlot: { minHeight: 34 },
   note: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: 12, paddingHorizontal: 4 },
   noteDot: { width: 8, height: 8, borderRadius: 4 },
-  noteText: { fontFamily: fonts.regular, fontSize: 13, color: colors.lilacSoft },
+  noteText: { fontFamily: fonts.regular, fontSize: 13 },
   list: { flex: 1 },
   listContent: { paddingTop: 8, paddingHorizontal: space.screenX - 12, paddingBottom: space.lg },
   listHeader: { height: 32, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12 },
   listTitle: { fontFamily: fonts.expandedSemibold, fontSize: 14, color: colors.textMuted },
   listMeta: { fontFamily: fonts.regular, fontSize: 12, color: colors.textFaint },
   row: { height: 64, flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 12, borderRadius: 16 },
-  rowOn: { backgroundColor: 'rgba(123,108,246,0.14)' },
   rowPressed: { backgroundColor: colors.surface1 },
   glyph: { width: 40, height: 40, borderRadius: 20, backgroundColor: colors.surface2, alignItems: 'center', justifyContent: 'center' },
   rowMiddle: { flex: 1, minWidth: 0, gap: 2 },

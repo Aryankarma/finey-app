@@ -13,6 +13,7 @@ import { Screen } from '@/components/screen';
 import { Segmented } from '@/components/segmented';
 import { Sheet } from '@/components/sheet';
 import type { Debt } from '@/data/seed';
+import { useAccent } from '@/hooks/use-accent';
 import { paidSoFar, useDebt, useDebts } from '@/store/debts';
 import { currentDay } from '@/store/entries';
 import { formatMoney, longDay } from '@/ui/format';
@@ -42,6 +43,7 @@ export default function EditDebtScreen() {
 }
 
 function EditForm({ debt, deleted, onClose }: { debt: Debt; deleted: boolean; onClose: () => void }) {
+  const accent = useAccent();
   const updateDebt = useDebts((s) => s.updateDebt);
   const removeDebt = useDebts((s) => s.removeDebt);
   const today = currentDay();
@@ -84,7 +86,7 @@ function EditForm({ debt, deleted, onClose }: { debt: Debt; deleted: boolean; on
       <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.body} keyboardShouldPersistTaps="handled">
         <View style={styles.summary}>
           <View style={styles.summaryTop}>
-            <PersonRing name={who} paid={paid / total} color={them ? colors.mint : colors.iris} fill="transparent" trackColor={colors.surface4} />
+            <PersonRing name={who} paid={paid / total} color={them ? colors.mint : accent.iris} fill="transparent" trackColor={colors.surface4} />
             <View style={{ flex: 1, gap: 3, minWidth: 0 }}>
               <Text style={styles.summaryName}>{who}</Text>
               <Text style={styles.summaryText}>
