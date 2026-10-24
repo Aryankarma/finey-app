@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { debts as seedDebts, type Debt } from '@/data/seed';
+import type { Debt } from '@/data/seed';
+import { withoutSeed } from '@/store/seed-cleanup';
 import { deviceStorage } from '@/store/storage';
 
 export const kindLabels: Record<Debt['kind'], string> = {
@@ -26,7 +27,7 @@ type DebtsState = {
 export const useDebts = create<DebtsState>()(
   persist(
     (set) => ({
-      debts: seedDebts,
+      debts: [],
       addDebt: (draft) => {
         const debt: Debt = { ...draft, id: `d-${Date.now().toString(36)}`, payments: [] };
         set((s) => ({ debts: [debt, ...s.debts] }));
@@ -37,7 +38,7 @@ export const useDebts = create<DebtsState>()(
       addPayment: (id, payment) =>
         set((s) => ({ debts: s.debts.map((d) => (d.id === id ? { ...d, payments: [...d.payments, payment] } : d)) })),
     }),
-    { name: 'finey.debts', storage: deviceStorage, version: 1 },
+    { name: 'finey.debts', storage: deviceStorage, version: 2, migrate: withoutSeed<DebtsState>('debts') },
   ),
 );
 

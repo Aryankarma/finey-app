@@ -169,7 +169,3 @@ export const knownPrices: Record<string, { name: string; price: number }> = {
   BTC: { name: 'Bitcoin', price: 16333333 },
   ETH: { name: 'Ethereum', price: 312000 },
 };
-
-// The boards use 12345 as the privacy PIN. In the real app store the PIN with
-// expo-secure-store and never ship a default.
-export const prototypePin = '12345';

@@ -42,7 +42,9 @@
       ],
       "expo-sharing",
       "expo-speech-recognition",
-      "expo-audio"
+      "expo-audio",
+      "expo-asset",
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true,

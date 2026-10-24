@@ -5,13 +5,11 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Sheet } from '@/components/sheet';
 import { Pop, SlideIn } from '@/components/slide-in';
 import { useAccent } from '@/hooks/use-accent';
-import { currentDay } from '@/store/entries';
+import { currentDay, useEntries } from '@/store/entries';
 import { useViewDay, useViewMonth } from '@/store/view-month';
 import { monthName } from '@/ui/format';
 import { Icon } from '@/ui/icons';
 import { colors, fonts, tabular } from '@/ui/theme';
-
-const FIRST_YEAR = 2025; // the boards stop at January 2025
 
 // "Choose a month": year stepper and month grid. Picking closes the sheet and changes the shared month.
 export function MonthPickerSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
@@ -20,6 +18,9 @@ export function MonthPickerSheet({ visible, onClose }: { visible: boolean; onClo
   const today = currentDay();
   const nowYear = Number(today.slice(0, 4));
   const nowMonth = Number(today.slice(5, 7));
+  // You can go back as far as the year of your oldest entry.
+  const oldest = useEntries((s) => s.entries.at(-1)?.date);
+  const firstYear = Math.min(nowYear, Number((oldest ?? today).slice(0, 4)));
   const selected = viewDay.slice(0, 7);
   const [year, setYear] = useState(Number(selected.slice(0, 4)));
   const [picked, setPicked] = useState(selected);
@@ -68,7 +69,7 @@ export function MonthPickerSheet({ visible, onClose }: { visible: boolean; onClo
         </View>
 
         <View style={styles.yearRow}>
-          <Pressable onPress={() => step(-1)} disabled={year <= FIRST_YEAR} accessibilityLabel="Previous year" style={[styles.nav, year <= FIRST_YEAR && { opacity: 0.3 }]}>
+          <Pressable onPress={() => step(-1)} disabled={year <= firstYear} accessibilityLabel="Previous year" style={[styles.nav, year <= firstYear && { opacity: 0.3 }]}>
             <Icon name="chevronLeft" size={18} color={colors.text} strokeWidth={2} />
           </Pressable>
           <Text style={styles.year} aria-live="polite">{year}</Text>

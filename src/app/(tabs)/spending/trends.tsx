@@ -46,8 +46,14 @@ export default function TrendsScreen() {
         <View style={styles.hero}>
           <Text style={styles.muted}>You kept</Text>
           <View style={styles.rateRow}>
-            <Text style={styles.big}>{summary.savingsRate.toFixed(1)}%</Text>
-            <Text style={styles.muted}>of your income</Text>
+            {summary.income > 0 ? (
+              <>
+                <Text style={styles.big}>{summary.savingsRate.toFixed(1)}%</Text>
+                <Text style={styles.muted}>of your income</Text>
+              </>
+            ) : (
+              <Text style={[styles.muted, { flex: 1, marginTop: 6 }]}>Nothing yet. Add income this month to see how much you keep.</Text>
+            )}
           </View>
           <View
             style={styles.track}

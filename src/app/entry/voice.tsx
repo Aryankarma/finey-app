@@ -148,7 +148,6 @@ export default function VoiceScreen() {
     }
     const t = setTimeout(() => setSeconds(seconds + 1), 1000);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, seconds]);
 
   const ticked = rows.filter((_, i) => ticks[i]);

@@ -26,7 +26,7 @@ type Props = {
   daysInMonth: number;
   incomeDays: number[];
   balance: number;
-  savingsRate: number;
+  savingsRate: number | null; // null until some income comes in
   monthLabel: string;
   current?: boolean; // the month in progress: last tick is today, shown in white and labelled
   caption?: string;
@@ -140,16 +140,18 @@ export function SpendRing({
       <View style={styles.center} pointerEvents="none">
         <Text style={styles.caption}>{caption}</Text>
         <Amount style={styles.balance}>{formatMoney(Math.round(balance * count))}</Amount>
-        <Text style={[styles.pill, { opacity: pillIn, transform: [{ translateY: 6 * (1 - pillIn) }] }]}>
-          {Math.round(savingsRate)}% of income kept
-        </Text>
+        {savingsRate !== null && (
+          <Text style={[styles.pill, { opacity: pillIn, transform: [{ translateY: 6 * (1 - pillIn) }] }]}>
+            {Math.round(savingsRate)}% of income kept
+          </Text>
+        )}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  center: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', gap: 6 },
+  center: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', gap: 6 },
   caption: { fontFamily: fonts.regular, fontSize: 13, color: colors.textMuted },
   balance: { fontFamily: fonts.expandedSemibold, fontSize: 34, letterSpacing: -0.34, lineHeight: 36, color: colors.text },
   pill: {

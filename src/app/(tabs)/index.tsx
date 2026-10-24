@@ -82,7 +82,7 @@ export default function HomeScreen() {
             daysInMonth={daysInMonth(viewDay)}
             incomeDays={income}
             balance={summary.net}
-            savingsRate={summary.savingsRate}
+            savingsRate={summary.income > 0 ? summary.savingsRate : null}
             monthLabel={month}
             current={isCurrent}
             caption={isCurrent ? 'Left this month' : `Left at the end of ${month}`}

@@ -133,6 +133,7 @@ export default function SpendingScreen() {
             ))}
           </View>
           <View style={{ marginTop: 8 }}>
+            {byCategory.length === 0 && <Text style={styles.rowSub}>Nothing spent in {monthName(today)} yet.</Text>}
             {shown.map((c) => {
               const cat = categories[c.category];
               return (

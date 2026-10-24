@@ -76,20 +76,24 @@ export default function WealthScreen() {
         <View style={styles.hero}>
           <Text style={styles.muted}>Worth today</Text>
           <Amount style={styles.big}>{formatMoney(worth)}</Amount>
-          <Text style={[styles.muted, { marginTop: 8 }]}>
-            <Text style={[styles.gain, gain < 0 && { color: colors.rose }]}>
-              {formatMoney(gain, { signed: true })} ({Math.abs(invested ? (gain / invested) * 100 : 0).toFixed(2)}%)
-            </Text>{' '}
-            on <Text style={tabular}>{formatMoney(invested)}</Text> invested
-          </Text>
-          <Pressable onPress={updatePrices} accessibilityLabel="Update market prices" style={styles.refresh}>
-            <Spin spinning={refresh === 'busy'}>
-              <Icon name="refresh" size={13} color={colors.textFaint} strokeWidth={2} />
-            </Spin>
-            <Text style={styles.refreshText} role="status">
-              {refresh === 'busy' ? 'Updating market prices' : refresh === 'fresh' ? 'Market prices updated just now' : 'Market prices updated a moment ago'}
-            </Text>
-          </Pressable>
+          {holdings.length > 0 && (
+            <>
+              <Text style={[styles.muted, { marginTop: 8 }]}>
+                <Amount style={[styles.gain, gain < 0 && { color: colors.rose }]}>
+                  {`${formatMoney(gain, { signed: true })} (${Math.abs(invested ? (gain / invested) * 100 : 0).toFixed(2)}%)`}
+                </Amount>{' '}
+                on <Amount style={tabular}>{formatMoney(invested)}</Amount> invested
+              </Text>
+              <Pressable onPress={updatePrices} accessibilityLabel="Update market prices" style={styles.refresh}>
+                <Spin spinning={refresh === 'busy'}>
+                  <Icon name="refresh" size={13} color={colors.textFaint} strokeWidth={2} />
+                </Spin>
+                <Text style={styles.refreshText} role="status">
+                  {refresh === 'busy' ? 'Updating market prices' : refresh === 'fresh' ? 'Market prices updated just now' : 'Market prices updated a moment ago'}
+                </Text>
+              </Pressable>
+            </>
+          )}
         </View>
 
         {holdings.length > 0 ? (

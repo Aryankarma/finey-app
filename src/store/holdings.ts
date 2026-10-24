@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { holdings as seedHoldings, knownPrices, type Holding } from '@/data/seed';
+import { knownPrices, type Holding } from '@/data/seed';
+import { withoutSeed } from '@/store/seed-cleanup';
 import { deviceStorage } from '@/store/storage';
 
 export const typeLabels: Record<Holding['type'], string> = {
@@ -45,7 +46,7 @@ type HoldingsState = {
 export const useHoldings = create<HoldingsState>()(
   persist(
     (set) => ({
-      holdings: seedHoldings,
+      holdings: [],
       addHolding: (draft) => {
         const holding: Holding = { ...draft, id: `h-${Date.now().toString(36)}` };
         set((s) => ({ holdings: [...s.holdings, holding] }));
@@ -54,7 +55,7 @@ export const useHoldings = create<HoldingsState>()(
       updateHolding: (id, patch) => set((s) => ({ holdings: s.holdings.map((h) => (h.id === id ? { ...h, ...patch } : h)) })),
       removeHolding: (id) => set((s) => ({ holdings: s.holdings.filter((h) => h.id !== id) })),
     }),
-    { name: 'finey.holdings', storage: deviceStorage, version: 1 },
+    { name: 'finey.holdings', storage: deviceStorage, version: 2, migrate: withoutSeed<HoldingsState>('holdings') },
   ),
 );
 

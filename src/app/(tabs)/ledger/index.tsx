@@ -154,12 +154,18 @@ export default function LedgerScreen() {
               <Icon name={ledger.savedOnly ? 'bookmark' : 'search'} size={24} color={colors.textFaint} />
             </View>
             <Text style={styles.emptyTitle}>
-              {ledger.query.trim() ? `Nothing matches “${ledger.query.trim()}”` : `${countLabel(0, filters)} yet`}
+              {ledger.query.trim()
+                ? `Nothing matches “${ledger.query.trim()}”`
+                : filtered
+                  ? `${countLabel(0, filters)} yet`
+                  : `Nothing recorded in ${monthName(viewDay)} yet`}
             </Text>
             <Text style={styles.emptyBody}>
               {ledger.savedOnly
                 ? `Save ${ledger.show === 'income' ? 'an income entry' : 'an entry'} from its details and it will show up here.`
-                : 'Try another search, or clear the filters to see everything.'}
+                : filtered
+                  ? 'Try another search, or clear the filters to see everything.'
+                  : 'Add what you spend or earn with the + button and it will show up here.'}
             </Text>
             {filtered && (
               <Pressable

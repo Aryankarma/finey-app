@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { entries as namedEntries, fillerEntries, today as seedToday, type Entry } from '@/data/seed';
+import type { Entry } from '@/data/seed';
+import { withoutSeed } from '@/store/seed-cleanup';
 import { deviceStorage } from '@/store/storage';
+import { toIso } from '@/ui/format';
 
-// The app's "today". Pinned to the seed data's date so the sample month reads as designed;
-// switch to the real date once the seed data is no longer needed.
+// The app's "today": the phone's local date, as YYYY-MM-DD.
 export function currentDay(): string {
-  return seedToday;
+  const now = new Date();
+  return toIso(now.getFullYear(), now.getMonth() + 1, now.getDate());
 }
 
 const byNewest = (a: Entry, b: Entry) => b.date.localeCompare(a.date);
@@ -25,7 +27,7 @@ type EntriesState = {
 export const useEntries = create<EntriesState>()(
   persist(
     (set, get) => ({
-      entries: [...namedEntries, ...fillerEntries].sort(byNewest),
+      entries: [],
       addEntry: (draft) => {
         const entry: Entry = { ...draft, id: `e-${Date.now().toString(36)}`, createdAt: new Date().toISOString() };
         // New entries go above older ones on the same day.
@@ -50,7 +52,7 @@ export const useEntries = create<EntriesState>()(
           return { entries: next.sort(byNewest) };
         }),
     }),
-    { name: 'finey.entries', storage: deviceStorage, version: 1 },
+    { name: 'finey.entries', storage: deviceStorage, version: 2, migrate: withoutSeed<EntriesState>('entries') },
   ),
 );
 

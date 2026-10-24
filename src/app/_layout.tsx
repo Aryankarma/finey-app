@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { useAccent } from '@/hooks/use-accent';
+import { usePinStatus } from '@/store/pin';
 import { colors, fonts } from '@/ui/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -32,20 +33,34 @@ export default function RootLayout() {
     [fonts.expandedBold]: Archivo_700Bold,
   });
 
+  // Finey doesn't open until there's a PIN; the first open goes to Welcome to set one.
+  const pinStatus = usePinStatus((s) => s.status);
   useEffect(() => {
-    if (loaded) SplashScreen.hideAsync();
-  }, [loaded]);
+    usePinStatus.getState().check();
+  }, []);
+  const ready = loaded && pinStatus !== 'checking';
 
-  if (!loaded) return null;
+  useEffect(() => {
+    if (ready) SplashScreen.hideAsync();
+  }, [ready]);
 
+  if (!ready) return null;
+
+  const hasPin = pinStatus === 'set';
   return (
     <ThemeProvider value={navTheme}>
       <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="entry" options={{ presentation: 'fullScreenModal' }} />
-        <Stack.Screen name="people" options={{ presentation: 'fullScreenModal' }} />
-        <Stack.Screen name="wealth" options={{ presentation: 'fullScreenModal' }} />
+        <Stack.Protected guard={hasPin}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="entry" options={{ presentation: 'fullScreenModal' }} />
+          <Stack.Screen name="people" options={{ presentation: 'fullScreenModal' }} />
+          <Stack.Screen name="wealth" options={{ presentation: 'fullScreenModal' }} />
+          <Stack.Screen name="settings" />
+        </Stack.Protected>
+        <Stack.Protected guard={!hasPin}>
+          <Stack.Screen name="welcome" />
+        </Stack.Protected>
       </Stack>
     </ThemeProvider>
   );
